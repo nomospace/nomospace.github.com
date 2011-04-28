@@ -1,0 +1,26 @@
+TODO：
+
+	ie下这段报异常：
+	        this.__tinv = setInterval(function(){
+	            this.__onShow(this.__currentIndex);
+	            this.__currentIndex == 4 ? this.__currentIndex = 0 : this.__currentIndex++;
+	        }.bind(this), this.__switchTime);
+	        
+	jquery插件常规写法、套路、风格
+	
+	slideshow扩展，支持自定义interval、animation等（eg：http://thiagosf.net/projects/jquery/skitter/?animation=blindHeight）
+		velocity	Velocity of animation	1	$('.box_skitter box_skitter_large').skitter({velocity: 2});
+		interval	Interval between transitions	2500	$('.box_skitter box_skitter_large').skitter({interval: 3000});
+		animation	Default animation	null or defined in <a> class	$('.box_skitter box_skitter_large').skitter({animation: 'fade'});
+		numbers	Numbers display	true	$('.box_skitter box_skitter_large').skitter({numbers: false});
+		navigation	Navigation display	true	$('.box_skitter box_skitter_large').skitter({navigation: false});
+		label	Label display	true	$('.box_skitter box_skitter_large').skitter({label: false});
+		easing_default	Easing default	null	$('.box_skitter box_skitter_large').skitter({easing_default: 'easeOutBack'});
+		animateNumberOut	Animation/style number	{backgroundColor:'#333', color:'#fff'}	$('.box_skitter box_skitter_large').skitter({animateNumberOut: {backgroundColor:'#000', color:'#ccc'}});
+		animateNumberOver	Animation/style hover number	{backgroundColor:'#000', color:'#fff'}	$('.box_skitter box_skitter_large').skitter({animateNumberOver: {backgroundColor:'#000', color:'#ccc'}});
+		animateNumberActive	Animation/style active number	{backgroundColor:'#cc3333', color:'#fff'}	$('.box_skitter box_skitter_large').skitter({animateNumberActive: {backgroundColor:'#000', color:'#ccc'}});
+		thumbs	Navigation with thumbs	false	$('.box_skitter box_skitter_large').skitter({thumbs: true});
+		hideTools	Hide numbers and navigation	false	$('.box_skitter box_skitter_large').skitter({hideTools: true});
+		fullscreen	Fullscreen mode	false	$('.box_skitter box_skitter_large').skitter({fullscreen: true});
+		Thiago S.F.
+
