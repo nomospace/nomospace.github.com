@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    	<meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+        <title>a server side mustache.js example using node.js</title>
+		<link href="http://r.ph.126.net/css/gen/base.css?v=1303884519039" rel="stylesheet" type="text/css"></link>
+		<link href="hello-nodejs.css" rel="stylesheet" type="text/css"></link>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    </head>
+    <body>
+        <script type="text/javascript">
+	        $(document).ready(function(){
+	            var _tweetsCon = $("#tweets");
+	            $.get("/nomospace", function(_html){
+	                _tweetsCon.html(_html);
+	            });
+	        });
+        </script>
+        <div class="con">
+        	<h1>Hello nodejs!</h1>
+			<ul id="tweets"></ul>
+			<p>tweets loading...</p>
+		</div>
+    </body>
+</html>
