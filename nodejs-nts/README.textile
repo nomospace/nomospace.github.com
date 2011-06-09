@@ -32,10 +32,15 @@ h2. 打印随机数
 新建文件test.js
 
 <pre class="console">
-	var NTS = require('.nts');
-	console.log(NTS.U._$randNumberString(10));	
+var NTS = require('.nts');
+console.log(NTS.U._$randNumberString(10));	
 </pre>
 
 运行
 
 <pre class="console">node test.js</pre>
+
+h2.  未解决的问题
+
+1、不少接口直接注册在window下从而造成污染，exports时会比较尴尬 
+2、大多数组件是通过手动调整script tag顺序进行加载的，缺少一个模块依赖管理，如此一来库的修改成本会比较大

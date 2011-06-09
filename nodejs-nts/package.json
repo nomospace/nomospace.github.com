@@ -1,26 +1,17 @@
 {
-    "name": "NTS",
-    "version": "0.1",
-    "description": "NTS on NodeJS",
-    "author": "nomospace <jinlu_hz@163.com>",
-    "bugs": { "web" : "https://github.com/nomospace" },
-    "contributors": [
-    ],
-    "engines": {
-        "node" : ">=0.1.100"
-    },
-    "directories": {
-        "lib" : "lib"
-    },
-    "main": "./lib/nts",
-    "dependencies": {
-        "jsdom": ">=0.1.10", 
-        "htmlparser": ">=1.6.2",
-        "express": ">=1.0.0rc1",
-        "connect": ">=0.2.4"
-    },
-    "repository": {
-        "type":"git",
-        "url":"http://github.com/nomospace/nodejs-nts.git"
-    }
+  "author": "nomospace <jinlu_hz@163.com> (https://github.com/nomospace)",
+  "name": "nts",
+  "description": "NTS for NodeJS",
+  "version": "0.0.1",
+  "homepage": "https://github.com/nomospace/nodejs-nts",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/nomospace/nodejs-nts.git"
+  },
+  "main": "./lib/nts",
+  "engines": {
+    "node": "0.4.7"
+  },
+  "dependencies": {},
+  "devDependencies": {}
 }
