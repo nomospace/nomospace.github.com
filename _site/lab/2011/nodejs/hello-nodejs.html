@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    	<meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+        <title>hello nodejs</title>
+		<link href="http://r.ph.126.net/css/gen/base.css?v=1303884519039" rel="stylesheet" type="text/css"></link>
+		<link href="hello-nodejs.css" rel="stylesheet" type="text/css"></link>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    </head>
+    <body>
+        <div class="con">
+        	<h1>Hello nodejs!</h1>
+			<ul id="tweets"></ul>
+			<p>tweets loading...</p>
+		<div/>
+        <script type="text/javascript">
+            var _tweetsCon = $("#tweets"),	_tmp;
+            $.getJSON("/nomospace", function(_tweetList){
+                if (!_tweetList || _tweetList.length == 0) 
+                    return;
+                $.each(_tweetList, function(_index, _tweet){
+                    _tmp = '<div class="avt"><a href="http://twitter.com/' + _tweet.user.screen_name + '" target="_blank"><img src="' + _tweet.user.profile_image_url + '" alt="' + _tweet.user.name + '"/>' + '</a></div>' + 
+                    	'<div class="main"><p class="entry"><a class="name" href="http://twitter.com/' + _tweet.user.screen_name + '" target="_blank">'+ _tweet.user.screen_name +'</a>' + _tweet.text + '</p><p class="meta">' + _tweet.created_at + ' 来自 ' + _tweet.source + '</p></div>';
+                    $("<li>").html(_tmp).prependTo(_tweetsCon);
+                });
+            });
+        </script>
+    </body>
+</html>

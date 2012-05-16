@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+    <head>
+        <title>Tooltip Demo</title>
+        <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+        <link type="text/css" rel="stylesheet" href="http://r.ph.126.net/css/gen/base.css?v=1304067506501"/>
+		<style type="text/css">
+			.tooltip{display:none;position:absolute;height:20px;padding:6px;color:#fff;background-color:rgba(0,0,0,0.8);
+			*background-color:#000;filter:alpha(opacity=80);z-index:999;text-align:center;}
+			body{width:900px;margin:20px auto;line-height:20px;}
+			p{margin-bottom:20px;padding:20px;border:1px dashed #ddd;}
+			label{font-size:14px;}
+			button{padding:5px 10px;}
+		</style>
+    </head>
+    <body>
+        <div>
+        	<p><input type="radio" name="radio" id="text-with-track"/><label class="hotspot" for="text-with-track">tooltip跟踪鼠标：文字文字文字文字文字文字文字</label></p>
+       		<p><input type="radio" name="radio" id="text-without-track"/><label class="hotspot" for="text-without-track">tooltip不跟踪鼠标：文字文字文字文字文字文字文字</label></p>
+       		<p><input type="radio" name="radio" id="text-with-delay"/><label class="hotspot" for="text-with-delay">tooltip延迟：文字文字文字文字文字文字文字</label></p>
+			<div><button type="button" onclick="location.reload()">选择</button></div>
+        </div>
+		<script type="text/javascript" src="tooltip.js"></script>
+        <script type="text/javascript">
+        	(function(){
+		        var _inputs = document.getElementsByTagName('input'), _opt;
+		        for (var i = 0, l = _inputs.length; i < l; i++) {
+	                _opt = {target: [_inputs[i].nextSibling],content: _inputs[i].nextSibling.innerHTML};
+		            if (_inputs[i].checked) {
+	                    switch (i) {
+	                        case 0:
+	                            _opt.track = true;break;
+	                        case 1:
+	                            _opt.track = false;break;
+	                        case 2:
+	                            _opt.delay = true;break;
+	                    }
+		                Tooltip._$show(_opt);
+						break;
+		            }
+				}
+			})();
+//             Tooltip._$show({target:[document.getElementById('text-without-track')],content:'tooltip',track:false});
+//             Tooltip._$show({target:[document.getElementById('text-with-track')],content:'tooltip',track:true});
+        </script>
+    </body>
+</html>
