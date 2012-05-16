@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8"/>
-    <meta http-equiv="refresh" content="0; url=blog/index.html"/>
-    <title>nomospace的聚合页</title>
-</head>
-<body>
-</body>
-</html>
+---
+layout: list
+---
+
+<!-- 首页即博客列表 -->
+{% assign list = site.posts %}
+{% assign preview = true %}
+{% include list.tpl %}

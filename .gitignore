@@ -18,3 +18,7 @@ blog/.idea/inspectionProfiles/profiles_settings.xml
 blog/.idea/encodings.xml
 
 blog/blog.iml
+
+_site/blog.iml
+
+blog.iml
