@@ -13,13 +13,13 @@ custom:
         javascript: javascript
         css: css
     categories:
-      - name:  javascript
+      - name: javascript
         title: javascript
 
-      - name:  node
+      - name: node
         title: node
 
-      - name:  css
+      - name: css
         title: css
 
 meta:

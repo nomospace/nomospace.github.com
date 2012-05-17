@@ -4,20 +4,20 @@ layout: nil
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<title>挪墨的空间</title>
-	<link href="http://mytharcher.github.com/atom.xml" rel="self" />
-	<link href="http://mytharcher.github.com/" />
+	<link href="http://nomospace.github.com/atom.xml" rel="self" />
+	<link href="http://nomospace.github.com/" />
 	<updated>{{ site.time | date_to_xmlschema }}</updated>
-	<id>http://mytharcher.github.com/</id>
+	<id>http://nomospace.github.com/</id>
 	<author>
-		<name>mytharcher</name>
-		<email>mytharcher@gmail.com</email>
+		<name>nomospace</name>
+		<email>jinlu_hz@163.com</email>
 	</author>
 	{% for post in site.posts limit:10 %}
 	<entry>
 		<title>{{ post.title | xml_escape }}</title>
-		<link href="http://mytharcher.github.com{{ post.url }}" />
+		<link href="http://nomospace.github.com{{ post.url }}" />
 		<updated>{{ post.date | date_to_xmlschema }}</updated>
-		<id>http://mytharcher.github.com{{ post.url }}</id>
+		<id>http://nomospace.github.com{{ post.url }}</id>
 		<content type="html"><![CDATA[{{ post.content }}]]></content>
 	</entry>
 	{% endfor %}

@@ -3,7 +3,7 @@ html,body,h1,h2,h3,h4,h5,h6,ul,ol,li,p,form,dl,dt,dd,figure{margin:0; padding:0;
 body{line-height:1.6em; font-family:'Trebuchet MS',Helvetica, Arial, sans-serif; color:#555;}
 a{margin:0 2px; color:#06c; text-decoration:none;}
 a[href^="http"]{display:inline-block; margin-right:4px; padding-right:14px; background:url(http://elfjs.com/assets/css/img/external.png) no-repeat right;}
-a[href^="http://mytharcher.github.com"]{padding-right:0; background:none;}
+a[href^="http://nomospace.github.com"]{padding-right:0; background:none;}
 a:hover{text-decoration:underline;}
 h1 a,h2 a,h3 a,h4 a,h5 a,h6 a{margin:0;}
 img{border:0;}
@@ -19,7 +19,11 @@ aside{position:fixed; left:70%;top:0; right:0; height:100%; overflow:hidden; pad
 
 @media screen and (max-width:900px) {
     aside {
-        left: 900px;
+        display: none;
+    }
+
+    .main {
+        width: auto;
     }
 }
 
@@ -27,7 +31,7 @@ aside{position:fixed; left:70%;top:0; right:0; height:100%; overflow:hidden; pad
 aside h2{margin:1em 0;}
 aside .feed-link{margin-left:0.5em;}
 aside .block{max-width:240px; margin:1.5em 0;}
-aside .block input{width:150px;}
+aside .block input{width:145px;}
 aside .block-about{line-height:normal;}
 aside .block-about p{margin:0.5em 0; color:#999;}
 aside .block-about figure img{margin:0.5em 0; border-radius:2px;}
@@ -42,9 +46,9 @@ footer p{color:#aaa; font-size:75%; line-height:1.6em;}
 
 .page-type-list article h2{margin-bottom:0;}
 
-.trace{font-size:80%; color:#999;}
+.trace{/*font-size:80%; */color:#999;}
 
-article{margin:2em 0;font-size:90%;}
+article{margin:2em 0;/*font-size:90%;*/}
 article>h1:first-child{margin:0;}
 article h1,
 article h2,
@@ -73,7 +77,9 @@ article blockquote{line-height:1.6em; margin:1em 0 1em 1.5em; border-left:2px so
 
 article .meta{line-height:1.6em; font-size:80%; margin:0.5em 0 2em 0; color:#999;}
 article .meta:last-child{margin-bottom:0;}
-
+.article-content{
+    font-size: 14px;
+}
 #disqus_thread.comments{clear:both; margin:3em 0;}
 
 #cse{margin:2em 0; line-height:normal;}
@@ -89,3 +95,23 @@ article .meta:last-child{margin-bottom:0;}
 #cse .gs-result>*{padding:0;}
 #cse .gsc-cursor-box{margin:1em 0;}
 #cse .gs-no-results-result .gs-snippet{margin:0; border:none; background:none;}
+
+@media screen {
+
+    .nbw-blog {
+        font-size: 14px;
+    }
+
+    .trace {
+        font-size: 14px;
+    }
+
+    aside h2, aside h3 {
+        font-size: 14px;
+    }
+
+    aside .block-search input {
+        font-size: 12px;
+        padding: 3px;
+    }
+}
