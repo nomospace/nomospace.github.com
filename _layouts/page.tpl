@@ -7,7 +7,6 @@
 <title>挪墨的空间{% if page.title %} / {{ page.title }}{% endif %}</title>
 <link href="http://nomospace.github.com/feed.xml" rel="alternate" title="挪墨的空间" type="application/atom+xml" />
 <link rel="stylesheet" type="text/css" href="/assets/css/site.css" />
-<link rel="stylesheet" type="text/css" href="/assets/css/code/github.css" />
 {% for style in page.styles %}<link rel="stylesheet" type="text/css" href="{{ style }}" />
 {% endfor %}
 </head>
@@ -48,14 +47,6 @@
 
 	<a href="http://github.com/nomospace"><img style="position: absolute; top: 0; right: 0; border: 0;" src="/assets/images/forkmeongithub.png" alt="Fork me on GitHub"></a>
 </aside>
-
-<script src="http://elfjs.googlecode.com/files/elf-0.3.3-min.js"></script>
-<script src="/assets/js/site.js"></script>
-<script src="/assets/js/highlight.js"></script>
-<script src="/assets/js/hljs/languages/css.js"></script>
-<script src="/assets/js/hljs/languages/xml.js"></script>
-<script src="/assets/js/hljs/languages/javascript.js"></script>
-<script src="/assets/js/hljs/languages/php.js"></script>
 {% for script in page.scripts %}<script src="{{ script }}"></script>
 {% endfor %}
 

@@ -9,10 +9,7 @@ category: javascript
         href="http://www.smashingmagazine.com/2011/05/30/10-oddities-and-secrets-about-javascript/">Ten Oddities And
     Secrets About
     JavaScript</a>罗列了他认为的10个javascript怪异特性。纵观全文，其实有些特性也并不那么“怪异”。对于原文我不作翻译，就顺着文章谈一下自己的理解吧，希望对读者有所帮助。<br><br></div>
-<div>
-    <div><img alt="也谈谈Javascript中的几个怪异特性（上） - nomospace（挪墨） - Nomospace" style="margin:0 10px 0 0;"
-              src="http://media.smashingmagazine.com/uploads/images/post-pictures/javascript-js-illu.jpg"></div>
-    &nbsp;</div>
+<div></div>
 <div><br></div>
 <b>1. Null is an Object（Null是一个Object）</b>
 
