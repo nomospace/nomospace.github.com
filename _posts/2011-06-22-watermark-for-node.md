@@ -212,7 +212,7 @@ project，我在两者基础上进行整合并尝试将watermark.js移植到Node
                         style="color: blue;">'currently&nbsp;only&nbsp;image/png&nbsp;is&nbsp;supported'</span><span
                         style="color: black;">);</span></span></li>
 </ol></span></span><br>有兴趣的读者可以参考<a target="_blank" rel="nofollow"
-                                    href="https://github.com/nomospace/nomospace.github.com/tree/master/nomospace.github.com/lab/2011/watermark">watermark
+                                    href="https://github.com/nomospace/nomospace.github.com/tree/master/lab/2011/watermark">watermark
     for NodeJS@github</a>，细节部分不再赘述。<br><br><br>参考资料<br><a target="_blank" rel="nofollow"
                                                           href="http://blog.learnboost.com/blog/introducing-node-canvas-server-side-html5-canvas-api/">Introducing
     node-canvas. Server side HTML5 canvas API</a><br><a target="_blank" rel="nofollow"
