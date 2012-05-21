@@ -2,6 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8" />
+<meta http-equiv="pragma" content="no-cache" />
 <meta name="author" content="nomospace" />
 <meta name="keywords" content="{{ page.tags | join: ',' }}" />
 <title>挪墨的空间{% if page.title %} / {{ page.title }}{% endif %}</title>
