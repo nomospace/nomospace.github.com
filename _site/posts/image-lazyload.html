@@ -1,9 +1,28 @@
----
-layout: post
-title: 弱小版ImageLazyLoad
-category: frontend
----
-<div class="bct fc05 fc11 nbw-blog ztag js-fs2">
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta name="author" content="nomospace" />
+<meta name="keywords" content="" />
+<title>挪墨的空间 / 弱小版ImageLazyLoad</title>
+<link href="http://nomospace.github.com/feed.xml" rel="alternate" title="挪墨的空间" type="application/atom+xml" />
+<link rel="stylesheet" type="text/css" href="/assets/css/site.css" />
+
+</head>
+
+<body class="page-type-post">
+
+<div class="main">
+	<div class="trace">/ <a href="/">挪墨的空间</a> / 弱小版ImageLazyLoad</div>
+
+<article>
+	<h1><a href="/posts/image-lazyload.html">弱小版ImageLazyLoad</a></h1>
+	
+	<p class="meta">
+	<span class="datetime">2011-04-01</span> posted in [<a href="/#/category/frontend" class="category">frontend</a>]
+</p>
+	<div class="bct fc05 fc11 nbw-blog ztag js-fs2">
     延迟加载无非就是在需要时才加载资源，节省系统开销与网络带宽，目的是加快浏览速度。实现思路是将image的实际src值保存到一个自定义属性中，然后通过监听scroll事件判断image元素是否在当前可视区域内，如果是则将这个值设为src。在参考一些代码实现后，尝试实现了一个弱小版的图片延迟加载。所谓弱小版就是说扩展性一般、兼容性一般、代码复杂程度一般，只保证基本功能的代码实现，<a
         target="_blank" rel="nofollow"
         href="https://github.com/nomospace/nomospace.github.com/tree/master/lab/2011/imageLazyLoad/lazyLoad.js">查看完整实现</a>。这套代码目前运用在<a
@@ -433,3 +452,62 @@ category: frontend
                        href="http://www.neoease.com/lazy-load-jquery-plugin-delay-load-image/">Lazy Load, 延迟加载图片的 jQuery
     插件</a></div>
 
+
+
+
+	
+	<!--<p class="permalink">永久链接：<a href="http://nomospace.github.com/posts/image-lazyload.html">http://nomospace.github.com/posts/image-lazyload.html</a></p>-->
+</article>
+<div id="disqus_thread" class="comments"></div>
+
+
+	<footer>
+		<p>&copy; Since 2012 <a href="http://github.com/nomospace" target="_blank">github.com/nomospace</a></p>
+	</footer>
+</div>
+
+<aside>
+	<h2><a href="/">挪墨的空间</a><a href="/feed.xml" class="feed-link" title="RSS订阅"><img src="http://blog.rexsong.com/wp-content/themes/rexsong/icon_feed.gif" alt="RSS feed" /></a></h2>
+
+	<nav class="block">
+		<ul>
+		<li class="javascript"><a href="/category/javascript/">javascript</a></li>
+		<li class="node"><a href="/category/node/">node</a></li>
+		<li class="css"><a href="/category/css/">css</a></li>
+		<li class="html5"><a href="/category/html5/">html5</a></li>
+		<li class="frontend"><a href="/category/frontend/">frontend</a></li>
+		
+		</ul>
+	</nav>
+
+	<form action="/search/" class="block block-search">
+		<h3>搜索</h3>
+		<p><input type="search" name="q" placeholder="输入关键词按回车搜索" /></p>
+	</form>
+
+	<div class="block block-about">
+		<h3>关于</h3>
+		<figure>
+			<img src="http://en.gravatar.com/userimage/22832302/e8daaf8d9b2036fb9f46fcc694f617de.jpeg" />
+			<figcaption><strong>nomospace</strong></figcaption>
+		</figure>
+		<p></p>
+	</div>
+
+	<a href="http://github.com/nomospace"><img style="position: absolute; top: 0; right: 0; border: 0;" src="/assets/images/forkmeongithub.png" alt="Fork me on GitHub"></a>
+</aside>
+<script src="/assets/js/site.js"></script>
+<script src="http://nomospace.disqus.com/embed.js"></script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-31926992-1']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

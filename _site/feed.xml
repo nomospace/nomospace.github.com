@@ -3,7 +3,7 @@
 	<title>挪墨的空间</title>
 	<link href="http://nomospace.github.com/atom.xml" rel="self" />
 	<link href="http://nomospace.github.com/" />
-	<updated>2012-05-22T18:05:35+08:00</updated>
+	<updated>2012-05-22T22:53:57+08:00</updated>
 	<id>http://nomospace.github.com/</id>
 	<author>
 		<name>nomospace</name>
@@ -1721,6 +1721,700 @@ project，我在两者基础上进行整合并尝试将watermark.js移植到Node
         introducing “safe CSS hacks”</a><br><a target="_blank" rel="nofollow"
                                                href="http://dev.w3.org/csswg/css-device-adapt/#the-viewport">CSS Device
         Adaptation</a><br></div>
+</div>
+
+]]></content>
+	</entry>
+	
+	<entry>
+		<title>弱小版ImageLazyLoad</title>
+		<link href="http://nomospace.github.com/posts/image-lazyload.html" />
+		<updated>2011-04-01T00:00:00+08:00</updated>
+		<id>http://nomospace.github.com/posts/image-lazyload.html</id>
+		<content type="html"><![CDATA[<div class="bct fc05 fc11 nbw-blog ztag js-fs2">
+    延迟加载无非就是在需要时才加载资源，节省系统开销与网络带宽，目的是加快浏览速度。实现思路是将image的实际src值保存到一个自定义属性中，然后通过监听scroll事件判断image元素是否在当前可视区域内，如果是则将这个值设为src。在参考一些代码实现后，尝试实现了一个弱小版的图片延迟加载。所谓弱小版就是说扩展性一般、兼容性一般、代码复杂程度一般，只保证基本功能的代码实现，<a
+        target="_blank" rel="nofollow"
+        href="https://github.com/nomospace/nomospace.github.com/tree/master/lab/2011/imageLazyLoad/lazyLoad.js">查看完整实现</a>。这套代码目前运用在<a
+        target="_blank" href="http://photo.163.com/?from=nav">相册</a>的评论模块中，只支持垂直方向的延迟加载。<br><br><b>如何调用模块？</b><br><span
+        style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Monaco; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;"><span
+        style="font-family: Monaco,'DejaVu Sans Mono','Bitstream Vera Sans Mono',Consolas,'Courier New',monospace; font-size: 12px; line-height: 18px; text-align: left;"><ol
+        start="1"
+        style="font-size: 1em; line-height: 1.4em; margin: 0px 0px 1px; padding: 2px 0px; border: 1px solid rgb(209, 215, 220); list-style-type: decimal; background-color: rgb(255, 255, 255); color: rgb(43, 145, 175);">
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;"><span style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span
+                style="color: black;">.__lazyModule&nbsp;=&nbsp;np.w._$$ImageLazyLoad._$getInstance({&nbsp;&nbsp;</span></span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;delay:&nbsp;200,&nbsp;&nbsp;</span></li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;threshold:&nbsp;200,&nbsp;&nbsp;</span></li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;container:&nbsp;<span
+                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__pnode,&nbsp;&nbsp;</span></span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;attribute:&nbsp;<span style="color: blue;">'data-lazyload-src'</span><span
+                style="color: black;">&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">});&nbsp; <br></span></li>
+</ol></span></span><br><b>可以传入哪些参数？</b><br> <span
+        style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Monaco; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;"><span
+        style="font-family: Monaco,'DejaVu Sans Mono','Bitstream Vera Sans Mono',Consolas,'Courier New',monospace; font-size: 12px; line-height: 18px; text-align: left;"><ol
+        start="1"
+        style="font-size: 1em; line-height: 1.4em; margin: 0px 0px 1px; padding: 2px 0px; border: 1px solid rgb(209, 215, 220); list-style-type: decimal; background-color: rgb(255, 255, 255); color: rgb(43, 145, 175);">
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 130, 0);">/**</span>&nbsp;</span></li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;图片资源延迟加载对象类（目前只支持垂直方向）</span>&nbsp;</span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@constructor</span>&nbsp;</span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@class&nbsp;&nbsp;&nbsp;图片资源延迟加载对象类</span>&nbsp;</span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@extends&nbsp;P(N.ut)._$$Singleton</span>&nbsp;</span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@param&nbsp;&nbsp;&nbsp;{Object}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_options&nbsp;可选配置参数，已处理的参数如下：</span>&nbsp;</span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;delay&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Number]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;滚动延时时间，默认为0</span>&nbsp;</span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;threshold&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Number]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;加载范围阈值，默认为0</span>&nbsp;</span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;failurelimit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Number]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;图片未找到时的重试次数，默认为0</span>&nbsp;</span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;container&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[HTML|Element]&nbsp;&nbsp;-&nbsp;图片所在的容器，默认为window对象</span>&nbsp;</span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;images&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Array]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;图片队列，默认为容器内所有的image对象</span>&nbsp;</span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;attribute&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[String]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;图片资源地址的自定义属性，默认为data-lazyload-src</span>&nbsp;</span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;onbeforedataload&nbsp;[Function]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;图片加载前的回调函数，默认为F</span>&nbsp;</span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;onafterdataload&nbsp;&nbsp;[Function]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;图片加载后的回调函数，默认为F</span> <br> </span>
+    </li>
+</ol></span></span><br><b>绑定哪些事件？</b><br><span
+        style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Monaco; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;"><span
+        style="font-family: Monaco,'DejaVu Sans Mono','Bitstream Vera Sans Mono',Consolas,'Courier New',monospace; font-size: 12px; line-height: 18px; text-align: left;"><ol
+        start="1"
+        style="font-size: 1em; line-height: 1.4em; margin: 0px 0px 1px; padding: 2px 0px; border: 1px solid rgb(209, 215, 220); list-style-type: decimal; background-color: rgb(255, 255, 255); color: rgb(43, 145, 175);">
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 130, 0);">/**</span>&nbsp;</span></li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;"><span
+                style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;初始化相关事件函数</span>&nbsp;</span></li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@return&nbsp;{Void}</span>&nbsp;</span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><span
+                style="color: black;">&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;__pro.__bindEvent&nbsp;=&nbsp;<span
+                style="color: rgb(127, 0, 85); font-weight: bold;">function</span><span style="color: black;">(){&nbsp;&nbsp;</span></span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                style="color: rgb(127, 0, 85); font-weight: bold;">var</span><span style="color: black;">&nbsp;_function&nbsp;=&nbsp;</span><span
+                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__beginLoad._$bind(</span><span
+                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span
+                style="color: black;">);&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span
+                style="color: black;">._$addEvent(</span><span style="color: blue;">'appear'</span><span
+                style="color: black;">,&nbsp;_function);&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;V._$addEvent(window,&nbsp;<span
+                style="color: blue;">'scroll'</span><span style="color: black;">,&nbsp;</span><span
+                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__delayLoad._$bind(</span><span
+                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">,&nbsp;_function));&nbsp;&nbsp;</span></span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;V._$addEvent(window,&nbsp;<span
+                style="color: blue;">'resize'</span><span style="color: black;">,&nbsp;</span><span
+                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__delayResize._$bind(</span><span
+                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">,&nbsp;_function));&nbsp;&nbsp;</span></span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;};</span></li>
+</ol></span></span>这段代码为window对象绑定scroll事件与resize事件。当拖动滚动条或者鼠标滚动一下时，scroll事件会连续触发，所以在此做个delay。在此绑定resize事件目的是浏览器在resize后需要重新计算images的位置。appear为自定义事件，目的是在页面载入时手动触发一次scroll事件。<font
+        color="#ffffff">对此有个疑问，页面动态生成节点导致页面滚动会不会触发scroll事件？</font><br><br><b>如何判断image元素是否在当前可视区域内？</b><br><span
+        style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Monaco; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;"><span
+        style="font-family: Monaco,'DejaVu Sans Mono','Bitstream Vera Sans Mono',Consolas,'Courier New',monospace; font-size: 12px; line-height: 18px; text-align: left;"><ol
+        start="1"
+        style="font-size: 1em; line-height: 1.4em; margin: 0px 0px 1px; padding: 2px 0px; border: 1px solid rgb(209, 215, 220); list-style-type: decimal; background-color: rgb(255, 255, 255); color: rgb(43, 145, 175);">
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 130, 0);">/**</span>&nbsp;</span></li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;"><span
+                style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;元素是否在可视区域</span>&nbsp;</span></li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@param&nbsp;{HTML|Element}&nbsp;_element&nbsp;&nbsp;&nbsp;目标元素</span>&nbsp;</span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@return&nbsp;{Boolean}</span>&nbsp;</span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><span
+                style="color: black;">&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;__pro.__isInViewport&nbsp;=&nbsp;<span
+                style="color: rgb(127, 0, 85); font-weight: bold;">function</span><span style="color: black;">(_element){&nbsp;&nbsp;</span></span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                style="color: rgb(127, 0, 85); font-weight: bold;">return</span><span
+                style="color: black;">&nbsp;!</span><span style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span
+                style="color: black;">.__aboveTheTop(_element)&nbsp;&amp;&amp;&nbsp;!</span><span
+                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__belowTheBottom(_element);&nbsp;&nbsp;</span></span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;};&nbsp;&nbsp;</span></li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 130, 0);">/**</span>&nbsp;</span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;判断元素是否位于当前可视区域的上部</span>&nbsp;</span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@param&nbsp;{HTML|Element}&nbsp;_element&nbsp;&nbsp;&nbsp;目标元素</span>&nbsp;</span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@return&nbsp;{Boolean}</span>&nbsp;</span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><span
+                style="color: black;">&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;__pro.__aboveTheTop&nbsp;=&nbsp;<span
+                style="color: rgb(127, 0, 85); font-weight: bold;">function</span><span style="color: black;">(_element){&nbsp;&nbsp;</span></span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                style="color: rgb(127, 0, 85); font-weight: bold;">var</span><span style="color: black;">&nbsp;_top&nbsp;=&nbsp;</span><span
+                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__getClient().top;&nbsp;&nbsp;</span></span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                style="color: rgb(127, 0, 85); font-weight: bold;">return</span><span style="color: black;">&nbsp;_top&nbsp;&gt;=&nbsp;</span><span
+                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__offset(_element).top&nbsp;+&nbsp;</span><span
+                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__offset(_element).height&nbsp;+&nbsp;</span><span
+                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__threshold;&nbsp;&nbsp;</span></span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;};&nbsp;&nbsp;</span></li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 130, 0);">/**</span>&nbsp;</span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;判断元素是否位于当前可视区域的下部</span>&nbsp;</span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@param&nbsp;{HTML|Element}&nbsp;_element</span>&nbsp;</span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@return&nbsp;{Boolean}</span>&nbsp;</span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><span
+                style="color: black;">&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;__pro.__belowTheBottom&nbsp;=&nbsp;<span
+                style="color: rgb(127, 0, 85); font-weight: bold;">function</span><span style="color: black;">(_element){&nbsp;&nbsp;</span></span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                style="color: rgb(127, 0, 85); font-weight: bold;">var</span><span style="color: black;">&nbsp;_bottom&nbsp;=&nbsp;</span><span
+                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__getClient().bottom;&nbsp;&nbsp;</span></span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                style="color: rgb(127, 0, 85); font-weight: bold;">return</span><span style="color: black;">&nbsp;_bottom&nbsp;&lt;=&nbsp;</span><span
+                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__offset(_element).top&nbsp;+&nbsp;</span><span
+                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__offset(_element).height&nbsp;-&nbsp;</span><span
+                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__threshold;&nbsp;&nbsp;</span></span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;}; <br></span></li>
+</ol></span></span>在命名上参考了<a target="_blank" rel="nofollow"
+                             href="http://www.appelsiini.net/projects/lazyload">jQuery</a>。当然了，是否在可视区域内，还可以通过<a
+        target="_blank" rel="nofollow" href="http://hi.baidu.com/jiyeqian/blog/item/c14e52c24794b4170ff47715.html">判断两个矩形是否相交</a>来实现。<br><br><b>如何加载元素？</b><br><span
+        style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Monaco; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;"><span
+        style="font-family: Monaco,'DejaVu Sans Mono','Bitstream Vera Sans Mono',Consolas,'Courier New',monospace; font-size: 12px; line-height: 18px; text-align: left;"><ol
+        start="1"
+        style="font-size: 1em; line-height: 1.4em; margin: 0px 0px 1px; padding: 2px 0px; border: 1px solid rgb(209, 215, 220); list-style-type: decimal; background-color: rgb(255, 255, 255); color: rgb(43, 145, 175);">
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 130, 0);">/**</span>&nbsp;</span></li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;"><span
+                style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;开始加载元素</span>&nbsp;</span></li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@return&nbsp;{Void}</span>&nbsp;</span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><span
+                style="color: black;">&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;__pro.__beginLoad&nbsp;=&nbsp;<span
+                style="color: rgb(127, 0, 85); font-weight: bold;">function</span><span style="color: black;">(){&nbsp;&nbsp;</span></span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                style="color: rgb(127, 0, 85); font-weight: bold;">for</span><span
+                style="color: black;">&nbsp;(</span><span
+                style="color: rgb(127, 0, 85); font-weight: bold;">var</span><span style="color: black;">&nbsp;i&nbsp;=&nbsp;0,&nbsp;j&nbsp;=&nbsp;</span><span
+                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__imgs.length,&nbsp;_img;&nbsp;i&nbsp;&lt;&nbsp;j;&nbsp;i++)&nbsp;{&nbsp;&nbsp;</span></span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_img&nbsp;=&nbsp;<span
+                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__imgs[i];&nbsp;&nbsp;</span></span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                style="color: rgb(127, 0, 85); font-weight: bold;">if</span><span
+                style="color: black;">&nbsp;(</span><span style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span
+                style="color: black;">.__isInViewport(_img))&nbsp;{&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__onLoadData(_img);&nbsp;&nbsp;</span></span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_img.loaded&nbsp;=&nbsp;<span
+                style="color: rgb(127, 0, 85); font-weight: bold;">true</span><span
+                style="color: black;">;&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;</span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                style="color: rgb(0, 130, 0);">//&nbsp;&nbsp;todo&nbsp;add&nbsp;failurelimit</span><span
+                style="color: black;">&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;</span></li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                style="color: rgb(0, 130, 0);">/*&nbsp;Remove&nbsp;image&nbsp;from&nbsp;array&nbsp;so&nbsp;it&nbsp;is&nbsp;not&nbsp;looped&nbsp;next&nbsp;time.&nbsp;thanks&nbsp;to&nbsp;jQuery&nbsp;*/</span><span
+                style="color: black;">&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__imgs&nbsp;=&nbsp;U.arr._$filter(</span><span
+                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span
+                style="color: black;">.__imgs,&nbsp;</span><span style="color: rgb(127, 0, 85); font-weight: bold;">function</span><span
+                style="color: black;">(_img){</span><span
+                style="color: rgb(127, 0, 85); font-weight: bold;">return</span><span style="color: black;">&nbsp;!_img.loaded;});&nbsp;&nbsp;</span></span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;};&nbsp; <br></span></li>
+</ol></span></span>把加载完毕的元素过滤掉，不再对其进行遍历。<br><br><b>如果不需要模块支持了，如何销毁？</b><br><span
+        style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Monaco; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;"><span
+        style="font-family: Monaco,'DejaVu Sans Mono','Bitstream Vera Sans Mono',Consolas,'Courier New',monospace; font-size: 12px; line-height: 18px; text-align: left;"><ol
+        start="1"
+        style="font-size: 1em; line-height: 1.4em; margin: 0px 0px 1px; padding: 2px 0px; border: 1px solid rgb(209, 215, 220); list-style-type: decimal; background-color: rgb(255, 255, 255); color: rgb(43, 145, 175);">
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 130, 0);">/**</span>&nbsp;</span></li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;"><span
+                style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;销毁操作</span>&nbsp;</span></li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@param&nbsp;{Boolean}&nbsp;_load&nbsp;&nbsp;&nbsp;是否手动销毁</span>&nbsp;</span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@return&nbsp;{Boolean}</span>&nbsp;</span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><span
+                style="color: black;">&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;__pro.__destroy&nbsp;=&nbsp;<span
+                style="color: rgb(127, 0, 85); font-weight: bold;">function</span><span style="color: black;">(_load){&nbsp;&nbsp;</span></span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clearTimeout(<span
+                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__timer);&nbsp;&nbsp;</span></span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                style="color: rgb(0, 130, 0);">//&nbsp;&nbsp;是否加载剩余图片元素</span><span
+                style="color: black;">&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                style="color: rgb(127, 0, 85); font-weight: bold;">if</span><span style="color: black;">&nbsp;(_load&nbsp;&amp;&amp;&nbsp;</span><span
+                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__imgs)&nbsp;{&nbsp;&nbsp;</span></span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;U.arr._$forEach(<span
+                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span
+                style="color: black;">.__imgs,&nbsp;</span><span style="color: rgb(127, 0, 85); font-weight: bold;">function</span><span
+                style="color: black;">(_img){&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__onLoadData(_img);&nbsp;&nbsp;</span></span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}._$bind(<span
+                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">));&nbsp;&nbsp;</span></span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__imgs&nbsp;=&nbsp;</span><span
+                style="color: rgb(127, 0, 85); font-weight: bold;">null</span><span
+                style="color: black;">;&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;</span></li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__clearEvent();&nbsp;&nbsp;&nbsp;&nbsp;</span><span
+                style="color: rgb(0, 130, 0);">//&nbsp;&nbsp;bug&nbsp;unfixed:scroll事件无法清除</span><span
+                style="color: black;">&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;};&nbsp; <br></span></li>
+</ol></span></span>在此可以做一些清理操作，比如清除scroll和resize事件等。<br><br><b>系统如果动态生成了若干新image节点，怎么办？</b><br><span
+        style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Monaco; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;"><span
+        style="font-family: Monaco,'DejaVu Sans Mono','Bitstream Vera Sans Mono',Consolas,'Courier New',monospace; font-size: 12px; line-height: 18px; text-align: left;"><span
+        style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Monaco; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;"><span
+        style="font-family: Monaco,'DejaVu Sans Mono','Bitstream Vera Sans Mono',Consolas,'Courier New',monospace; font-size: 12px; line-height: 18px; text-align: left;"><ol
+        start="1"
+        style="font-size: 1em; line-height: 1.4em; margin: 0px 0px 1px; padding: 2px 0px; border: 1px solid rgb(209, 215, 220); list-style-type: decimal; background-color: rgb(255, 255, 255); color: rgb(43, 145, 175);">
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 130, 0);">/**</span>&nbsp;</span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;重新获取元素（用于在指定容器中动态生成新节点时）</span>&nbsp;</span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@return&nbsp;{Void}</span>&nbsp;</span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><span
+                style="color: black;">&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;__pro._$reset&nbsp;=&nbsp;<span
+                style="color: rgb(127, 0, 85); font-weight: bold;">function</span><span style="color: black;">(){&nbsp;&nbsp;</span></span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__destroy();&nbsp;&nbsp;</span></span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__pause&nbsp;=&nbsp;</span><span
+                style="color: rgb(127, 0, 85); font-weight: bold;">false</span><span
+                style="color: black;">;&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__imgs&nbsp;=&nbsp;</span><span
+                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__container.getElementsByTagName(</span><span
+                style="color: blue;">'img'</span><span style="color: black;">);&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__bindEvent();&nbsp;&nbsp;</span></span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__setPlaceHolder();&nbsp;&nbsp;</span></span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">._$dispatchEvent(</span><span
+                style="color: blue;">'appear'</span><span style="color: black;">);&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;};&nbsp;&nbsp;</span></li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 130, 0);">/**</span>&nbsp;</span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;"><span
+                style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;暂停延迟加载</span>&nbsp;</span></li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@return&nbsp;{Void}&nbsp;</span>&nbsp;</span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><span
+                style="color: black;">&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;__pro._$pauseLoad&nbsp;=&nbsp;<span
+                style="color: rgb(127, 0, 85); font-weight: bold;">function</span><span style="color: black;">(){&nbsp;&nbsp;</span></span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__pause&nbsp;=&nbsp;</span><span
+                style="color: rgb(127, 0, 85); font-weight: bold;">true</span><span
+                style="color: black;">;&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;};&nbsp; </span></li>
+</ol></span></span></span></span>评论模块具有一定的交互特性，用户可以发表评论回复评论，一旦这么做了，就必须重新获取一遍相应容器内的image节点（很直接很粗暴么，也没想到什么更好的解决方案）。_$pauseLoad由调用者手动调用，目的是在动态生成节点浏览器重新渲染时暂停图片的延迟加载进程。this.__setPlaceHolder()给image对象一个1px*1px占位用的图片。不给image设定src的话，ie下会很杯具。<br><br>时间精力有限，并没有在移动设备上进行过测试，目前只支持pc下的主流浏览器。<br><br>参考资料<br><a
+        target="_blank" rel="nofollow" href="http://www.howtocreate.co.uk/tutorials/javascript/browserwindow">Finding
+    the size of the browser window</a><br><a target="_blank" rel="nofollow"
+                                             href="http://www.cnblogs.com/cloudgamer/archive/2010/03/03/ImagesLazyLoad.html">ImagesLazyLoad
+    图片延迟加载效果</a><br><a target="_blank" rel="nofollow"
+                       href="http://www.neoease.com/lazy-load-jquery-plugin-delay-load-image/">Lazy Load, 延迟加载图片的 jQuery
+    插件</a></div>
+
+
+
+]]></content>
+	</entry>
+	
+	<entry>
+		<title>IE6下的多类选择符</title>
+		<link href="http://nomospace.github.com/posts/ie6-multi-class.html" />
+		<updated>2011-03-31T00:00:00+08:00</updated>
+		<id>http://nomospace.github.com/posts/ie6-multi-class.html</id>
+		<content type="html"><![CDATA[<div class="bct fc05 fc11 nbw-blog ztag js-fs2"><br>某天发现一个小bug：在IE6下，鼠标移过顶部导航，由于标签宽度被意外撑大，直接导致下边的次导航错位：<br>
+
+    <div><img alt="2011年03月30日 - nomospace（挪墨） - Nomospace" style="margin: 0pt 10px 0pt 0pt;"
+              src="/assets/images/887209126593989188.jpg"></div>
+    <br>其他页面都正常，唯独每日专题这个页面有问题，经验告诉我应该是样式被覆盖了。<br><br>于是定位到对应样式，顶部导航模块的实现：<br>
+
+    <div><img alt="2011年03月30日 - nomospace（挪墨） - Nomospace" style="margin: 0pt 10px 0pt 0pt;"
+              src="/assets/images/624874448298966043.jpg"></div>
+    &nbsp;<br>专题页面的实现：<br>
+
+    <div><img alt="2011年03月30日 - nomospace（挪墨） - Nomospace" style="margin: 0pt 10px 0pt 0pt;"
+              src="/assets/images/2590977160622779315.jpg"></div>
+    &nbsp;<br>.此处的.js-hover是专为IE6而写的，通过js使a支持非a标签的hover，具体代码实现不是本文的重点故不赘述。<br><br>为简化模拟bug触发环境，在此我写了一个多类选择符测试页面：<br><span
+            style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Helvetica; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;"><span
+            style="font-family: Monaco,'DejaVu Sans Mono','Bitstream Vera Sans Mono',Consolas,'Courier New',monospace; font-size: 12px; line-height: 18px; text-align: left;"><ol
+            start="1"
+            style="font-size: 1em; line-height: 1.4em; margin: 0px 0px 1px; padding: 2px 0px; border: 1px solid rgb(209, 215, 220); list-style-type: decimal; background-color: rgb(255, 255, 255); color: rgb(43, 145, 175);">
+        <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+            <span style="color: black;"><span style="color: black;">&lt;!DOCTYPE&nbsp;HTML</span><span
+                    style="color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span style="color: black;">&nbsp;&nbsp;</span></span>
+        </li>
+        <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+            <span style="color: black;"><span style="color: rgb(0, 102, 153); font-weight: bold;">&lt;</span><span
+                    style="color: rgb(0, 102, 153); font-weight: bold;">html</span><span
+                    style="color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span style="color: black;">&nbsp;&nbsp;</span></span>
+        </li>
+        <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+            <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;<span
+                    style="color: rgb(0, 102, 153); font-weight: bold;">&lt;</span><span
+                    style="color: rgb(0, 102, 153); font-weight: bold;">head</span><span
+                    style="color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span style="color: black;">&nbsp;&nbsp;</span></span>
+        </li>
+        <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+            <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                    style="color: rgb(0, 102, 153); font-weight: bold;">&lt;</span><span
+                    style="color: rgb(0, 102, 153); font-weight: bold;">title</span><span
+                    style="color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span
+                    style="color: black;">多类选择符测试</span><span
+                    style="color: rgb(0, 102, 153); font-weight: bold;">&lt;/</span><span
+                    style="color: rgb(0, 102, 153); font-weight: bold;">title</span><span
+                    style="color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span style="color: black;">&nbsp;&nbsp;</span></span>
+        </li>
+        <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+            <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                    style="color: rgb(0, 102, 153); font-weight: bold;">&lt;</span><span
+                    style="color: rgb(0, 102, 153); font-weight: bold;">style</span><span
+                    style="color: black;">&nbsp;</span><span style="color: red;">type</span><span style="color: black;">=</span><span
+                    style="color: blue;">"text/css"</span><span
+                    style="color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span style="color: black;">&nbsp;&nbsp;</span></span>
+        </li>
+        <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+            <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;body&nbsp;.link{display:block;width:100px;height:100px;background-color:black;}&nbsp;&nbsp;</span>
+        </li>
+        <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+            <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;body&nbsp;.content.link:hover{background-color:blue;}&nbsp;&nbsp;</span>
+        </li>
+        <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+            <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;body&nbsp;.link:hover{background-color:red;}&nbsp;&nbsp;</span>
+        </li>
+        <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+            <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                    style="color: rgb(0, 102, 153); font-weight: bold;">&lt;/</span><span
+                    style="color: rgb(0, 102, 153); font-weight: bold;">style</span><span
+                    style="color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span style="color: black;">&nbsp;&nbsp;</span></span>
+        </li>
+        <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+            <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;<span
+                    style="color: rgb(0, 102, 153); font-weight: bold;">&lt;/</span><span
+                    style="color: rgb(0, 102, 153); font-weight: bold;">head</span><span
+                    style="color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span style="color: black;">&nbsp;&nbsp;</span></span>
+        </li>
+        <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+            <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;<span
+                    style="color: rgb(0, 102, 153); font-weight: bold;">&lt;</span><span
+                    style="color: rgb(0, 102, 153); font-weight: bold;">body</span><span
+                    style="color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span style="color: black;">&nbsp;&nbsp;</span></span>
+        </li>
+        <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+            <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                    style="color: rgb(0, 102, 153); font-weight: bold;">&lt;</span><span
+                    style="color: rgb(0, 102, 153); font-weight: bold;">div</span><span
+                    style="color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span
+                    style="color: rgb(0, 102, 153); font-weight: bold;">&lt;</span><span
+                    style="color: rgb(0, 102, 153); font-weight: bold;">a</span><span
+                    style="color: black;">&nbsp;</span><span style="color: red;">href</span><span style="color: black;">=</span><span
+                    style="color: blue;">"#"</span><span style="color: black;">&nbsp;</span><span style="color: red;">class</span><span
+                    style="color: black;">=</span><span style="color: blue;">"content&nbsp;link"</span><span
+                    style="color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span
+                    style="color: rgb(0, 102, 153); font-weight: bold;">&lt;/</span><span
+                    style="color: rgb(0, 102, 153); font-weight: bold;">a</span><span
+                    style="color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span
+                    style="color: rgb(0, 102, 153); font-weight: bold;">&lt;/</span><span
+                    style="color: rgb(0, 102, 153); font-weight: bold;">div</span><span
+                    style="color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span style="color: black;">&nbsp;&nbsp;</span></span>
+        </li>
+        <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+            <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;<span
+                    style="color: rgb(0, 102, 153); font-weight: bold;">&lt;/</span><span
+                    style="color: rgb(0, 102, 153); font-weight: bold;">body</span><span
+                    style="color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span style="color: black;">&nbsp;&nbsp;</span></span>
+        </li>
+        <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+            <span style="color: black;"><span style="color: rgb(0, 102, 153); font-weight: bold;">&lt;/</span><span
+                    style="color: rgb(0, 102, 153); font-weight: bold;">html</span><span
+                    style="color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span
+                    style="color: black;">&nbsp; <br></span></span></li>
+    </ol></span></span><br>在IE6下，鼠标移过a元素后背景色为red，而在其他浏览器中则为blue。这是为什么呢？<br><br>先看一下官方是怎么说的：<br><span
+            style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Helvetica; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;"><span
+            style="font-family: sans-serif;"><p style="background-color: rgb(255, 255, 204);">A selector's specificity
+        is calculated as follows:</p><ul style="background-color: rgb(255, 255, 204);">
+        <li>count 1 if the declaration is from is a 'style' attribute rather than a rule with a selector, 0 otherwise (=
+            a) (In HTML, values of an element's "style" attribute are style sheet rules. These rules have no selectors,
+            so a=1, b=0, c=0, and d=0.)
+        </li>
+        <li>count the number of ID attributes in the selector (= b)</li>
+        <li>count the number of other attributes and pseudo-classes in the selector (= c)</li>
+        <li>count the number of element names and pseudo-elements in the selector (= d)</li>
+    </ul><p style="background-color: rgb(255, 255, 204);">The specificity is based only on the form of the selector. In
+        particular, a selector of the form "[id=p33]" is counted as an attribute selector (a=0, b=0, c=1, d=0), even if
+        the id attribute is defined as an "ID" in the source document's DTD.</p><p
+            style="background-color: rgb(255, 255, 204);">Concatenating the four numbers a-b-c-d (in a number system
+        with a large base) gives the specificity.</p><div style="color: maroon; background-color: rgb(255, 255, 204);">
+        <p>Some examples:</p>
+        <pre style="font-family: monospace; margin-left: 2em; font-size: 11px;"> *             {}  /* a=0 b=0 c=0 d=0 -&gt; specificity = 0,0,0,0 */<br> li            {}  /* a=0 b=0 c=0 d=1 -&gt; specificity = 0,0,0,1 */<br> li:first-line {}  /* a=0 b=0 c=0 d=2 -&gt; specificity = 0,0,0,2 */<br> ul li         {}  /* a=0 b=0 c=0 d=2 -&gt; specificity = 0,0,0,2 */<br> ul ol+li      {}  /* a=0 b=0 c=0 d=3 -&gt; specificity = 0,0,0,3 */<br> h1 + *[rel=up]{}  /* a=0 b=0 c=1 d=1 -&gt; specificity = 0,0,1,1 */<br> ul ol li.red  {}  /* a=0 b=0 c=1 d=3 -&gt; specificity = 0,0,1,3 */<br> li.red.level  {}  /* a=0 b=0 c=2 d=1 -&gt; specificity = 0,0,2,1 */<br> #x34y         {}  /* a=0 b=1 c=0 d=0 -&gt; specificity = 0,1,0,0 */<br> style=""          /* a=1 b=0 c=0 d=0 -&gt; specificity = 1,0,0,0 */<br></pre>
+    </div><div style="color: maroon;">
+        <pre style="font-family: monospace; margin-left: 2em; font-size: 11px; background-color: rgb(255, 255, 204);">&lt;HEAD&gt;<br>&lt;STYLE type="text/css"&gt;<br>  #x97z { color: red }<br>&lt;/STYLE&gt;<br>&lt;/HEAD&gt;<br>&lt;BODY&gt;<br>&lt;P ID=x97z style="color: green"&gt;<br>&lt;/BODY&gt;<br></pre>
+        <p style="background-color: rgb(255, 255, 204);">In the above example, the color of the P element would be
+            green. The declaration in the "style" attribute will override the one in the STYLE element because of
+            cascading rule 3, since it has a higher specificity.</p>
+
+        <p><font color="#000000">来源出自</font><a target="_blank" rel="nofollow"
+                                               href="http://www.w3.org/TR/CSS21/cascade.html#specificity">http://www.w3.org/TR/CSS21/cascade.html#specificity</a>
+        </p>
+
+        <p><span
+                style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Helvetica; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;"><span
+                style="font-family: sans-serif;">上文大致是说，css选择符有个权重，比如0,0,0,0。style标签的内联样式a=1，ID选择符b=1，class选择符c=1，标签选择符d=1等等，具体可以参考此文</span></span><span
+                style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Helvetica; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;"><span
+                style="font-family: sans-serif;"></span></span><a target="_blank" rel="nofollow"
+                                                                  href="http://www.smashingmagazine.com/2007/07/27/css-specificity-things-you-should-know/">CSS
+            Specificity: Things You Should Know</a><a target="_blank" rel="nofollow"
+                                                      href="http://www.obird.net/web-standards/%E5%A6%82%E4%BD%95%E7%90%86%E8%A7%A3css-specificity/">(如何理解Css
+            Specificity)</a></p>
+
+        <p><font color="#000000">再来看看之前的测试页面，a元素的specificity</font><span style="color: black;"><br></span></p>
+        <blockquote>
+            <ol>
+                <li><span style="color: black;">body&nbsp;.link{display:block;width:100px;height:100px;background-color:black;}&nbsp; </span><span
+                        style="color: black;">--&gt;0,0,1,0<br></span></li>
+                <li><span style="color: black;">body&nbsp;.content.link:hover{background-color:blue;}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --&gt;</span><span
+                        style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Helvetica; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;"><span
+                        style="font-family: sans-serif;"><span style="color: black;">0,0,2,2</span></span></span></li>
+                <li><span style="color: black;">body&nbsp;.link:hover{background-color:red;}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
+                        style="color: black;">--&gt;</span><span
+                        style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Helvetica; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;"><span
+                        style="font-family: sans-serif;"><span style="color: black;">0,0,1,2</span></span></span><span
+                        style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Helvetica; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;"><span
+                        style="font-family: sans-serif;"></span></span></li>
+            </ol>
+        </blockquote>
+        <p><span
+                style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Helvetica; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;"><span
+                style="font-family: sans-serif;"> </span></span></p>
+
+        <p><span
+                style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Helvetica; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;"><span
+                style="font-family: sans-serif;"><font
+                color="#000000">照理说，第二条的权重最大，为什么IE6仍旧显示第三条的样式呢。其实IE6不支持.a.b的css写法</font>（未找到出处），后一个类名会覆盖前一个类名，也就是说，.a.b在IE6上实际会被解析成.b，于是，第二条样式在IE6下实际为body .link:hover，与第三条一致了。后者覆盖前者，于是bug就出现了。</span></span>
+        </p>
+
+        <p><br><span
+                style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Helvetica; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;"><span
+                style="font-family: sans-serif;"></span></span></p>
+
+        <p><span
+                style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Helvetica; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;"><span
+                style="font-family: sans-serif;">参考资料：</span></span></p>
+
+        <p><a target="_blank" rel="nofollow"
+              href="http://www.smashingmagazine.com/2007/07/27/css-specificity-things-you-should-know/">CSS Specificity:
+            Things You Should Know</a></p>
+
+        <p><a target="_blank" rel="nofollow"
+              href="http://www.obird.net/web-standards/%E5%A6%82%E4%BD%95%E7%90%86%E8%A7%A3css-specificity/">如何理解Css
+            Specificity</a></p>
+
+        <p><a target="_blank" rel="nofollow" href="http://www.cssass.com/blog/index.php/2009/73.html">CSS多类选择符测试</a></p>
+
+        <p><a target="_blank" rel="nofollow" href="http://www.cssass.com/blog/index.php/2009/73.html"><span
+                style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Helvetica; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;"><span
+                style="font-family: sans-serif;"></span></span></a><a rel="nofollow"
+                                                                      href="http://www.w3.org/TR/CSS21/cascade.html#specificity"><span
+                style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Helvetica; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;"><span
+                style="font-family: sans-serif;"></span></span></a><a target="_blank" rel="nofollow"
+                                                                      href="http://www.w3.org/TR/CSS21/cascade.html#specificity">http://www.w3.org/TR/CSS21/cascade.html#specificity</a>
+        </p></div></span></span></div>
+
+
+
+]]></content>
+	</entry>
+	
+	<entry>
+		<title>高度自适应与Opera's 32767 Bug</title>
+		<link href="http://nomospace.github.com/posts/opera-32767-bug.html" />
+		<updated>2011-03-29T00:00:00+08:00</updated>
+		<id>http://nomospace.github.com/posts/opera-32767-bug.html</id>
+		<content type="html"><![CDATA[<div class="bct fc05 fc11 nbw-blog ztag js-fs2"><a target="_blank" href="http://photo.163.com/?from=logo">相册首页</a>整个右栏模块是高度自适应的，实现手段无非就是采用超大负margin+超大正padding相结合，并将溢出部分隐藏：<br>
+
+    <div>父容器：<br><img alt="高度自适应与Operas 32767 Bug - nomospace（挪墨） - Nomospace" style="margin: 0pt 10px 0pt 0pt;"
+                      src="/assets/images/687080418152379149.png"><br>右栏：<br></div>
+    &nbsp;<img alt="高度自适应与Operas 32767 Bug - nomospace（挪墨） - Nomospace" style="margin: 0pt 10px 0pt 0pt;"
+               src="/assets/images/598697275464612157.png"><br>在所有浏览器上都能表现良好，唯独在opera下出现了超长的滚动条，如图：<br>
+
+    <div>
+        <div><img alt="高度自适应与Operas 32767 Bug - nomospace（挪墨） - Nomospace" style="margin: 0pt 10px 0pt 0pt;"
+                  src="/assets/images/2815312717061297291.png"><br><br>其实，产生滚动条的根本原因可能是opera下overflow:hidden的bug，解决方案如下：<br>@media
+            all and (min-width:0) {.j-r{padding-bottom:0;margin-bottom:0;}}<br><br>当然，本文重点也不在如何解决这个bug上。实际上，如果给元素赋予一个超大值（比如9999em），opera下的样式会被解析成：<br>
+        </div>
+    </div>
+    <div>
+        <div><img alt="高度自适应与Operas 32767 Bug - nomospace（挪墨） - Nomospace" style="margin: 0pt 10px 0pt 0pt;"
+                  src="/assets/images/622341173508333761.png"><br><br>32767是2的15次方减一，刚好是16位整型数字的最大值，看起来opera无法处理大于32767px的高度/宽度。<br><img
+                src="file:///C:/DOCUME%7E1/User/LOCALS%7E1/Temp/moz-screenshot-13.png" alt=""><a target="_blank"
+                                                                                                 rel="nofollow"
+                                                                                                 href="http://www.aplusdesign.com.au/blog/opera-css-integer-bug/"><img
+                src="http://www.aplusdesign.com.au/blog/wp-content/uploads/2010/07/opera-css-integer-bug.jpg"
+                alt="Opera CSS Integer bug" width="225"></a><br>其实老外早就发现过<a target="_blank" rel="nofollow"
+                                                                            href="http://dev.opera.com/forums/topic/242545?t=1269270866&amp;page=1">类似问题</a>了，解决方案如下：<br>
+            <ul>
+                <li>宽度/高度值不大于32767</li>
+                <li><code>使用</code><a target="_blank" rel="nofollow" href="http://heeroluo.net/ShowPost62.aspx">max-width:
+                    none;</a></li>
+            </ul>
+            <br></div>
+    </div>
+    参考资料：<br>
+    <ul>
+        <li><a target="_blank" rel="nofollow" href="http://www.aplusdesign.com.au/blog/opera-css-integer-bug/">Opera CSS
+            Integer bug</a></li>
+        <li><a target="_blank" rel="nofollow" href="http://css-tricks.com/32766/">32766</a></li>
+        <li><strong></strong><a target="_blank" rel="nofollow" href="http://www.blueidea.com/tech/web/2006/3210.asp">CSS布局自适应高度解决方法</a>
+        </li>
+    </ul>
 </div>
 
 ]]></content>
