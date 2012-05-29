@@ -1,3 +1,8 @@
+---
+layout: post
+title: 浅析kangax提出的Javascript quiz
+category: javascript
+---
 <div class="bct fc05 fc11 nbw-blog ztag js-fs2">
     <div style="background-color: transparent; width: 851px; overflow-x: auto; overflow-y: auto; margin-left: 9px; padding-top: 1px; padding-right: 1px; padding-bottom: 1px; padding-left: 1px; word-break: break-all; word-wrap: break-word;">
         <div>
