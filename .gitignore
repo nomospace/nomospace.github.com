@@ -1,4 +1,4 @@
-﻿.iml
+.iml
 .idea/
 .ipr
 .iws
@@ -16,3 +16,8 @@ Thumbs.db
 *.pyc
 *.pyo
 node_modules
+_site/Nomospace.github.com.iml
+
+blog.iml
+
+nomospace.github.com.iml
