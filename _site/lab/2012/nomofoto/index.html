@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>nomofoto</title>
+<link type="text/css" rel="stylesheet/less" href="src/css/style.less">
+<script src="src/js/lib/less/less.js"></script>
+<head>
+    <title></title>
+</head>
+<body>
+<script src="src/js/lib/requirejs/require.js"></script>
+<script>
+    require.config({
+        paths: {
+            'root': 'src/js',
+            'class': 'src/js/lib/class/class',
+            '$': 'src/js/lib/jquery/jquery',
+            'handlebars': 'src/js/lib/handlebars/handlebars',
+            'logger': 'src/js/lib/logger/logger'
+        }
+    });
+    require(['root/index']);
+</script>
+</body>
+</html>
