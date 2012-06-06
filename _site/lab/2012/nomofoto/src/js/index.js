@@ -33,8 +33,8 @@ define(function(require, exports) {
 //            debugger;
 //        })
         $.getScript(('http://' + data.cacheFileUrl), function() {
-            debugger;
-        })
+            
+        });
 //        $('<iframe src="' + 'http://' + data.cacheFileUrl + '">').appendTo('body');
     }
 
