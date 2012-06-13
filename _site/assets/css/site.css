@@ -45,8 +45,9 @@ aside .block input{width:145px;}
 aside .block-about{line-height:normal;}
 aside .block-about p{margin:0.5em 0; color:#999;}
 aside .block-about figure img{margin:0.5em 0; border-radius:2px;}
+aside .block-about figure figcaption{display: block;}
 aside nav ul{list-style:none; line-height:1.5em;}
-aside nav li:before{content:""; font:normal 80%/1em "宋体"; margin:0 .3em; color: #999;}
+/*aside nav li:before{content:""; font:normal 80%/1em "宋体"; margin:0 .3em; color: #999;}*/
 
 footer p{color:#aaa; font-size:75%; line-height:1.6em;}
 

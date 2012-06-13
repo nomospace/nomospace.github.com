@@ -11,6 +11,9 @@
 <link rel="stylesheet" type="text/css" href="/assets/css/site.css" />
 {% for style in page.styles %}<link rel="stylesheet" type="text/css" href="{{ style }}" />
 {% endfor %}
+<!--[if IE]>
+<script src="/assets/js/html5.js"></script>
+<![endif]-->
 </head>
 
 <body class="{{ page.pageClass }}">
