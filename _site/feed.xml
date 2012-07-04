@@ -3,7 +3,7 @@
 	<title>挪墨的空间</title>
 	<link href="http://nomospace.github.com/atom.xml" rel="self" />
 	<link href="http://nomospace.github.com/" />
-	<updated>2012-06-27T22:36:09+08:00</updated>
+	<updated>2012-07-04T22:51:53+08:00</updated>
 	<id>http://nomospace.github.com/</id>
 	<author>
 		<name>nomospace</name>
@@ -2322,6 +2322,270 @@ project，我在两者基础上进行整合并尝试将watermark.js移植到Node
 	</entry>
 	
 	<entry>
+		<title>JavaScript中的作用域与变量声明提升 [翻译]</title>
+		<link href="http://nomospace.github.com/posts/javaScript-scoping-and-hoisting.html" />
+		<updated>2011-04-11T00:00:00+08:00</updated>
+		<id>http://nomospace.github.com/posts/javaScript-scoping-and-hoisting.html</id>
+		<content type="html"><![CDATA[<div class="bct fc05 fc11 nbw-blog ztag js-fs2">原文地址：<a
+        target="_blank" rel="nofollow" href="http://www.adequatelygood.com/2010/2/JavaScript-Scoping-and-Hoisting">http://www.adequatelygood.com/2010/2/JavaScript-Scoping-and-Hoisting</a><br>原文作者：<a
+        target="_blank" rel="nofollow" href="http://www.adequatelygood.com/About-Ben">ben cherry</a><br><br>在前篇<a
+        target="_blank" href="http://blog.163.com/jinlu_hz/blog/static/1138301522011218543321/">小议javascript之全局对象创建</a>译文中提到过JavaScript
+    Hoisting概念，当时不甚了解。google之后发现<a target="_blank" rel="nofollow" href="http://www.adequatelygood.com/About-Ben">ben
+        cherry</a>解释的最为明了，于是有了本文。<br>
+        <br>——以下为翻译——<br>
+    <wbr><br>JavaScript Scoping and Hoisting（</b><b>JavaScript中的</b><b>作用域与变量声明提升/声明时机提升）</b><br><br>你知道下面JavaScript代码的执行结果是什么吗？<br><span
+            style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Helvetica; font-size: 16px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;"><span
+            style="color: rgb(34, 34, 34); font-family: 'Helvetica Neue',Arial,Helvetica,sans-serif; font-size: 12px; line-height: 18px;"><pre
+            style="margin: 1.5em 0px; padding: 0px; border-width: 0px; vertical-align: baseline; white-space: pre; font: 1em/1.5 Monaco,'lucida console',monospace; display: block; word-wrap: break-word;"><span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: navy;">var</span>&nbsp;foo&nbsp;=&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: red;">1</span>;&nbsp;<br><span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: rgb(65, 105, 225);">function</span>&nbsp;bar()&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: black;">{</span>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: navy;">if</span>&nbsp;(!foo)&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: black;">{</span>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: navy;">var</span>&nbsp;foo&nbsp;=&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: red;">10</span>;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: black;">}</span>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;alert(foo);&nbsp;<br><span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: black;">}</span>&nbsp;<br>bar();</pre></span></span>如果你对foo的值实际上为"10"而感到诧异的话，再看一下下面这个例子：<br><span
+            style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Helvetica; font-size: 16px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;"><span
+            style="color: rgb(34, 34, 34); font-family: 'Helvetica Neue',Arial,Helvetica,sans-serif; font-size: 12px; line-height: 18px;"><pre
+            style="margin: 1.5em 0px; padding: 0px; border-width: 0px; vertical-align: baseline; white-space: pre; font: 1em/1.5 Monaco,'lucida console',monospace; display: block; word-wrap: break-word;"><span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: navy;">var</span>&nbsp;a&nbsp;=&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: red;">1</span>;&nbsp;<br><span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: rgb(65, 105, 225);">function</span>&nbsp;b()&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: black;">{</span>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;a&nbsp;=&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: red;">10</span>;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: navy;">return</span>;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: rgb(65, 105, 225);">function</span>&nbsp;a()&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: black;">{</span><span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: black;">}</span>&nbsp;<br><span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: black;">}</span>&nbsp;<br>b();&nbsp;<br>alert(a);</pre></span></span><br>发现浏览器会弹出alert(1)。怎么回事呢？看起来很诡异，这恰好是JavaScript语言的特性。我不确定这种表现行为是否已经有一个标准的命名了，于是我将此称为变量声明提升。本文会对这种机制进行揭秘，先从作用域谈起好了。<br><br><br><b>Scoping
+        in JavaScript（</b><b>JavaScript</b><b>中的作用域）</b><br><br>对于很多JavaScript语言初学者而言，作用域带来许多困惑。当然也不仅仅是初学者会遇到这些问题，不少资深JavaScript程序员也未能完全掌握作用域的精髓。之所以带来困惑，其中一个原因是由于JavaScript实在太像C风格的语言了。如下是一段C程序：<br><span
+            style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Helvetica; font-size: 16px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;"><span
+            style="color: rgb(34, 34, 34); font-family: 'Helvetica Neue',Arial,Helvetica,sans-serif; font-size: 12px; line-height: 18px;"><pre
+            style="margin: 1.5em 0px; padding: 0px; border-width: 0px; vertical-align: baseline; white-space: pre; font: 1em/1.5 Monaco,'lucida console',monospace; display: block; word-wrap: break-word;"><span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: red;">#include</span>&nbsp;&lt;stdio.h&gt;&nbsp;<br><span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: blue;">int</span>&nbsp;main()&nbsp;{&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: blue;">int</span>&nbsp;x&nbsp;=&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: red;">1</span>;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;printf(<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: teal;">"%d,&nbsp;"</span>,&nbsp;x);&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: green;">//&nbsp;1</span>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: bold; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: navy;">if</span>&nbsp;(<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: red;">1</span>)&nbsp;{&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: blue;">int</span>&nbsp;x&nbsp;=&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: red;">2</span>;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf(<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: teal;">"%d,&nbsp;"</span>,&nbsp;x);&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: green;">//&nbsp;2</span>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;printf(<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: teal;">"%d\n"</span>,&nbsp;x);&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: green;">//&nbsp;1</span>&nbsp;<br>}</pre></span></span><br>程序输出结果是<span
+            style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Helvetica; font-size: 16px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;"><span
+            style="color: rgb(34, 34, 34); font-family: Monaco,'lucida console',monospace; font-size: 12px; line-height: 18px;"><span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: red;">1</span>,&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: red;">2</span>,&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: red;">1</span></span></span>。因为C风格的语言有<b>块级作用域（block-level
+        scope）</b>。当函数鱼运行到<span
+            style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Helvetica; font-size: 16px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;"><span
+            style="color: rgb(34, 34, 34); font-family: 'Helvetica Neue',Arial,Helvetica,sans-serif; font-size: 12px; line-height: 18px;"><span> </span><code
+            style="margin: 0px; padding: 0px; border-width: 0px; vertical-align: baseline; font: 1em/1.5 Monaco,'lucida console',monospace; display: inline;"><span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: bold; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: navy;">if</span></code><span> </span></span></span>语句中时，当前作用域中的新变量会被声明，并且不会影响到外部作用域。但在JavaScript中情况并不是这样：<br><span
+            style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Helvetica; font-size: 16px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;"><span
+            style="color: rgb(34, 34, 34); font-family: 'Helvetica Neue',Arial,Helvetica,sans-serif; font-size: 12px; line-height: 18px;"><pre
+            style="margin: 1.5em 0px; padding: 0px; border-width: 0px; vertical-align: baseline; white-space: pre; font: 1em/1.5 Monaco,'lucida console',monospace; display: block; word-wrap: break-word;"><span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: navy;">var</span>&nbsp;x&nbsp;=&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: red;">1</span>;&nbsp;<br>console.log(x);&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: green;">//&nbsp;1</span>&nbsp;<br><span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: navy;">if</span>&nbsp;(true)&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: black;">{</span>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: navy;">var</span>&nbsp;x&nbsp;=&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: red;">2</span>;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;console.log(x);&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: green;">//&nbsp;2</span>&nbsp;<br><span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: black;">}</span>&nbsp;<br>console.log(x);&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: green;">//&nbsp;2</span></pre></span></span><br>程序输出结果<span
+            style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Helvetica; font-size: 16px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;"><span
+            style="color: rgb(34, 34, 34); font-family: Monaco,'lucida console',monospace; font-size: 12px; line-height: 18px;"><span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: red;">1</span>,&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: red;">2</span>,&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: red;">2</span></span></span>。原因是JavaScript支持<b>函数作用域（function-level
+        scope）</b>，这个特性与C风格的语言格格不入。<span
+            style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Helvetica; font-size: 16px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;"><span
+            style="color: rgb(34, 34, 34); font-family: 'Helvetica Neue',Arial,Helvetica,sans-serif; font-size: 12px; line-height: 18px;"><span></span><code
+            style="margin: 0px; padding: 0px; border-width: 0px; vertical-align: baseline; font: 1em/1.5 Monaco,'lucida console',monospace; display: inline;"><span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: bold; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: navy;">if</span></code><span> </span></span></span>语句中的代码块并不会创建新的作用域，只有函数才会。<br><br>对于许多熟谙C\C++\C#\Java语言的程序员来说，JavaScript这个语言特性非常出乎意料。幸运的是，正由于JavaScript函数的灵活性，产生了一个变通方案。如果你必须在函数中创建一个临时作用域，可以这么做：<br><span
+            style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Helvetica; font-size: 16px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;"><span
+            style="color: rgb(34, 34, 34); font-family: 'Helvetica Neue',Arial,Helvetica,sans-serif; font-size: 12px; line-height: 18px;"><pre
+            style="margin: 1.5em 0px; padding: 0px; border-width: 0px; vertical-align: baseline; white-space: pre; font: 1em/1.5 Monaco,'lucida console',monospace; display: block; word-wrap: break-word;"><span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: rgb(65, 105, 225);">function</span>&nbsp;foo()&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: black;">{</span>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: navy;">var</span>&nbsp;x&nbsp;=&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: red;">1</span>;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: navy;">if</span>&nbsp;(x)&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: black;">{</span>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: rgb(65, 105, 225);">function</span>&nbsp;()&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: black;">{</span>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: navy;">var</span>&nbsp;x&nbsp;=&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: red;">2</span>;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: green;">//&nbsp;some&nbsp;other&nbsp;code</span>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: black;">}</span>());&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: black;">}</span>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: green;">//&nbsp;x&nbsp;is&nbsp;still&nbsp;1.</span>&nbsp;<br><span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: black;">}</span></pre></span></span>这个函数非常灵活，不仅仅在块级语句内，需要时能在任何地方使用。然而我强烈建议你多花点时间来理解JavaScript的作用域。<br><br><br><b>Declarations,
+        Names, and Hoisting（声明、名称以及</b><b>变量声明提升/声明时机提升</b>）<br><br>当访问函数内的变量时，JavaScript会按照下面顺序查找：<br>
+    <ol>
+        <li>语言级别：默认在所用作用域下会定义<span
+                style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Helvetica; font-size: 16px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;"><span
+                style="color: rgb(34, 34, 34); font-family: 'Helvetica Neue',Arial,Helvetica,sans-serif; font-size: 12px; line-height: 18px;"><code
+                style="margin: 0px; padding: 0px; border-width: 0px; vertical-align: baseline; font: 1em/1.5 Monaco,'lucida console',monospace; display: inline;"><span
+                style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: rgb(65, 105, 225);">this</span></code><span>、</span></span></span><span
+                style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Helvetica; font-size: 16px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;"><span
+                style="color: rgb(34, 34, 34); font-family: 'Helvetica Neue',Arial,Helvetica,sans-serif; font-size: 12px; line-height: 18px;"><code
+                style="margin: 0px; padding: 0px; border-width: 0px; vertical-align: baseline; font: 1em/1.5 Monaco,'lucida console',monospace; display: inline;"><span
+                style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: purple;">arguments</span></code></span></span>
+        </li>
+        <li>传入参数：函数命名的参数，作用域是当前函数体</li>
+        <li>函数声明：例如function foo() {}</li>
+        <li>变量声明：例如var foo;</li>
+    </ol>
+    <font color="#999999">//以上翻译地比较晦涩，建议直接看原文</font><br>函数声明与变量声明经常被JavaScript引擎隐式地提升到当前作用域的顶部，也就是说：<br><span
+            style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Helvetica; font-size: 16px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;"><span
+            style="color: rgb(34, 34, 34); font-family: 'Helvetica Neue',Arial,Helvetica,sans-serif; font-size: 12px; line-height: 18px;"><pre
+            style="margin: 1.5em 0px; padding: 0px; border-width: 0px; vertical-align: baseline; white-space: pre; font: 1em/1.5 Monaco,'lucida console',monospace; display: block; word-wrap: break-word;"><span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: rgb(65, 105, 225);">function</span>&nbsp;foo()&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: black;">{</span>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;bar();&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: navy;">var</span>&nbsp;x&nbsp;=&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: red;">1</span>;&nbsp;<br><span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: black;">}</span></pre></span></span>实际上会被解释成：<br><span
+            style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Helvetica; font-size: 16px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;"><span
+            style="color: rgb(34, 34, 34); font-family: 'Helvetica Neue',Arial,Helvetica,sans-serif; font-size: 12px; line-height: 18px;"><pre
+            style="margin: 1.5em 0px; padding: 0px; border-width: 0px; vertical-align: baseline; white-space: pre; font: 1em/1.5 Monaco,'lucida console',monospace; display: block; word-wrap: break-word;"><span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: rgb(65, 105, 225);">function</span>&nbsp;foo()&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: black;">{</span>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: navy;">var</span>&nbsp;x;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;bar();&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;x&nbsp;=&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: red;">1</span>;&nbsp;<br><span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: black;">}</span></pre></span></span>也就是说，下面两种声明方式是等价的：<br><span
+            style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Helvetica; font-size: 16px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;"><span
+            style="color: rgb(34, 34, 34); font-family: 'Helvetica Neue',Arial,Helvetica,sans-serif; font-size: 12px; line-height: 18px;"><pre
+            style="margin: 1.5em 0px; padding: 0px; border-width: 0px; vertical-align: baseline; white-space: pre; font: 1em/1.5 Monaco,'lucida console',monospace; display: block; word-wrap: break-word;"><span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: rgb(65, 105, 225);">function</span>&nbsp;foo()&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: black;">{</span>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: navy;">if</span>&nbsp;(false)&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: black;">{</span>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: navy;">var</span>&nbsp;x&nbsp;=&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: red;">1</span>;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: black;">}</span>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: navy;">return</span>;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: navy;">var</span>&nbsp;y&nbsp;=&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: red;">1</span>;&nbsp;<br><span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: black;">}</span>&nbsp;<br><span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: rgb(65, 105, 225);">function</span>&nbsp;foo()&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: black;">{</span>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: navy;">var</span>&nbsp;x,&nbsp;y;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: navy;">if</span>&nbsp;(false)&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: black;">{</span>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x&nbsp;=&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: red;">1</span>;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: black;">}</span>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: navy;">return</span>;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;y&nbsp;=&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: red;">1</span>;&nbsp;<br><span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: black;">}</span></pre></span></span><br>可以发现，声明语句中的赋值部分并没有被提升声明，只有名称被提升了。两种函数声明方式：<br><span
+            style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Helvetica; font-size: 16px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;"><span
+            style="color: rgb(34, 34, 34); font-family: 'Helvetica Neue',Arial,Helvetica,sans-serif; font-size: 12px; line-height: 18px;"><pre
+            style="margin: 1.5em 0px; padding: 0px; border-width: 0px; vertical-align: baseline; white-space: pre; font: 1em/1.5 Monaco,'lucida console',monospace; display: block; word-wrap: break-word;"><span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: rgb(65, 105, 225);">function</span>&nbsp;test()&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: black;">{</span>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;foo();&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: green;">//&nbsp;TypeError&nbsp;"foo&nbsp;is&nbsp;not&nbsp;a&nbsp;function"</span>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;bar();&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: green;">//&nbsp;"this&nbsp;will&nbsp;run!"</span>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: navy;">var</span>&nbsp;foo&nbsp;=&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: rgb(65, 105, 225);">function</span>&nbsp;()&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: black;">{</span>&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: green;">//&nbsp;function&nbsp;expression&nbsp;assigned&nbsp;to&nbsp;local&nbsp;variable&nbsp;'foo'</span>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;alert(<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: teal;">"this&nbsp;won't&nbsp;run!"</span>);&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: black;">}</span>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: rgb(65, 105, 225);">function</span>&nbsp;bar()&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: black;">{</span>&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: green;">//&nbsp;function&nbsp;declaration,&nbsp;given&nbsp;the&nbsp;name&nbsp;'bar'</span>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;alert(<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: teal;">"this&nbsp;will&nbsp;run!"</span>);&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: black;">}</span>&nbsp;<br><span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: black;">}</span>&nbsp;<br>test();</pre></span></span>这个例子中，只有包含函数体的函数声明会被提升声明。foo虽然会被提升声明，但是函数体却在执行中被赋值。以上就是提升声明时机的基本概念，看起来一点也不复杂。<br><br><b><br>Name
+        resolution order（名称解析顺序）</b><br><br>名称解析顺序有4步，一般来说，如果一个名称已经被定义了，它就不会被另一个具有同名称的属性所覆盖。这也就意味着，函数声明会比变量声明优先。并不是名称的赋值操作不会被执行，只是说声明部分被忽略了而已。有些例外：<br>
+    <ul>
+        <li>原生变量<span
+                style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Helvetica; font-size: 16px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;"><span
+                style="color: rgb(34, 34, 34); font-family: 'Helvetica Neue',Arial,Helvetica,sans-serif; font-size: 12px; line-height: 18px;"><code
+                style="margin: 0px; padding: 0px; border-width: 0px; vertical-align: baseline; font: 1em/1.5 Monaco,'lucida console',monospace; display: inline;"><span
+                style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: purple;">arguments</span></code><span></span></span></span>特立独行，包含了传递到函数中的参数。如果自定义以<span
+                style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Helvetica; font-size: 16px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;"><span
+                style="color: rgb(34, 34, 34); font-family: 'Helvetica Neue',Arial,Helvetica,sans-serif; font-size: 12px; line-height: 18px;"><code
+                style="margin: 0px; padding: 0px; border-width: 0px; vertical-align: baseline; font: 1em/1.5 Monaco,'lucida console',monospace; display: inline;"><span
+                style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: purple;">arguments</span></code><span></span></span></span>为命名的参数，将会阻止原生<span
+                style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Helvetica; font-size: 16px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;"><span
+                style="color: rgb(34, 34, 34); font-family: 'Helvetica Neue',Arial,Helvetica,sans-serif; font-size: 12px; line-height: 18px;"><code
+                style="margin: 0px; padding: 0px; border-width: 0px; vertical-align: baseline; font: 1em/1.5 Monaco,'lucida console',monospace; display: inline;"><span
+                style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: purple;">arguments</span></code><span></span></span></span>对象的创建。所以勿使用<font
+                color="#00ccff"><span
+                style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Helvetica; font-size: 16px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;"><span
+                style="color: rgb(34, 34, 34); font-family: 'Helvetica Neue',Arial,Helvetica,sans-serif; font-size: 12px; line-height: 18px;"><code
+                style="margin: 0px; padding: 0px; border-width: 0px; vertical-align: baseline; font: 1em/1.5 Monaco,'lucida console',monospace; display: inline;"><span
+                style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: purple;">arguments</span></code><span></span></span></span></font>为名称的参数。
+        </li>
+        <li>胡乱使用<span
+                style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Helvetica; font-size: 16px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;"><span
+                style="color: rgb(34, 34, 34); font-family: 'Helvetica Neue',Arial,Helvetica,sans-serif; font-size: 12px; line-height: 18px;"><code
+                style="margin: 0px; padding: 0px; border-width: 0px; vertical-align: baseline; font: 1em/1.5 Monaco,'lucida console',monospace; display: inline;"><span
+                style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: rgb(65, 105, 225);">this</span></code><span></span></span></span>标识符会引起语法错误。
+        </li>
+        <li>如果多个参数具有相同的命名，那么最后一个参数会优先于先前的，即时这个参数未定义。</li>
+    </ul>
+    <br><br><b>Named Function Expressions（函数命名表达式）</b><br><br>你可以通过函数表达式给函数命名，语法上看起来像是函数声明，实则不是。上一段代码：<br><span
+            style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Helvetica; font-size: 16px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;"><span
+            style="color: rgb(34, 34, 34); font-family: 'Helvetica Neue',Arial,Helvetica,sans-serif; font-size: 12px; line-height: 18px;"><pre
+            style="margin: 1.5em 0px; padding: 0px; border-width: 0px; vertical-align: baseline; white-space: pre; font: 1em/1.5 Monaco,'lucida console',monospace; display: block; word-wrap: break-word;">foo();&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: green;">//&nbsp;TypeError&nbsp;"foo&nbsp;is&nbsp;not&nbsp;a&nbsp;function"</span>&nbsp;<br>bar();&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: green;">//&nbsp;valid</span>&nbsp;<br>baz();&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: green;">//&nbsp;TypeError&nbsp;"baz&nbsp;is&nbsp;not&nbsp;a&nbsp;function"</span>&nbsp;<br>spam();&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: green;">//&nbsp;ReferenceError&nbsp;"spam&nbsp;is&nbsp;not&nbsp;defined"</span>&nbsp;<br>&nbsp;<br><span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: navy;">var</span>&nbsp;foo&nbsp;=&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: rgb(65, 105, 225);">function</span>&nbsp;()&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: black;">{</span><span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: black;">}</span>;&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: green;">//&nbsp;anonymous&nbsp;function&nbsp;expression&nbsp;('foo'&nbsp;gets&nbsp;hoisted)</span>&nbsp;<br><span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: rgb(65, 105, 225);">function</span>&nbsp;bar()&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: black;">{</span><span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: black;">}</span>;&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: green;">//&nbsp;function&nbsp;declaration&nbsp;('bar'&nbsp;and&nbsp;the&nbsp;function&nbsp;body&nbsp;get&nbsp;hoisted)</span>&nbsp;<br><span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: navy;">var</span>&nbsp;baz&nbsp;=&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: rgb(65, 105, 225);">function</span>&nbsp;spam()&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: black;">{</span><span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: black;">}</span>;&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: green;">//&nbsp;named&nbsp;function&nbsp;expression&nbsp;(only&nbsp;'baz'&nbsp;gets&nbsp;hoisted)</span>&nbsp;<br>&nbsp;<br>foo();&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: green;">//&nbsp;valid</span>&nbsp;<br>bar();&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: green;">//&nbsp;valid</span>&nbsp;<br>baz();&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: green;">//&nbsp;valid</span>&nbsp;<br>spam();&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: green;">//&nbsp;ReferenceError&nbsp;"spam&nbsp;is&nbsp;not&nbsp;defined"</span> <br></pre></span></span><br><b>How
+        to Code With This Knowledge（如何编码）</b><br><br>文章到此你应该已经理解什么是作用域和提升声明时机了，那么如何在实战中运用呢？切记，使用var表达式创建变量，在此强烈建议在代码块顶部使用一个var表达式来创建变量。然而，这么做的同时也导致开发者很难对当前作用域下实际被声明的变量进行跟踪。我建议开发者使用<a
+            target="_blank" rel="nofollow" href="http://www.jslint.com/">JSLint</a>来进行验证：<br><span
+            style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Helvetica; font-size: 16px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;"><span
+            style="color: rgb(34, 34, 34); font-family: 'Helvetica Neue',Arial,Helvetica,sans-serif; font-size: 12px; line-height: 18px;"><pre
+            style="margin: 1.5em 0px; padding: 0px; border-width: 0px; vertical-align: baseline; white-space: pre; font: 1em/1.5 Monaco,'lucida console',monospace; display: block; word-wrap: break-word;"><span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: gray;">/*jslint&nbsp;onevar:&nbsp;true&nbsp;[...]&nbsp;*/</span>&nbsp;<br><span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: rgb(65, 105, 225);">function</span>&nbsp;foo(a,&nbsp;b,&nbsp;c)&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: black;">{</span>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: navy;">var</span>&nbsp;x&nbsp;=&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: red;">1</span>,&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bar,&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;baz&nbsp;=&nbsp;<span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: inherit; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: teal;">"something"</span>;&nbsp;<br><span
+            style="margin: 0px; padding: 0px; border-width: 0px; font-weight: normal; font-style: inherit; font-size: 12px; font-family: inherit; vertical-align: baseline; color: black;">}</span> <br></pre></span></span><br><b>What
+        the Standard Says（看看规范上是怎么说的）</b><br><br>在<a target="_blank" rel="nofollow"
+                                                     href="http://www.mozilla.org/js/language/E262-3.pdf">ECMAScript
+        Standard </a>中的section12.2.2里写到：<br><span
+            style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Helvetica; font-size: 16px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;"><span
+            style="color: rgb(102, 102, 102); font-family: 'Helvetica Neue',Arial,Helvetica,sans-serif; font-size: 12px; font-style: italic; line-height: 18px;">If the variable statement occurs inside a FunctionDeclaration, the variables are defined with function-local scope in that function, as described in section 10.1.3. Otherwise, they are defined with global scope (that is, they are created as members of the global object, as described in section 10.1.3) using property attributes { DontDelete }. Variables are created when the execution scope is entered. A Block does not define a new execution scope. Only Program and FunctionDeclaration produce a new scope. Variables are initialised to undefined when created. A variable with an Initialiser is assigned the value of its AssignmentExpression when the VariableStatement is executed, not when the variable is created<font
+            color="#999999">.</font></span></span><font color="#999999">//对ECMAScript不甚了解，故在此不作翻译</font><br><br>——翻译结束——<br>2011-04-11
+    17:44:39<br><br>参考资料：<br><a target="_blank" rel="nofollow"
+                                href="http://sanshi.me/articles/JavaScript-Garden-CN/html/index.html#scopes">作用域与命名空间</a>
+</div>
+
+]]></content>
+	</entry>
+	
+	<entry>
 		<title>弱小版ImageLazyLoad</title>
 		<link href="http://nomospace.github.com/posts/image-lazyload.html" />
 		<updated>2011-04-01T00:00:00+08:00</updated>
@@ -2755,213 +3019,6 @@ project，我在两者基础上进行整合并尝试将watermark.js移植到Node
     图片延迟加载效果</a><br><a target="_blank" rel="nofollow"
                        href="http://www.neoease.com/lazy-load-jquery-plugin-delay-load-image/">Lazy Load, 延迟加载图片的 jQuery
     插件</a></div>
-
-
-
-]]></content>
-	</entry>
-	
-	<entry>
-		<title>IE6下的多类选择符</title>
-		<link href="http://nomospace.github.com/posts/ie6-multi-class.html" />
-		<updated>2011-03-31T00:00:00+08:00</updated>
-		<id>http://nomospace.github.com/posts/ie6-multi-class.html</id>
-		<content type="html"><![CDATA[<div class="bct fc05 fc11 nbw-blog ztag js-fs2"><br>某天发现一个小bug：在IE6下，鼠标移过顶部导航，由于标签宽度被意外撑大，直接导致下边的次导航错位：<br>
-
-    <div><img alt="2011年03月30日 - nomospace（挪墨） - Nomospace" style="margin: 0pt 10px 0pt 0pt;"
-              src="/assets/images/887209126593989188.jpg"></div>
-    <br>其他页面都正常，唯独每日专题这个页面有问题，经验告诉我应该是样式被覆盖了。<br><br>于是定位到对应样式，顶部导航模块的实现：<br>
-
-    <div><img alt="2011年03月30日 - nomospace（挪墨） - Nomospace" style="margin: 0pt 10px 0pt 0pt;"
-              src="/assets/images/624874448298966043.jpg"></div>
-    &nbsp;<br>专题页面的实现：<br>
-
-    <div><img alt="2011年03月30日 - nomospace（挪墨） - Nomospace" style="margin: 0pt 10px 0pt 0pt;"
-              src="/assets/images/2590977160622779315.jpg"></div>
-    &nbsp;<br>.此处的.js-hover是专为IE6而写的，通过js使a支持非a标签的hover，具体代码实现不是本文的重点故不赘述。<br><br>为简化模拟bug触发环境，在此我写了一个多类选择符测试页面：<br><span
-            style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Helvetica; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;"><span
-            style="font-family: Monaco,'DejaVu Sans Mono','Bitstream Vera Sans Mono',Consolas,'Courier New',monospace; font-size: 12px; line-height: 18px; text-align: left;"><ol
-            start="1"
-            style="font-size: 1em; line-height: 1.4em; margin: 0px 0px 1px; padding: 2px 0px; border: 1px solid rgb(209, 215, 220); list-style-type: decimal; background-color: rgb(255, 255, 255); color: rgb(43, 145, 175);">
-        <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-            <span style="color: black;"><span style="color: black;">&lt;!DOCTYPE&nbsp;HTML</span><span
-                    style="color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span style="color: black;">&nbsp;&nbsp;</span></span>
-        </li>
-        <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-            <span style="color: black;"><span style="color: rgb(0, 102, 153); font-weight: bold;">&lt;</span><span
-                    style="color: rgb(0, 102, 153); font-weight: bold;">html</span><span
-                    style="color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span style="color: black;">&nbsp;&nbsp;</span></span>
-        </li>
-        <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-            <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;<span
-                    style="color: rgb(0, 102, 153); font-weight: bold;">&lt;</span><span
-                    style="color: rgb(0, 102, 153); font-weight: bold;">head</span><span
-                    style="color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span style="color: black;">&nbsp;&nbsp;</span></span>
-        </li>
-        <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-            <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
-                    style="color: rgb(0, 102, 153); font-weight: bold;">&lt;</span><span
-                    style="color: rgb(0, 102, 153); font-weight: bold;">title</span><span
-                    style="color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span
-                    style="color: black;">多类选择符测试</span><span
-                    style="color: rgb(0, 102, 153); font-weight: bold;">&lt;/</span><span
-                    style="color: rgb(0, 102, 153); font-weight: bold;">title</span><span
-                    style="color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span style="color: black;">&nbsp;&nbsp;</span></span>
-        </li>
-        <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-            <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
-                    style="color: rgb(0, 102, 153); font-weight: bold;">&lt;</span><span
-                    style="color: rgb(0, 102, 153); font-weight: bold;">style</span><span
-                    style="color: black;">&nbsp;</span><span style="color: red;">type</span><span style="color: black;">=</span><span
-                    style="color: blue;">"text/css"</span><span
-                    style="color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span style="color: black;">&nbsp;&nbsp;</span></span>
-        </li>
-        <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-            <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;body&nbsp;.link{display:block;width:100px;height:100px;background-color:black;}&nbsp;&nbsp;</span>
-        </li>
-        <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-            <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;body&nbsp;.content.link:hover{background-color:blue;}&nbsp;&nbsp;</span>
-        </li>
-        <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-            <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;body&nbsp;.link:hover{background-color:red;}&nbsp;&nbsp;</span>
-        </li>
-        <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-            <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
-                    style="color: rgb(0, 102, 153); font-weight: bold;">&lt;/</span><span
-                    style="color: rgb(0, 102, 153); font-weight: bold;">style</span><span
-                    style="color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span style="color: black;">&nbsp;&nbsp;</span></span>
-        </li>
-        <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-            <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;<span
-                    style="color: rgb(0, 102, 153); font-weight: bold;">&lt;/</span><span
-                    style="color: rgb(0, 102, 153); font-weight: bold;">head</span><span
-                    style="color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span style="color: black;">&nbsp;&nbsp;</span></span>
-        </li>
-        <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-            <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;<span
-                    style="color: rgb(0, 102, 153); font-weight: bold;">&lt;</span><span
-                    style="color: rgb(0, 102, 153); font-weight: bold;">body</span><span
-                    style="color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span style="color: black;">&nbsp;&nbsp;</span></span>
-        </li>
-        <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-            <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
-                    style="color: rgb(0, 102, 153); font-weight: bold;">&lt;</span><span
-                    style="color: rgb(0, 102, 153); font-weight: bold;">div</span><span
-                    style="color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span
-                    style="color: rgb(0, 102, 153); font-weight: bold;">&lt;</span><span
-                    style="color: rgb(0, 102, 153); font-weight: bold;">a</span><span
-                    style="color: black;">&nbsp;</span><span style="color: red;">href</span><span style="color: black;">=</span><span
-                    style="color: blue;">"#"</span><span style="color: black;">&nbsp;</span><span style="color: red;">class</span><span
-                    style="color: black;">=</span><span style="color: blue;">"content&nbsp;link"</span><span
-                    style="color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span
-                    style="color: rgb(0, 102, 153); font-weight: bold;">&lt;/</span><span
-                    style="color: rgb(0, 102, 153); font-weight: bold;">a</span><span
-                    style="color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span
-                    style="color: rgb(0, 102, 153); font-weight: bold;">&lt;/</span><span
-                    style="color: rgb(0, 102, 153); font-weight: bold;">div</span><span
-                    style="color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span style="color: black;">&nbsp;&nbsp;</span></span>
-        </li>
-        <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-            <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;<span
-                    style="color: rgb(0, 102, 153); font-weight: bold;">&lt;/</span><span
-                    style="color: rgb(0, 102, 153); font-weight: bold;">body</span><span
-                    style="color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span style="color: black;">&nbsp;&nbsp;</span></span>
-        </li>
-        <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-            <span style="color: black;"><span style="color: rgb(0, 102, 153); font-weight: bold;">&lt;/</span><span
-                    style="color: rgb(0, 102, 153); font-weight: bold;">html</span><span
-                    style="color: rgb(0, 102, 153); font-weight: bold;">&gt;</span><span
-                    style="color: black;">&nbsp; <br></span></span></li>
-    </ol></span></span><br>在IE6下，鼠标移过a元素后背景色为red，而在其他浏览器中则为blue。这是为什么呢？<br><br>先看一下官方是怎么说的：<br><span
-            style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Helvetica; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;"><span
-            style="font-family: sans-serif;"><p style="background-color: rgb(255, 255, 204);">A selector's specificity
-        is calculated as follows:</p><ul style="background-color: rgb(255, 255, 204);">
-        <li>count 1 if the declaration is from is a 'style' attribute rather than a rule with a selector, 0 otherwise (=
-            a) (In HTML, values of an element's "style" attribute are style sheet rules. These rules have no selectors,
-            so a=1, b=0, c=0, and d=0.)
-        </li>
-        <li>count the number of ID attributes in the selector (= b)</li>
-        <li>count the number of other attributes and pseudo-classes in the selector (= c)</li>
-        <li>count the number of element names and pseudo-elements in the selector (= d)</li>
-    </ul><p style="background-color: rgb(255, 255, 204);">The specificity is based only on the form of the selector. In
-        particular, a selector of the form "[id=p33]" is counted as an attribute selector (a=0, b=0, c=1, d=0), even if
-        the id attribute is defined as an "ID" in the source document's DTD.</p><p
-            style="background-color: rgb(255, 255, 204);">Concatenating the four numbers a-b-c-d (in a number system
-        with a large base) gives the specificity.</p><div style="color: maroon; background-color: rgb(255, 255, 204);">
-        <p>Some examples:</p>
-        <pre style="font-family: monospace; margin-left: 2em; font-size: 11px;"> *             {}  /* a=0 b=0 c=0 d=0 -&gt; specificity = 0,0,0,0 */<br> li            {}  /* a=0 b=0 c=0 d=1 -&gt; specificity = 0,0,0,1 */<br> li:first-line {}  /* a=0 b=0 c=0 d=2 -&gt; specificity = 0,0,0,2 */<br> ul li         {}  /* a=0 b=0 c=0 d=2 -&gt; specificity = 0,0,0,2 */<br> ul ol+li      {}  /* a=0 b=0 c=0 d=3 -&gt; specificity = 0,0,0,3 */<br> h1 + *[rel=up]{}  /* a=0 b=0 c=1 d=1 -&gt; specificity = 0,0,1,1 */<br> ul ol li.red  {}  /* a=0 b=0 c=1 d=3 -&gt; specificity = 0,0,1,3 */<br> li.red.level  {}  /* a=0 b=0 c=2 d=1 -&gt; specificity = 0,0,2,1 */<br> #x34y         {}  /* a=0 b=1 c=0 d=0 -&gt; specificity = 0,1,0,0 */<br> style=""          /* a=1 b=0 c=0 d=0 -&gt; specificity = 1,0,0,0 */<br></pre>
-    </div><div style="color: maroon;">
-        <pre style="font-family: monospace; margin-left: 2em; font-size: 11px; background-color: rgb(255, 255, 204);">&lt;HEAD&gt;<br>&lt;STYLE type="text/css"&gt;<br>  #x97z { color: red }<br>&lt;/STYLE&gt;<br>&lt;/HEAD&gt;<br>&lt;BODY&gt;<br>&lt;P ID=x97z style="color: green"&gt;<br>&lt;/BODY&gt;<br></pre>
-        <p style="background-color: rgb(255, 255, 204);">In the above example, the color of the P element would be
-            green. The declaration in the "style" attribute will override the one in the STYLE element because of
-            cascading rule 3, since it has a higher specificity.</p>
-
-        <p><font color="#000000">来源出自</font><a target="_blank" rel="nofollow"
-                                               href="http://www.w3.org/TR/CSS21/cascade.html#specificity">http://www.w3.org/TR/CSS21/cascade.html#specificity</a>
-        </p>
-
-        <p><span
-                style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Helvetica; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;"><span
-                style="font-family: sans-serif;">上文大致是说，css选择符有个权重，比如0,0,0,0。style标签的内联样式a=1，ID选择符b=1，class选择符c=1，标签选择符d=1等等，具体可以参考此文</span></span><span
-                style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Helvetica; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;"><span
-                style="font-family: sans-serif;"></span></span><a target="_blank" rel="nofollow"
-                                                                  href="http://www.smashingmagazine.com/2007/07/27/css-specificity-things-you-should-know/">CSS
-            Specificity: Things You Should Know</a><a target="_blank" rel="nofollow"
-                                                      href="http://www.obird.net/web-standards/%E5%A6%82%E4%BD%95%E7%90%86%E8%A7%A3css-specificity/">(如何理解Css
-            Specificity)</a></p>
-
-        <p><font color="#000000">再来看看之前的测试页面，a元素的specificity</font><span style="color: black;"><br></span></p>
-        <blockquote>
-            <ol>
-                <li><span style="color: black;">body&nbsp;.link{display:block;width:100px;height:100px;background-color:black;}&nbsp; </span><span
-                        style="color: black;">--&gt;0,0,1,0<br></span></li>
-                <li><span style="color: black;">body&nbsp;.content.link:hover{background-color:blue;}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --&gt;</span><span
-                        style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Helvetica; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;"><span
-                        style="font-family: sans-serif;"><span style="color: black;">0,0,2,2</span></span></span></li>
-                <li><span style="color: black;">body&nbsp;.link:hover{background-color:red;}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
-                        style="color: black;">--&gt;</span><span
-                        style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Helvetica; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;"><span
-                        style="font-family: sans-serif;"><span style="color: black;">0,0,1,2</span></span></span><span
-                        style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Helvetica; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;"><span
-                        style="font-family: sans-serif;"></span></span></li>
-            </ol>
-        </blockquote>
-        <p><span
-                style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Helvetica; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;"><span
-                style="font-family: sans-serif;"> </span></span></p>
-
-        <p><span
-                style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Helvetica; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;"><span
-                style="font-family: sans-serif;"><font
-                color="#000000">照理说，第二条的权重最大，为什么IE6仍旧显示第三条的样式呢。其实IE6不支持.a.b的css写法</font>（未找到出处），后一个类名会覆盖前一个类名，也就是说，.a.b在IE6上实际会被解析成.b，于是，第二条样式在IE6下实际为body .link:hover，与第三条一致了。后者覆盖前者，于是bug就出现了。</span></span>
-        </p>
-
-        <p><br><span
-                style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Helvetica; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;"><span
-                style="font-family: sans-serif;"></span></span></p>
-
-        <p><span
-                style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Helvetica; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;"><span
-                style="font-family: sans-serif;">参考资料：</span></span></p>
-
-        <p><a target="_blank" rel="nofollow"
-              href="http://www.smashingmagazine.com/2007/07/27/css-specificity-things-you-should-know/">CSS Specificity:
-            Things You Should Know</a></p>
-
-        <p><a target="_blank" rel="nofollow"
-              href="http://www.obird.net/web-standards/%E5%A6%82%E4%BD%95%E7%90%86%E8%A7%A3css-specificity/">如何理解Css
-            Specificity</a></p>
-
-        <p><a target="_blank" rel="nofollow" href="http://www.cssass.com/blog/index.php/2009/73.html">CSS多类选择符测试</a></p>
-
-        <p><a target="_blank" rel="nofollow" href="http://www.cssass.com/blog/index.php/2009/73.html"><span
-                style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Helvetica; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;"><span
-                style="font-family: sans-serif;"></span></span></a><a rel="nofollow"
-                                                                      href="http://www.w3.org/TR/CSS21/cascade.html#specificity"><span
-                style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Helvetica; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;"><span
-                style="font-family: sans-serif;"></span></span></a><a target="_blank" rel="nofollow"
-                                                                      href="http://www.w3.org/TR/CSS21/cascade.html#specificity">http://www.w3.org/TR/CSS21/cascade.html#specificity</a>
-        </p></div></span></span></div>
 
 
 
