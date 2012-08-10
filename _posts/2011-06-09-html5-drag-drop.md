@@ -1,6 +1,6 @@
 ---
 layout: post
-title: html5文件拖放的一个简单实例
+title: html5 文件拖放的一个简单实例
 category: html5
 ---
 <div class="bct fc05 fc11 nbw-blog ztag js-fs2"><br>人人网最近推出了一个快捷上传相片功能：<br>

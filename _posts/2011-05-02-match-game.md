@@ -1,6 +1,6 @@
 ---
 layout: post
-title: My Simple&Stupid Match Game v0.2
+title: My Simple & Stupid Match Game v0.2
 category: javascript
 ---
 前阵子尝试用javascript实现一个简易版连连看，截至目前[demo](/lab/2011/match-game/index.html)的功能仍旧十分单一，改进余地还很大。考虑到程序实现上各方面的不足以及日常工作琐事等原因，后续重构工作也迟迟未能进行，致使本文一拖再拖，在此先阶段性的记录一笔。

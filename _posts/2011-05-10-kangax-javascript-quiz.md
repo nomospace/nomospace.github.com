@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 浅析kangax提出的Javascript quiz
+title: 浅析 kangax 提出的 Javascript quiz
 category: javascript
 ---
 <div class="bct fc05 fc11 nbw-blog ztag js-fs2">

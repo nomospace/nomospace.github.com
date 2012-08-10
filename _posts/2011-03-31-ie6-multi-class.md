@@ -1,6 +1,6 @@
 ---
 layout: post
-title: IE6下的多类选择符
+title: IE6 下的多类选择符
 category: frontend
 ---
 <div class="bct fc05 fc11 nbw-blog ztag js-fs2"><br>某天发现一个小bug：在IE6下，鼠标移过顶部导航，由于标签宽度被意外撑大，直接导致下边的次导航错位：<br>

@@ -3,12 +3,333 @@
 	<title>挪墨的空间</title>
 	<link href="http://nomospace.github.com/atom.xml" rel="self" />
 	<link href="http://nomospace.github.com/" />
-	<updated>2012-08-10T16:12:38+08:00</updated>
+	<updated>2012-08-10T16:40:30+08:00</updated>
 	<id>http://nomospace.github.com/</id>
 	<author>
 		<name>nomospace</name>
 		<email>jinlu_hz@163.com</email>
 	</author>
+	
+	<entry>
+		<title>r.js 配置文件 example.build.js 不完整注释</title>
+		<link href="http://nomospace.github.com/posts/r.js-example.build.js.html" />
+		<updated>2011-08-10T00:00:00+08:00</updated>
+		<id>http://nomospace.github.com/posts/r.js-example.build.js.html</id>
+		<content type="html"><![CDATA[<p>结合最近打包实践，对这个 <a href="https://github.com/nomospace/r.js">r.js</a> 下的 build 配置文件作了些补充说明：</p>
+
+<pre><code>/*
+ * This is an example build file that demonstrates how to use the build system for
+ * require.js.
+ *
+ * THIS BUILD FILE WILL NOT WORK. It is referencing paths that probably
+ * do not exist on your machine. Just use it as a guide.
+ *
+ *
+ */
+
+({
+    // app顶级目录，非必选项。如果指定值，baseUrl则会以此为相对路径
+    appDir: "some/path/",
+
+    // 模块根目录。默认情况下所有模块资源都相对此目录。
+    // 若该值未指定，模块则相对build文件所在目录。
+    // 若appDir值已指定，模块根目录baseUrl则相对appDir。
+    baseUrl: "./",
+
+    // 配置文件目录
+    mainConfigFile: '../some/path/to/main.js',
+
+    // 设置模块别名
+    // RequireJS 2.0 中可以配置数组，顺序映射，当前面模块资源未成功加载时可顺序加载后续资源
+    paths: {
+        "foo.bar": "../scripts/foo/bar",
+        "baz": "../another/path/baz"
+    },
+
+    // 配置 CommonJS 的 package See http://requirejs.org/docs/api.html#packages for more information.
+    packagePaths: [],
+    packages: [],
+
+    // 指定输出目录，若值未指定，则相对 build 文件所在目录
+    dir: "../some/path",
+
+    // 在 RequireJS 2.0.2 中，输出目录的所有资源会在 build 前被删除
+    // 值为 true 时 rebuild 更快，但某些特殊情景下可能会出现无法预料的异常
+    keepBuildDir: true,
+
+    // 国际化配置
+    locale: "en-us",
+
+    // JS 文件优化方式，目前支持以下几种：
+    //   uglify: （默认） 使用 UglifyJS 来压缩代码
+    //   closure: 使用 Google's Closure Compiler 的简单优化模式
+    //   closure.keepLines: 使用 closure，但保持换行
+    //   none: 不压缩代码
+    optimize: "uglify",
+
+    // 使用 UglifyJS 时的可配置参数
+    // See https://github.com/mishoo/UglifyJS for the possible values.
+    uglify: {
+        toplevel: true,
+        ascii_only: true,
+        beautify: true,
+        max_line_length: 1000
+    },
+
+    // 使用 Closure Compiler 时的可配置参数
+    closure: {
+        CompilerOptions: {},
+        CompilationLevel: 'SIMPLE_OPTIMIZATIONS',
+        loggingLevel: 'WARNING'
+    },
+
+    // CSS 优化方式，目前支持以下几种：
+    // none: 不压缩，仅合并
+    // standard: 标准压缩，移除注释、换行，以及可能导致 IE 解析出错的代码
+    // standard.keepLines: 除标准压缩外，保留换行
+    // standard.keepComments: 除标准压缩外，保留注释 (r.js 1.0.8+)
+    // standard.keepComments.keepLines: 除标准压缩外，保留注释和换行 (r.js 1.0.8+)
+    optimizeCss: "standard.keepLines",
+
+    // 是否忽略 CSS 资源文件中的 @import 指令
+    cssImportIgnore: null,
+
+    // 一般用于命令行，可将多个 CSS 资源文件打包成单个 CSS 文件
+    cssIn: "path/to/main.css",
+    out: "path/to/css-optimized.css",
+
+    // 处理所有的文本资源依赖项，从而避免为加载资源而产生的大量单独xhr请求
+    inlineText: true,
+
+    // 是否开启严格模式
+    // 由于很多浏览器不支持 ES5 的严格模式，故此配置默认值为 false
+    useStrict: false,
+
+    //Specify build pragmas. If the source files contain comments like so:
+    //&gt;&gt;excludeStart("fooExclude", pragmas.fooExclude);
+    //&gt;&gt;excludeEnd("fooExclude");
+    //Then the comments that start with //&gt;&gt; are the build pragmas.
+    //excludeStart/excludeEnd and includeStart/includeEnd work, and the
+    //the pragmas value to the includeStart or excludeStart lines
+    //is evaluated to see if the code between the Start and End pragma
+    //lines should be included or excluded. If you have a choice to use
+    //"has" code or pragmas, use "has" code instead. Pragmas are harder
+    //to read, but they can be a bit more flexible on code removal vs.
+    //has-based code, which must follow JavaScript language rules.
+    //Pragmas also remove code in non-minified source, where has branch
+    //trimming is only done if the code is minified via UglifyJS or
+    //Closure Compiler.
+    pragmas: {
+        fooExclude: true
+    },
+
+    //Same as "pragmas", but only applied once during the file save phase
+    //of an optimization. "pragmas" are applied both during the dependency
+    //mapping and file saving phases on an optimization. Some pragmas
+    //should not be processed during the dependency mapping phase of an
+    //operation, such as the pragma in the CoffeeScript loader plugin,
+    //which wants the CoffeeScript compiler during the dependency mapping
+    //phase, but once files are saved as plain JavaScript, the CoffeeScript
+    //compiler is no longer needed. In that case, pragmasOnSave would be used
+    //to exclude the compiler code during the save phase.
+    pragmasOnSave: {
+        //Just an example
+        excludeCoffeeScript: true
+    },
+
+    //Allows trimming of code branches that use has.js-based feature detection:
+    //https://github.com/phiggins42/has.js
+    //The code branch trimming only happens if minification with UglifyJS or
+    //Closure Compiler is done. For more information, see:
+    //http://requirejs.org/docs/optimization.html#hasjs
+    has: {
+        'function-bind': true,
+        'string-trim': false
+    },
+
+    //Similar to pragmasOnSave, but for has tests -- only applied during the
+    //file save phase of optimization, where "has" is applied to both
+    //dependency mapping and file save phases.
+    hasOnSave: {
+        'function-bind': true,
+        'string-trim': false
+    },
+
+    // 命名空间，完整实例可以参考 http://requirejs.org/docs/faq-advanced.html#rename
+    namespace: 'foo',
+
+    // 跳过 pragmas 处理
+    skipPragmas: false,
+
+    //If skipModuleInsertion is false, then files that do not use define()
+    //to define modules will get a define() placeholder inserted for them.
+    //Also, require.pause/resume calls will be inserted.
+    //Set it to true to avoid this. This is useful if you are building code that
+    //does not use require() in the built project or in the JS files, but you
+    //still want to use the optimization tool from RequireJS to concatenate modules
+    //together.
+    skipModuleInsertion: false,
+
+    //Specify modules to stub out in the optimized file. The optimizer will
+    //use the source version of these modules for dependency tracing and for
+    //plugin use, but when writing the text into an optimized layer, these
+    //modules will get the following text instead:
+    //If the module is used as a plugin:
+    //    define({load: function(id){throw new Error("Dynamic load not allowed: " + id);}});
+    //If just a plain module:
+    //    define({});
+    //This is useful particularly for plugins that inline all their resources
+    //and use the default module resolution behavior (do *not* implement the
+    //normalize() method). In those cases, an AMD loader just needs to know
+    //that the module has a definition. These small stubs can be used instead of
+    //including the full source for a plugin.
+    stubModules: ['text', 'bar'],
+
+    //If it is not a one file optimization, scan through all .js files in the
+    //output directory for any plugin resource dependencies, and if the plugin
+    //supports optimizing them as separate files, optimize them. Can be a
+    //slower optimization. Only use if there are some plugins that use things
+    //like XMLHttpRequest that do not work across domains, but the built code
+    //will be placed on another domain.
+    optimizeAllPluginResources: false,
+
+    // 处理级联依赖，默认为 false，此时能够在运行时动态 require 级联的模块。为 true 时，级联模块会被一同打包
+    findNestedDependencies: false,
+
+    //If set to true, any files that were combined into a build layer will be
+    //removed from the output folder.
+    removeCombined: false,
+
+    modules: [
+        {
+            // 模块 alias 名称
+            name: "foo/bar/bop",
+
+            //For build profiles that contain more than one modules entry,
+            //allow overrides for the properties that set for the whole build,
+            //for example a different set of pragmas for this module.
+            //The override's value is an object that can
+            //contain any of the other build options in this file.
+            //
+            override: {
+                pragmas: {
+                    fooExclude: true
+                }
+            }
+        },
+
+        // 将 alias 别名为 foo/bar/bop 和 foo/bar/bee 的模块打包成一个文件
+        {
+            name: "foo/bar/bop",
+            include: ["foo/bar/bee"]
+        },
+
+        // 将 foo/bar/bip 及其依赖项一并打包，但不包括 foo/bar/bop
+        {
+            name: "foo/bar/bip",
+            exclude: [
+                "foo/bar/bop"
+            ]
+        },
+
+        // 排除指定模块，但若该模块对所打包文件有级联依赖关系，则仍会被打包进去
+        {
+            name: "foo/bar/bin",
+            excludeShallow: [
+                "foo/bar/bot"
+            ]
+        },
+
+        // insertRequire 在 RequireJS 2.0 中被引入，在 built 文件的末尾插入 require([]) 以触发模块加载并运行
+        // insertRequire: ["foo/baz"] 即 require(["foo/baz"])
+        // 详情见 https://github.com/jrburke/almond
+        {
+            name: "foo/baz",
+            insertRequire: ["foo/baz"]
+        }
+    ],
+
+    // 仅优化单个模块及其依赖项
+    name: "foo/bar/bop",
+    include: ["foo/bar/bee"],
+    insertRequire: ['foo/bar/bop'],
+    out: "path/to/optimized-file.js",
+
+    // An alternative to "include"
+    deps: ["foo/bar/bee"],
+
+    // RequireJS 2.0 中，out 可以是一个函数
+    out: function (text) {
+        // 自定义优化内容
+    },
+
+    // 模块包裹函数，顾名思义使用特定内容包裹模块，如此一来 define/require 就不再是全局变量，在 end 中可以暴露一些全局变量供整个函数使用
+    wrap: {
+        start: "(function() {",
+        end: "}());"
+    },
+
+    // 另一种模块包裹方式
+    // (function() { + content + }());
+    wrap: true,
+
+    // 另一种模块包裹方式，包裹内容可以是指定文件
+    wrap: {
+        startFile: "part/start.frag",
+        endFile: "parts/end.frag"
+    },
+
+    // 不优化某些文件
+    fileExclusionRegExp: /^\./,
+
+    // 默认保留模块的 license 注释
+    preserveLicenseComments: true,
+
+    // 设置 logging level
+    // TRACE: 0,
+    // INFO: 1,
+    // WARN: 2,
+    // ERROR: 3,
+    // SILENT: 4
+    // Default is 0.
+    logLevel: 0,
+
+    // 在每个文件模块被读取时的操作函数，可在函数体内作适当变换
+    onBuildRead: function (moduleName, path, contents) {
+        return contents.replace(/foo/g, 'bar');
+    },
+
+    // 在每个文件模块被写入时的操作函数
+    onBuildWrite: function (moduleName, path, contents) {
+        return contents.replace(/bar/g, 'foo');
+    },
+
+    // 若为true，优化器会强制在文件中包裹一层 define(require, exports, module) {})
+    cjsTranslate: true,
+
+    //Introduced in 2.0.2: a bit experimental.
+    //Each script in the build layer will be turned into
+    //a JavaScript string with a //@ sourceURL comment, and then wrapped in an
+    //eval call. This allows some browsers to see each evaled script as a
+    //separate script in the script debugger even though they are all combined
+    //in the same file. Some important limitations:
+    //1) Do not use in IE if conditional comments are turned on, it will cause
+    //errors:
+    //http://en.wikipedia.org/wiki/Conditional_comment#Conditional_comments_in_JScript
+    //2) It is only useful in optimize: 'none' scenarios. The goal is to allow
+    //easier built layer debugging, which goes against minification desires.
+    useSourceUrl: true
+})
+</code></pre>
+
+<p>配置文件地址见 <a href="https://github.com/nomospace/r.js/blob/master/build/example.build.js">example.build.js</a>，不断完善中。</p>
+
+<h4>参考资料</h4>
+
+<p><a href="http://www.iteye.com/topic/480020">使用r.js压缩整个项目的JavaScript文件</a>
+<a href="http://requirejs.org/docs/optimization.html">RequireJS Optimizer</a></p>
+]]></content>
+	</entry>
 	
 	<entry>
 		<title>Watermark.js for NodeJS</title>
@@ -239,7 +560,7 @@ project，我在两者基础上进行整合并尝试将watermark.js移植到Node
 	</entry>
 	
 	<entry>
-		<title>关注CSS Lint</title>
+		<title>关注 CSS Lint</title>
 		<link href="http://nomospace.github.com/posts/css-lint.html" />
 		<updated>2011-06-16T00:00:00+08:00</updated>
 		<id>http://nomospace.github.com/posts/css-lint.html</id>
@@ -1227,7 +1548,7 @@ project，我在两者基础上进行整合并尝试将watermark.js移植到Node
 	</entry>
 	
 	<entry>
-		<title>node.js下的短网址还原</title>
+		<title>node.js 下的短网址还原</title>
 		<link href="http://nomospace.github.com/posts/url-unshorten-for-node.html" />
 		<updated>2011-06-10T00:00:00+08:00</updated>
 		<id>http://nomospace.github.com/posts/url-unshorten-for-node.html</id>
@@ -1439,7 +1760,7 @@ project，我在两者基础上进行整合并尝试将watermark.js移植到Node
 	</entry>
 	
 	<entry>
-		<title>html5文件拖放的一个简单实例</title>
+		<title>html5 文件拖放的一个简单实例</title>
 		<link href="http://nomospace.github.com/posts/html5-drag-drop.html" />
 		<updated>2011-06-09T00:00:00+08:00</updated>
 		<id>http://nomospace.github.com/posts/html5-drag-drop.html</id>
@@ -1481,7 +1802,7 @@ project，我在两者基础上进行整合并尝试将watermark.js移植到Node
 	</entry>
 	
 	<entry>
-		<title>也说说yupoo的页面</title>
+		<title>也说说 yupoo 的页面</title>
 		<link href="http://nomospace.github.com/posts/yupoo-wpo.html" />
 		<updated>2011-06-06T00:00:00+08:00</updated>
 		<id>http://nomospace.github.com/posts/yupoo-wpo.html</id>
@@ -1727,7 +2048,7 @@ project，我在两者基础上进行整合并尝试将watermark.js移植到Node
 	</entry>
 	
 	<entry>
-		<title>浅析kangax提出的Javascript quiz</title>
+		<title>浅析 kangax 提出的 Javascript quiz</title>
 		<link href="http://nomospace.github.com/posts/kangax-javascript-quiz.html" />
 		<updated>2011-05-10T00:00:00+08:00</updated>
 		<id>http://nomospace.github.com/posts/kangax-javascript-quiz.html</id>
@@ -2291,7 +2612,7 @@ project，我在两者基础上进行整合并尝试将watermark.js移植到Node
 	</entry>
 	
 	<entry>
-		<title>My Simple&amp;Stupid Match Game v0.2</title>
+		<title>My Simple &amp; Stupid Match Game v0.2</title>
 		<link href="http://nomospace.github.com/posts/match-game.html" />
 		<updated>2011-05-02T00:00:00+08:00</updated>
 		<id>http://nomospace.github.com/posts/match-game.html</id>
@@ -2322,7 +2643,7 @@ project，我在两者基础上进行整合并尝试将watermark.js移植到Node
 	</entry>
 	
 	<entry>
-		<title>JavaScript中的作用域与变量声明提升 [翻译]</title>
+		<title>JavaScript 中的作用域与变量声明提升 [翻译]</title>
 		<link href="http://nomospace.github.com/posts/javaScript-scoping-and-hoisting.html" />
 		<updated>2011-04-11T00:00:00+08:00</updated>
 		<id>http://nomospace.github.com/posts/javaScript-scoping-and-hoisting.html</id>
@@ -2581,446 +2902,6 @@ project，我在两者基础上进行整合并尝试将watermark.js移植到Node
     17:44:39<br><br>参考资料：<br><a target="_blank" rel="nofollow"
                                 href="http://sanshi.me/articles/JavaScript-Garden-CN/html/index.html#scopes">作用域与命名空间</a>
 </div>
-
-]]></content>
-	</entry>
-	
-	<entry>
-		<title>弱小版ImageLazyLoad</title>
-		<link href="http://nomospace.github.com/posts/image-lazyload.html" />
-		<updated>2011-04-01T00:00:00+08:00</updated>
-		<id>http://nomospace.github.com/posts/image-lazyload.html</id>
-		<content type="html"><![CDATA[<div class="bct fc05 fc11 nbw-blog ztag js-fs2">
-    延迟加载无非就是在需要时才加载资源，节省系统开销与网络带宽，目的是加快浏览速度。实现思路是将image的实际src值保存到一个自定义属性中，然后通过监听scroll事件判断image元素是否在当前可视区域内，如果是则将这个值设为src。在参考一些代码实现后，尝试实现了一个弱小版的图片延迟加载。所谓弱小版就是说扩展性一般、兼容性一般、代码复杂程度一般，只保证基本功能的代码实现，<a
-        target="_blank" rel="nofollow"
-        href="https://github.com/nomospace/nomospace.github.com/tree/master/lab/2011/imageLazyLoad/lazyLoad.js">查看完整实现</a>。这套代码目前运用在<a
-        target="_blank" href="http://photo.163.com/?from=nav">相册</a>的评论模块中，只支持垂直方向的延迟加载。<br><br><b>如何调用模块？</b><br><span
-        style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Monaco; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;"><span
-        style="font-family: Monaco,'DejaVu Sans Mono','Bitstream Vera Sans Mono',Consolas,'Courier New',monospace; font-size: 12px; line-height: 18px; text-align: left;"><ol
-        start="1"
-        style="font-size: 1em; line-height: 1.4em; margin: 0px 0px 1px; padding: 2px 0px; border: 1px solid rgb(209, 215, 220); list-style-type: decimal; background-color: rgb(255, 255, 255); color: rgb(43, 145, 175);">
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;"><span style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span
-                style="color: black;">.__lazyModule&nbsp;=&nbsp;np.w._$$ImageLazyLoad._$getInstance({&nbsp;&nbsp;</span></span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;delay:&nbsp;200,&nbsp;&nbsp;</span></li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;threshold:&nbsp;200,&nbsp;&nbsp;</span></li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;container:&nbsp;<span
-                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__pnode,&nbsp;&nbsp;</span></span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;attribute:&nbsp;<span style="color: blue;">'data-lazyload-src'</span><span
-                style="color: black;">&nbsp;&nbsp;</span></span></li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">});&nbsp; <br></span></li>
-</ol></span></span><br><b>可以传入哪些参数？</b><br> <span
-        style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Monaco; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;"><span
-        style="font-family: Monaco,'DejaVu Sans Mono','Bitstream Vera Sans Mono',Consolas,'Courier New',monospace; font-size: 12px; line-height: 18px; text-align: left;"><ol
-        start="1"
-        style="font-size: 1em; line-height: 1.4em; margin: 0px 0px 1px; padding: 2px 0px; border: 1px solid rgb(209, 215, 220); list-style-type: decimal; background-color: rgb(255, 255, 255); color: rgb(43, 145, 175);">
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 130, 0);">/**</span>&nbsp;</span></li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;图片资源延迟加载对象类（目前只支持垂直方向）</span>&nbsp;</span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@constructor</span>&nbsp;</span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@class&nbsp;&nbsp;&nbsp;图片资源延迟加载对象类</span>&nbsp;</span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@extends&nbsp;P(N.ut)._$$Singleton</span>&nbsp;</span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@param&nbsp;&nbsp;&nbsp;{Object}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_options&nbsp;可选配置参数，已处理的参数如下：</span>&nbsp;</span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;delay&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Number]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;滚动延时时间，默认为0</span>&nbsp;</span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;threshold&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Number]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;加载范围阈值，默认为0</span>&nbsp;</span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;failurelimit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Number]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;图片未找到时的重试次数，默认为0</span>&nbsp;</span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;container&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[HTML|Element]&nbsp;&nbsp;-&nbsp;图片所在的容器，默认为window对象</span>&nbsp;</span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;images&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Array]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;图片队列，默认为容器内所有的image对象</span>&nbsp;</span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;attribute&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[String]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;图片资源地址的自定义属性，默认为data-lazyload-src</span>&nbsp;</span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;onbeforedataload&nbsp;[Function]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;图片加载前的回调函数，默认为F</span>&nbsp;</span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;onafterdataload&nbsp;&nbsp;[Function]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;图片加载后的回调函数，默认为F</span> <br> </span>
-    </li>
-</ol></span></span><br><b>绑定哪些事件？</b><br><span
-        style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Monaco; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;"><span
-        style="font-family: Monaco,'DejaVu Sans Mono','Bitstream Vera Sans Mono',Consolas,'Courier New',monospace; font-size: 12px; line-height: 18px; text-align: left;"><ol
-        start="1"
-        style="font-size: 1em; line-height: 1.4em; margin: 0px 0px 1px; padding: 2px 0px; border: 1px solid rgb(209, 215, 220); list-style-type: decimal; background-color: rgb(255, 255, 255); color: rgb(43, 145, 175);">
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 130, 0);">/**</span>&nbsp;</span></li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;"><span
-                style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;初始化相关事件函数</span>&nbsp;</span></li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@return&nbsp;{Void}</span>&nbsp;</span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><span
-                style="color: black;">&nbsp;&nbsp;</span></span></li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;__pro.__bindEvent&nbsp;=&nbsp;<span
-                style="color: rgb(127, 0, 85); font-weight: bold;">function</span><span style="color: black;">(){&nbsp;&nbsp;</span></span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
-                style="color: rgb(127, 0, 85); font-weight: bold;">var</span><span style="color: black;">&nbsp;_function&nbsp;=&nbsp;</span><span
-                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__beginLoad._$bind(</span><span
-                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span
-                style="color: black;">);&nbsp;&nbsp;</span></span></li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
-                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span
-                style="color: black;">._$addEvent(</span><span style="color: blue;">'appear'</span><span
-                style="color: black;">,&nbsp;_function);&nbsp;&nbsp;</span></span></li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;V._$addEvent(window,&nbsp;<span
-                style="color: blue;">'scroll'</span><span style="color: black;">,&nbsp;</span><span
-                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__delayLoad._$bind(</span><span
-                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">,&nbsp;_function));&nbsp;&nbsp;</span></span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;V._$addEvent(window,&nbsp;<span
-                style="color: blue;">'resize'</span><span style="color: black;">,&nbsp;</span><span
-                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__delayResize._$bind(</span><span
-                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">,&nbsp;_function));&nbsp;&nbsp;</span></span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;};</span></li>
-</ol></span></span>这段代码为window对象绑定scroll事件与resize事件。当拖动滚动条或者鼠标滚动一下时，scroll事件会连续触发，所以在此做个delay。在此绑定resize事件目的是浏览器在resize后需要重新计算images的位置。appear为自定义事件，目的是在页面载入时手动触发一次scroll事件。<font
-        color="#ffffff">对此有个疑问，页面动态生成节点导致页面滚动会不会触发scroll事件？</font><br><br><b>如何判断image元素是否在当前可视区域内？</b><br><span
-        style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Monaco; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;"><span
-        style="font-family: Monaco,'DejaVu Sans Mono','Bitstream Vera Sans Mono',Consolas,'Courier New',monospace; font-size: 12px; line-height: 18px; text-align: left;"><ol
-        start="1"
-        style="font-size: 1em; line-height: 1.4em; margin: 0px 0px 1px; padding: 2px 0px; border: 1px solid rgb(209, 215, 220); list-style-type: decimal; background-color: rgb(255, 255, 255); color: rgb(43, 145, 175);">
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 130, 0);">/**</span>&nbsp;</span></li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;"><span
-                style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;元素是否在可视区域</span>&nbsp;</span></li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@param&nbsp;{HTML|Element}&nbsp;_element&nbsp;&nbsp;&nbsp;目标元素</span>&nbsp;</span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@return&nbsp;{Boolean}</span>&nbsp;</span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><span
-                style="color: black;">&nbsp;&nbsp;</span></span></li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;__pro.__isInViewport&nbsp;=&nbsp;<span
-                style="color: rgb(127, 0, 85); font-weight: bold;">function</span><span style="color: black;">(_element){&nbsp;&nbsp;</span></span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
-                style="color: rgb(127, 0, 85); font-weight: bold;">return</span><span
-                style="color: black;">&nbsp;!</span><span style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span
-                style="color: black;">.__aboveTheTop(_element)&nbsp;&amp;&amp;&nbsp;!</span><span
-                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__belowTheBottom(_element);&nbsp;&nbsp;</span></span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;};&nbsp;&nbsp;</span></li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 130, 0);">/**</span>&nbsp;</span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;判断元素是否位于当前可视区域的上部</span>&nbsp;</span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@param&nbsp;{HTML|Element}&nbsp;_element&nbsp;&nbsp;&nbsp;目标元素</span>&nbsp;</span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@return&nbsp;{Boolean}</span>&nbsp;</span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><span
-                style="color: black;">&nbsp;&nbsp;</span></span></li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;__pro.__aboveTheTop&nbsp;=&nbsp;<span
-                style="color: rgb(127, 0, 85); font-weight: bold;">function</span><span style="color: black;">(_element){&nbsp;&nbsp;</span></span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
-                style="color: rgb(127, 0, 85); font-weight: bold;">var</span><span style="color: black;">&nbsp;_top&nbsp;=&nbsp;</span><span
-                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__getClient().top;&nbsp;&nbsp;</span></span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
-                style="color: rgb(127, 0, 85); font-weight: bold;">return</span><span style="color: black;">&nbsp;_top&nbsp;&gt;=&nbsp;</span><span
-                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__offset(_element).top&nbsp;+&nbsp;</span><span
-                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__offset(_element).height&nbsp;+&nbsp;</span><span
-                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__threshold;&nbsp;&nbsp;</span></span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;};&nbsp;&nbsp;</span></li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 130, 0);">/**</span>&nbsp;</span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;判断元素是否位于当前可视区域的下部</span>&nbsp;</span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@param&nbsp;{HTML|Element}&nbsp;_element</span>&nbsp;</span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@return&nbsp;{Boolean}</span>&nbsp;</span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><span
-                style="color: black;">&nbsp;&nbsp;</span></span></li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;__pro.__belowTheBottom&nbsp;=&nbsp;<span
-                style="color: rgb(127, 0, 85); font-weight: bold;">function</span><span style="color: black;">(_element){&nbsp;&nbsp;</span></span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
-                style="color: rgb(127, 0, 85); font-weight: bold;">var</span><span style="color: black;">&nbsp;_bottom&nbsp;=&nbsp;</span><span
-                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__getClient().bottom;&nbsp;&nbsp;</span></span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
-                style="color: rgb(127, 0, 85); font-weight: bold;">return</span><span style="color: black;">&nbsp;_bottom&nbsp;&lt;=&nbsp;</span><span
-                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__offset(_element).top&nbsp;+&nbsp;</span><span
-                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__offset(_element).height&nbsp;-&nbsp;</span><span
-                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__threshold;&nbsp;&nbsp;</span></span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;}; <br></span></li>
-</ol></span></span>在命名上参考了<a target="_blank" rel="nofollow"
-                             href="http://www.appelsiini.net/projects/lazyload">jQuery</a>。当然了，是否在可视区域内，还可以通过<a
-        target="_blank" rel="nofollow" href="http://hi.baidu.com/jiyeqian/blog/item/c14e52c24794b4170ff47715.html">判断两个矩形是否相交</a>来实现。<br><br><b>如何加载元素？</b><br><span
-        style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Monaco; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;"><span
-        style="font-family: Monaco,'DejaVu Sans Mono','Bitstream Vera Sans Mono',Consolas,'Courier New',monospace; font-size: 12px; line-height: 18px; text-align: left;"><ol
-        start="1"
-        style="font-size: 1em; line-height: 1.4em; margin: 0px 0px 1px; padding: 2px 0px; border: 1px solid rgb(209, 215, 220); list-style-type: decimal; background-color: rgb(255, 255, 255); color: rgb(43, 145, 175);">
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 130, 0);">/**</span>&nbsp;</span></li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;"><span
-                style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;开始加载元素</span>&nbsp;</span></li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@return&nbsp;{Void}</span>&nbsp;</span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><span
-                style="color: black;">&nbsp;&nbsp;</span></span></li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;__pro.__beginLoad&nbsp;=&nbsp;<span
-                style="color: rgb(127, 0, 85); font-weight: bold;">function</span><span style="color: black;">(){&nbsp;&nbsp;</span></span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
-                style="color: rgb(127, 0, 85); font-weight: bold;">for</span><span
-                style="color: black;">&nbsp;(</span><span
-                style="color: rgb(127, 0, 85); font-weight: bold;">var</span><span style="color: black;">&nbsp;i&nbsp;=&nbsp;0,&nbsp;j&nbsp;=&nbsp;</span><span
-                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__imgs.length,&nbsp;_img;&nbsp;i&nbsp;&lt;&nbsp;j;&nbsp;i++)&nbsp;{&nbsp;&nbsp;</span></span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_img&nbsp;=&nbsp;<span
-                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__imgs[i];&nbsp;&nbsp;</span></span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
-                style="color: rgb(127, 0, 85); font-weight: bold;">if</span><span
-                style="color: black;">&nbsp;(</span><span style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span
-                style="color: black;">.__isInViewport(_img))&nbsp;{&nbsp;&nbsp;</span></span></li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
-                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__onLoadData(_img);&nbsp;&nbsp;</span></span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_img.loaded&nbsp;=&nbsp;<span
-                style="color: rgb(127, 0, 85); font-weight: bold;">true</span><span
-                style="color: black;">;&nbsp;&nbsp;</span></span></li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;</span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
-                style="color: rgb(0, 130, 0);">//&nbsp;&nbsp;todo&nbsp;add&nbsp;failurelimit</span><span
-                style="color: black;">&nbsp;&nbsp;</span></span></li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;</span></li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
-                style="color: rgb(0, 130, 0);">/*&nbsp;Remove&nbsp;image&nbsp;from&nbsp;array&nbsp;so&nbsp;it&nbsp;is&nbsp;not&nbsp;looped&nbsp;next&nbsp;time.&nbsp;thanks&nbsp;to&nbsp;jQuery&nbsp;*/</span><span
-                style="color: black;">&nbsp;&nbsp;</span></span></li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
-                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__imgs&nbsp;=&nbsp;U.arr._$filter(</span><span
-                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span
-                style="color: black;">.__imgs,&nbsp;</span><span style="color: rgb(127, 0, 85); font-weight: bold;">function</span><span
-                style="color: black;">(_img){</span><span
-                style="color: rgb(127, 0, 85); font-weight: bold;">return</span><span style="color: black;">&nbsp;!_img.loaded;});&nbsp;&nbsp;</span></span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;};&nbsp; <br></span></li>
-</ol></span></span>把加载完毕的元素过滤掉，不再对其进行遍历。<br><br><b>如果不需要模块支持了，如何销毁？</b><br><span
-        style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Monaco; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;"><span
-        style="font-family: Monaco,'DejaVu Sans Mono','Bitstream Vera Sans Mono',Consolas,'Courier New',monospace; font-size: 12px; line-height: 18px; text-align: left;"><ol
-        start="1"
-        style="font-size: 1em; line-height: 1.4em; margin: 0px 0px 1px; padding: 2px 0px; border: 1px solid rgb(209, 215, 220); list-style-type: decimal; background-color: rgb(255, 255, 255); color: rgb(43, 145, 175);">
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 130, 0);">/**</span>&nbsp;</span></li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;"><span
-                style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;销毁操作</span>&nbsp;</span></li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@param&nbsp;{Boolean}&nbsp;_load&nbsp;&nbsp;&nbsp;是否手动销毁</span>&nbsp;</span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@return&nbsp;{Boolean}</span>&nbsp;</span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><span
-                style="color: black;">&nbsp;&nbsp;</span></span></li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;__pro.__destroy&nbsp;=&nbsp;<span
-                style="color: rgb(127, 0, 85); font-weight: bold;">function</span><span style="color: black;">(_load){&nbsp;&nbsp;</span></span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clearTimeout(<span
-                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__timer);&nbsp;&nbsp;</span></span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
-                style="color: rgb(0, 130, 0);">//&nbsp;&nbsp;是否加载剩余图片元素</span><span
-                style="color: black;">&nbsp;&nbsp;</span></span></li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
-                style="color: rgb(127, 0, 85); font-weight: bold;">if</span><span style="color: black;">&nbsp;(_load&nbsp;&amp;&amp;&nbsp;</span><span
-                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__imgs)&nbsp;{&nbsp;&nbsp;</span></span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;U.arr._$forEach(<span
-                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span
-                style="color: black;">.__imgs,&nbsp;</span><span style="color: rgb(127, 0, 85); font-weight: bold;">function</span><span
-                style="color: black;">(_img){&nbsp;&nbsp;</span></span></li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
-                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__onLoadData(_img);&nbsp;&nbsp;</span></span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}._$bind(<span
-                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">));&nbsp;&nbsp;</span></span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
-                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__imgs&nbsp;=&nbsp;</span><span
-                style="color: rgb(127, 0, 85); font-weight: bold;">null</span><span
-                style="color: black;">;&nbsp;&nbsp;</span></span></li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;</span></li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
-                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__clearEvent();&nbsp;&nbsp;&nbsp;&nbsp;</span><span
-                style="color: rgb(0, 130, 0);">//&nbsp;&nbsp;bug&nbsp;unfixed:scroll事件无法清除</span><span
-                style="color: black;">&nbsp;&nbsp;</span></span></li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;};&nbsp; <br></span></li>
-</ol></span></span>在此可以做一些清理操作，比如清除scroll和resize事件等。<br><br><b>系统如果动态生成了若干新image节点，怎么办？</b><br><span
-        style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Monaco; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;"><span
-        style="font-family: Monaco,'DejaVu Sans Mono','Bitstream Vera Sans Mono',Consolas,'Courier New',monospace; font-size: 12px; line-height: 18px; text-align: left;"><span
-        style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Monaco; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;"><span
-        style="font-family: Monaco,'DejaVu Sans Mono','Bitstream Vera Sans Mono',Consolas,'Courier New',monospace; font-size: 12px; line-height: 18px; text-align: left;"><ol
-        start="1"
-        style="font-size: 1em; line-height: 1.4em; margin: 0px 0px 1px; padding: 2px 0px; border: 1px solid rgb(209, 215, 220); list-style-type: decimal; background-color: rgb(255, 255, 255); color: rgb(43, 145, 175);">
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 130, 0);">/**</span>&nbsp;</span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;重新获取元素（用于在指定容器中动态生成新节点时）</span>&nbsp;</span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@return&nbsp;{Void}</span>&nbsp;</span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><span
-                style="color: black;">&nbsp;&nbsp;</span></span></li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;__pro._$reset&nbsp;=&nbsp;<span
-                style="color: rgb(127, 0, 85); font-weight: bold;">function</span><span style="color: black;">(){&nbsp;&nbsp;</span></span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
-                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__destroy();&nbsp;&nbsp;</span></span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
-                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__pause&nbsp;=&nbsp;</span><span
-                style="color: rgb(127, 0, 85); font-weight: bold;">false</span><span
-                style="color: black;">;&nbsp;&nbsp;</span></span></li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
-                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__imgs&nbsp;=&nbsp;</span><span
-                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__container.getElementsByTagName(</span><span
-                style="color: blue;">'img'</span><span style="color: black;">);&nbsp;&nbsp;</span></span></li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
-                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__bindEvent();&nbsp;&nbsp;</span></span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
-                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__setPlaceHolder();&nbsp;&nbsp;</span></span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
-                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">._$dispatchEvent(</span><span
-                style="color: blue;">'appear'</span><span style="color: black;">);&nbsp;&nbsp;</span></span></li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;};&nbsp;&nbsp;</span></li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(0, 130, 0);">/**</span>&nbsp;</span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;"><span
-                style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;暂停延迟加载</span>&nbsp;</span></li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@return&nbsp;{Void}&nbsp;</span>&nbsp;</span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;"><span style="color: rgb(0, 130, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span><span
-                style="color: black;">&nbsp;&nbsp;</span></span></li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;__pro._$pauseLoad&nbsp;=&nbsp;<span
-                style="color: rgb(127, 0, 85); font-weight: bold;">function</span><span style="color: black;">(){&nbsp;&nbsp;</span></span>
-    </li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
-                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span style="color: black;">.__pause&nbsp;=&nbsp;</span><span
-                style="color: rgb(127, 0, 85); font-weight: bold;">true</span><span
-                style="color: black;">;&nbsp;&nbsp;</span></span></li>
-    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
-        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;};&nbsp; </span></li>
-</ol></span></span></span></span>评论模块具有一定的交互特性，用户可以发表评论回复评论，一旦这么做了，就必须重新获取一遍相应容器内的image节点（很直接很粗暴么，也没想到什么更好的解决方案）。_$pauseLoad由调用者手动调用，目的是在动态生成节点浏览器重新渲染时暂停图片的延迟加载进程。this.__setPlaceHolder()给image对象一个1px*1px占位用的图片。不给image设定src的话，ie下会很杯具。<br><br>时间精力有限，并没有在移动设备上进行过测试，目前只支持pc下的主流浏览器。<br><br>参考资料<br><a
-        target="_blank" rel="nofollow" href="http://www.howtocreate.co.uk/tutorials/javascript/browserwindow">Finding
-    the size of the browser window</a><br><a target="_blank" rel="nofollow"
-                                             href="http://www.cnblogs.com/cloudgamer/archive/2010/03/03/ImagesLazyLoad.html">ImagesLazyLoad
-    图片延迟加载效果</a><br><a target="_blank" rel="nofollow"
-                       href="http://www.neoease.com/lazy-load-jquery-plugin-delay-load-image/">Lazy Load, 延迟加载图片的 jQuery
-    插件</a></div>
-
-
 
 ]]></content>
 	</entry>

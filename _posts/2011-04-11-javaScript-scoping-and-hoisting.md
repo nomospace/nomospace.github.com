@@ -1,6 +1,6 @@
 ---
 layout: post
-title: JavaScript中的作用域与变量声明提升 [翻译]
+title: JavaScript 中的作用域与变量声明提升 [翻译]
 category: javascript
 ---
 <div class="bct fc05 fc11 nbw-blog ztag js-fs2">原文地址：<a
