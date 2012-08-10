@@ -3,7 +3,7 @@
 	<title>挪墨的空间</title>
 	<link href="http://nomospace.github.com/atom.xml" rel="self" />
 	<link href="http://nomospace.github.com/" />
-	<updated>2012-08-10T15:25:26+08:00</updated>
+	<updated>2012-08-10T16:12:38+08:00</updated>
 	<id>http://nomospace.github.com/</id>
 	<author>
 		<name>nomospace</name>
@@ -2302,12 +2302,12 @@ project，我在两者基础上进行整合并尝试将watermark.js移植到Node
 <p>没有什么比<a href="https://github.com/nomospace/nomospace.github.com/tree/master/lab/2011/match-game">源代码</a>更能说明问题的了，chrome10中的<a href="/lab/2011/match-game/index.html">demo</a>截屏如下：</p>
 
 <pre><code>/**
-  *  todo:
-  *   最短路径提示
-  *   无解/死锁处理（CheckAvailable）
-  *   对n*m矩阵的支持
-  *   计时/音效
-  */
+ * todo:
+ * 最短路径提示
+ * 无解/死锁处理（CheckAvailable）
+ * 对不规则n*m矩阵的支持
+ * 计时/音效
+ */
 </code></pre>
 
 <h4>参考资料</h4>

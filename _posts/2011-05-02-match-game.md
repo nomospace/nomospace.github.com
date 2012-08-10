@@ -8,16 +8,13 @@ category: javascript
 ***
 没有什么比[源代码](https://github.com/nomospace/nomospace.github.com/tree/master/lab/2011/match-game)更能说明问题的了，chrome10中的[demo](/lab/2011/match-game/index.html)截屏如下：
 
-
     /**
-      *  todo:
-      *   最短路径提示
-      *   无解/死锁处理（CheckAvailable）
-      *   对n*m矩阵的支持
-      *   计时/音效
-      */
-
-
+     * todo:
+     * 最短路径提示
+     * 无解/死锁处理（CheckAvailable）
+     * 对不规则n*m矩阵的支持
+     * 计时/音效
+     */
 
 ####参考资料
 [http://www.iteye.com/topic/480020](http://www.iteye.com/topic/480020)   

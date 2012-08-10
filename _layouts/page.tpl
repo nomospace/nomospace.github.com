@@ -9,6 +9,7 @@
 <title>挪墨的空间{% if page.title %} / {{ page.title }}{% endif %}</title>
 <link href="http://nomospace.github.com/feed.xml" rel="alternate" title="挪墨的空间" type="application/atom+xml" />
 <link rel="stylesheet" type="text/css" href="/assets/css/site.css" />
+<link rel="stylesheet" type="text/css" href="/assets/css/code/github.css" />
 {% for style in page.styles %}<link rel="stylesheet" type="text/css" href="{{ style }}" />
 {% endfor %}
 <!--[if IE]>
@@ -71,6 +72,12 @@
 
 </aside>
 
+<script src="/assets/js/highlight.js"></script>
+<script src="/assets/js/hljs/languages/css.js"></script>
+<script src="/assets/js/hljs/languages/xml.js"></script>
+<script src="/assets/js/hljs/languages/javascript.js"></script>
+<script src="/assets/js/hljs/languages/ruby.js"></script>
+<script src="/assets/js/jquery-1.8.0.min.js"></script>
 <script src="/assets/js/site.js"></script>
 {% for script in page.scripts %}<script src="{{ script }}"></script>
 {% endfor %}
