@@ -1,24 +1,3 @@
----
-layout: page
-title: 我的豆瓣
-pageName: douban
-pageClass: page-type-douban
-scripts: [
-    http://www.douban.com/js/api.js?v=2,
-    http://www.douban.com/js/api-parser.js?v=1,
-    /assets/js/douban.js,
-    /assets/js/handlebars-1.0.0.beta.6.js
-    ]
-apply_data: true
----
-
-{% include header.tpl %}
-
-<div id="J_books">
-	
-</div>
-
-<script type="text/template" id="book_template">
 {{#each entry}}
     <div class="item">
         <div class="pic">
@@ -42,4 +21,3 @@ apply_data: true
         </div>
     </div>
 {{/each}}
-</script>
