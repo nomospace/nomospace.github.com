@@ -19,11 +19,14 @@ apply_data: true
 </div>
 
 <script type="text/template" id="book_template">
+{% raw %}
 {{#each entry}}
     <div class="item">
+    // db:subject 必须要用双引号，使用单引号会出错
+        {{#with "db:subject"}}
         <div class="pic">
-            <a title="大设计" href="http://book.douban.com/subject/5422665/" class="nbg">
-                <img alt="大设计" src="http://img3.douban.com/spic/s4635935.jpg">
+            <a title="{{category}}" href="http://book.douban.com/subject/5422665/" class="nbg">
+                <img alt="{{$t}}" src="http://img3.douban.com/spic/s4635935.jpg">
             </a>
         </div>
         <div class="info">
@@ -40,6 +43,8 @@ apply_data: true
                 </li>
             </ul>
         </div>
+        {{/with}}
     </div>
 {{/each}}
+{% endraw %}
 </script>
