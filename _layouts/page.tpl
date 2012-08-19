@@ -17,7 +17,7 @@
 <![endif]-->
 </head>
 
-<body class="{{ page.pageClass }}">
+<body class="{{ page.pageClass }}" data-name="{{page.pageName}}">
 
 <div class="main">
 	{{ content }}
@@ -78,9 +78,10 @@
 <script src="/assets/js/hljs/languages/javascript.js"></script>
 <script src="/assets/js/hljs/languages/ruby.js"></script>
 <script src="/assets/js/jquery-1.8.0.min.js"></script>
-<script src="/assets/js/site.js"></script>
-{% for script in page.scripts %}<script src="{{ script }}"></script>
+{% for script in page.scripts %}
+    <script src="{{ script }}"></script>
 {% endfor %}
+<script src="/assets/js/site.js"></script>
 <script>
     var _errs=["4fcf6a84a57ce4043f00032a"];(function(a,b){a.onerror=function(){_errs.push(arguments)};
     var d=function(){var a=b.createElement("script"),c=b.getElementsByTagName("script")[0];

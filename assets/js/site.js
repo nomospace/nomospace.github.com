@@ -1,5 +1,5 @@
-(function() {
-    $('pre').each(function() {
-        hljs.highlightBlock(this);
-    });
-}());
+$(function() {
+  $('pre').each(function() {
+    hljs && hljs.highlightBlock(this);
+  });
+});
