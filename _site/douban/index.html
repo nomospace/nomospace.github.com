@@ -10,6 +10,7 @@
 <link href="http://nomospace.github.com/feed.xml" rel="alternate" title="挪墨的空间" type="application/atom+xml" />
 <link rel="stylesheet" type="text/css" href="/assets/css/site.css" />
 <link rel="stylesheet" type="text/css" href="/assets/css/code/github.css" />
+<link rel="stylesheet" type="text/css" href="/assets/css/douban.css" />
 
 <!--[if IE]>
 <script src="/assets/js/html5.js"></script>
@@ -25,7 +26,7 @@
 </header>
 
 
-<div id="J_books">
+<div id="J_books" class="books-con">
 	
 </div>
 
@@ -33,24 +34,24 @@
 
 {{#each entry}}
     <div class="item">
-    // db:subject 必须要用双引号，使用单引号会出错
-        {{#with "db:subject"}}
+    
+        {{#with dbsubject}}
         <div class="pic">
-            <a title="{{category}}" href="http://book.douban.com/subject/5422665/" class="nbg">
-                <img alt="{{$t}}" src="http://img3.douban.com/spic/s4635935.jpg">
+            <a title="{{title.t}}" href="{{href}}" class="nbg" target="_blank">
+                <img alt="{{title.t}}" src="{{image}}">
             </a>
         </div>
         <div class="info">
             <ul>
                 <li class="title">
-                    <a href="http://book.douban.com/subject/5422665/">
-                        <em>{{title.$t}}</em>
+                    <a href="{{href}}" target="_blank">
+                        <em>{{title.t}}</em>
                     </a>
                 </li>
-                    <li class="intro">[英] 斯蒂芬·霍金 / 吴忠超 / 湖南科学技术出版社 / 2011-1 / 48.00元</li>
+                    <li class="intro">{{#each author}} {{name.t}} / {{/each}} {{publisher}} / {{pubdate}} / {{price}}</li>
                 <li>
                     <span class="rating4-t"></span>
-                    <span class="date">{{updated}}</span>
+                    <span class="date" style="display:none;">{{../updated.t}}</span>
                 </li>
             </ul>
         </div>
@@ -128,6 +129,8 @@
     <script src="/assets/js/douban.js"></script>
 
     <script src="/assets/js/handlebars-1.0.0.beta.6.js"></script>
+
+    <script src="/assets/js/underscore.js"></script>
 
 <script src="/assets/js/site.js"></script>
 <script>
