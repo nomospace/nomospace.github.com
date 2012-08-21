@@ -15,15 +15,12 @@ styles: [/assets/css/douban.css]
 
 {% include header.tpl %}
 
-<div id="J_books" class="books-con">
-	
-</div>
+<div id="J_books" class="books-con"></div>
 
-<script type="text/template" id="book_template">
 {% raw %}
+<script type="text/template" id="book_template">
 {{#each entry}}
     <div class="item">
-    
         {{#with dbsubject}}
         <div class="pic">
             <a title="{{title.t}}" href="{{href}}" class="nbg" target="_blank">
@@ -47,5 +44,5 @@ styles: [/assets/css/douban.css]
         {{/with}}
     </div>
 {{/each}}
-{% endraw %}
 </script>
+{% endraw %}

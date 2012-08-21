@@ -2,6 +2,7 @@ markdown: rdiscount
 pygments: true
 safe: false
 permalink: /posts/:title.html
+auto: true
 exclude:
   - README.md
 
