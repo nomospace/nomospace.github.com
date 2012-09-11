@@ -40,24 +40,24 @@
 
 <hr />
 
-<p>在设计 <a href="http://caolan.github.com/nimble/">Nimble</a> 时有个需求，需要合并 <a href="https://github.com/documentcloud/underscore">Underscore.js</a> 与 <a href="https://github.com/caolan/async">Async</a> 库的函数，使某些函数可以同步执行，同时也要支持异步执行。当然，为每个函数增加一个可选的回调函数很容易，困难的时修改函数迭代器 (iterator)。如下代码是一个同步函数：</p>
+<p>在设计 <a href="http://caolan.github.com/nimble/">Nimble</a> 时有个需求，需要合并 <a href="https://github.com/documentcloud/underscore">Underscore.js</a> 与 <a href="https://github.com/caolan/async">Async</a> 库的函数，使某些函数可以同步执行，同时也要支持异步执行。当然，为每个函数增加一个可选的回调函数很容易，困难的是修改函数迭代器 (iterator)。如下代码是一个同步函数：</p>
 
 <pre><code>_.map([1,2,3], function (value) { ... });
 _.map([1,2,3], function (value, index) { ... });
 _.map([1,2,3], function (value, index, arr) { ... });
 </code></pre>
 
-<p>在此你可以指定所有参数，也可以只指定你需要的几个。然后，在一个异步的循环中，我们需要传递一个回调函数。在 node.js 中通常最后一个参数是回调函数。所以，问题来了，我们无法忽略中间的参数，因为此时总是需要最后一个参数（即回调函数）：</p>
+<p>在此你可以指定所有参数，也可以只指定你需要的几个。然而在一个异步的循环中，我们需要传递一个回调函数。在 node.js 中通常最后一个参数是回调函数。所以问题来了，我们无法忽略中间的参数，因为此时总是需要最后一个参数（即回调函数）：</p>
 
 <pre><code>_.map([1,2,3], function (value, index, arr, callback) { ... });
 </code></pre>
 
-<p>代码写的非常冗长，arr 和 index 参数大多数时候不会被用到。鉴于此，最初 Async 库的 map 函数是这么实现的：</p>
+<p>代码非常冗长，arr 和 index 参数大多数时候不会被用到。鉴于此，最初 Async 库的 map 函数是这么实现的：</p>
 
 <pre><code>async.map([1,2,3], function (value, callback) { ... });
 </code></pre>
 
-<p>这段代码虽省略了一些繁杂的编码，但令人郁闷的是其他参数无法使用了，也就是说 async api 与其他 synchronous api 差异会更大。对此，我的解决方案是在迭代访问参数时进行检查 (inspect the iterator's arity)。如果对这个术语不太理解，直接看代码：</p>
+<p>虽省略了一些繁杂的编码，但令人郁闷的是其他参数也无法使用了，也就是说 async api 与其他 synchronous api 的差异会更大。对此我的解决方案是在迭代访问参数时进行检查 (inspect the iterator's arity)。这个术语不是很好理解，直接看代码吧：</p>
 
 <pre><code>var fn = f  unction (one, two, three) { ... };
 // fn.length == 3
@@ -66,7 +66,7 @@ var fn = function (one) { ... };
 // fn.length == 1
 </code></pre>
 
-<p>这段代码能在各个浏览器下正常运行，并允许修改我们传入迭代器 (iterator) 的参数，首先定义一组参数，然后未被 async 迭代器 (iterator) 使用的元素，并在最后插入一个回调函数：</p>
+<p>这段代码能在各个浏览器下正常运行，并允许修改我们传入迭代器 (iterator) 的参数，首先定义一组参数，然后删除未被 async 迭代器 (iterator) 使用的元素，并在最后插入一个回调函数：</p>
 
 <pre><code>var test = function (iterator) {
     // the full list of available arguments
@@ -99,7 +99,7 @@ test(function (value, callback) {
 });
 </code></pre>
 
-<p>运行结果如下：</p>
+<p>执行结果如下：</p>
 
 <pre><code>Example one:
 
@@ -114,7 +114,7 @@ value
 callback
 </code></pre>
 
-<p>如上所示，结果已经和我们的预期保持一致了。如果不使用迭代 (iterator) ，而使用普通的 arguments 来访问：</p>
+<p>如上所示，执行结果已经和我们的预期保持一致了。如果不使用迭代而使用普通的 arguments 来访问：</p>
 
 <pre><code>test(function () {
     console.log(arguments[0]);
@@ -124,7 +124,7 @@ callback
 });
 </code></pre>
 
-<p>输出结果却是这样的：</p>
+<p>输出结果是这样的：</p>
 
 <pre><code>value
 index
@@ -132,7 +132,7 @@ callback
 undefined
 </code></pre>
 
-<p>这并不是我们预期的，那好，稍微重构一下 test 函数：</p>
+<p>这并不是我们所预期的，那好，稍微重构一下 test 函数：</p>
 
 <pre><code>var test = function (iterator) {
     // the full list of available arguments
@@ -159,7 +159,7 @@ arr
 callback
 </code></pre>
 
-<p>大功告成。如果你想进一步实践，check out <a href="http://caolan.github.com/nimble/">Nimble</a> 就可以了。如果遇到任何潜在问题，请随时提 <a href="https://github.com/caolan/nimble/issues">issue</a>。</p>
+<p>至此，大功告成。如果你还想进一步实践，check out <a href="http://caolan.github.com/nimble/">Nimble</a> 就可以了。如果遇到任何潜在问题，请随时提 <a href="https://github.com/caolan/nimble/issues">issue</a>。</p>
 
 	
 	</div>
