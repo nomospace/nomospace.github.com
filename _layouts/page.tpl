@@ -2,8 +2,6 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8" />
-<meta http-equiv="expires" content="-1" />
-<meta http-equiv="cache-control" content="no-cache" />
 <meta name="author" content="nomospace" />
 <meta name="keywords" content="{{ page.tags | join: ',' }}" />
 <title>挪墨的空间{% if page.title %} / {{ page.title }}{% endif %}</title>
@@ -18,10 +16,8 @@
 </head>
 
 <body class="{{ page.pageClass }}" data-name="{{page.pageName}}">
-
 <div class="main">
 	{{ content }}
-
 	<footer>
 		<p>&copy; Since 2012 <a href="http://github.com/nomospace" target="_blank">github.com/nomospace</a></p>
 	</footer>
@@ -29,7 +25,6 @@
 
 <aside>
 	<h2><a href="/">挪墨的空间</a><a href="/feed.xml" class="feed-link" title="RSS订阅"><img src="http://blog.rexsong.com/wp-content/themes/rexsong/icon_feed.gif" alt="RSS feed" /></a></h2>
-
 	<nav class="block">
 		<ul>
 		{% for category in site.custom.categories %}<li class="{{ category.name }}"><a href="/category/{{ category.name }}/">{{ category.title }}</a></li>
@@ -69,7 +64,6 @@
             <a href="https://github.com/mytharcher/SimpleGray" target="_blank">SimpleGray</a>
         </p>
     </div>
-
 </aside>
 
 <script src="/assets/js/highlight.js"></script>

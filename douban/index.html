@@ -3,20 +3,16 @@ layout: page
 title: 我的豆瓣
 pageName: douban
 pageClass: page-type-douban
-scripts: [
-    http://www.douban.com/js/api.js?v=2,
-    http://www.douban.com/js/api-parser.js?v=1,
-    /assets/js/douban.js,
-    /assets/js/handlebars-1.0.0.beta.6.js,
-    /assets/js/underscore.js
-    ]
+scripts: [http://www.douban.com/js/api.js?v=2,
+  http://www.douban.com/js/api-parser.js?v=1,
+  /assets/js/douban.js,
+  /assets/js/handlebars-1.0.0.beta.6.js,/assets/js/underscore.js]
 styles: [/assets/css/douban.css]
 ---
 
 {% include header.tpl %}
 
 <div id="J_books" class="books-con"></div>
-
 {% raw %}
 <script type="text/template" id="book_template">
 {{#each entry}}
