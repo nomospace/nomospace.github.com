@@ -61,7 +61,8 @@
 
 <aside>
 	<h2><a href="/">挪墨的空间</a><a href="/feed.xml" class="feed-link" title="RSS订阅"><img src="http://blog.rexsong.com/wp-content/themes/rexsong/icon_feed.gif" alt="RSS feed" /></a></h2>
-	<nav class="block">
+	<div class="block block-about">
+	  <h3>分类</h3>
 		<ul>
 		<li class="javascript"><a href="/category/javascript/">javascript</a></li>
 		<li class="node"><a href="/category/node/">node</a></li>
@@ -70,15 +71,19 @@
 		<li class="frontend"><a href="/category/frontend/">frontend</a></li>
 		
 		</ul>
-	</nav>
+	</div>
 
 	<form action="/search/" class="block block-search">
 		<h3>搜索</h3>
-		<p><input type="search" name="q" placeholder="输入关键词按回车搜索" /></p>
+    <input type="search" name="q" placeholder="输入关键词按回车搜索" />
 	</form>
 
 	<div class="block block-about">
-		<h3>关于</h3>
+		<h3><a href="/mydouban">我的豆瓣</a></h3>
+	</div>
+
+	<div class="block block-about" style="display:none;">
+    <h3>关于</h3>
 		<figure>
 			<img src="http://www.gravatar.com/avatar/d6e8639fcaea0c7c0fab106033f05de0?s=80" />
 			<figcaption><strong>nomospace</strong></figcaption>
