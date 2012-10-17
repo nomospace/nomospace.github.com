@@ -1,35 +1,35 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8"/>
-        <title>match-game demo</title>
-		<link type="text/css" rel="stylesheet" href="style.css"/>
-        <script src="lib/requirejs/require-2.0.0.js"></script>
-    </head>
-    <body>
-    	<div class="topbar">
-    		<div>
-				<label for="mg_image_type_count" style="display:none;">图片类型数</label><input id="mg_image_type_count" type="text" value="10" style="display:none;"/>  
-				<label for="mg_total_count">图片组数</label><input id="mg_total_count" type="text" value="0" autocomplete="off"/>  
-				<label for="mg_total_time" style="display:none;">设定时间（秒）</label><input id="mg_total_time" type="text" value="60" style="display:none;"/>  
-    		</div>
-    		<div class="act">
-				<input id="mg_start_botton" type="button" value="开始"/>  
-				<input id="mg_reset_botton" type="button" value="重置" style="display:none;"/>  
-    		</div>
-    	</div>
-		<div id="mg_countdown" style="float: left;"></div>
-		<ul id="mg_container" class="con noselect clearfix"></ul>
-        <script>
-            require.config({
-                paths: {
-                    '$': 'lib/jquery/jquery-1.7.2',
-                    'class': 'lib/class/class',
-                    'events': 'lib/events/events',
-                    'item': 'lib/item/item'
-                }
-            });
-            require(['./index']);
-        </script>
-    </body>
+<head>
+  <meta charset="utf-8"/>
+  <title>match-game demo</title>
+  <link type="text/css" rel="stylesheet" href="style.css"/>
+  <script src="lib/requirejs/require-2.0.0.js"></script>
+</head>
+  <body>
+    <div class="topbar">
+      <div>
+      <label for="mg_image_type_count" style="display:none;">图片类型数</label><input id="mg_image_type_count" type="text" value="10" style="display:none;"/>
+      <label for="mg_total_count">图片组数</label><input id="mg_total_count" type="text" value="0" autocomplete="off"/>
+      <label for="mg_total_time" style="display:none;">设定时间（秒）</label><input id="mg_total_time" type="text" value="60" style="display:none;"/>
+      </div>
+      <div class="act">
+      <input id="mg_start_botton" type="button" value="开始"/>
+      <input id="mg_reset_botton" type="button" value="重置" style="display:none;"/>
+      </div>
+    </div>
+  <div id="mg_countdown" style="float: left;"></div>
+  <ul id="mg_container" class="con noselect clearfix"></ul>
+    <script>
+      require.config({
+        paths: {
+          '$': 'lib/jquery/jquery-1.7.2',
+          'class': 'lib/class/class',
+          'events': 'lib/events/events',
+          'item': 'lib/item/item'
+        }
+      });
+      require(['./index']);
+    </script>
+  </body>
 </html>
