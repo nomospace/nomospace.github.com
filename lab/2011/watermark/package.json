@@ -1,6 +1,6 @@
 {
-  "name": "\u001b[A",
-  "version": "0.0.1",
+  "name": "node-watermark",
+  "version": "0.0.2",
   "description": "node-watermark",
   "main": "app.js",
   "scripts": {
@@ -10,6 +10,12 @@
     "type": "git",
     "url": "https://github.com/nomospace/nomospace.github.com.git"
   },
+  "dependencies": {
+    "node-canvas": "~0.13.1",
+    "jsdom": "~0.2.18",
+    "htmlparser": "~1.7.6"
+  },
+  "devDependencies": {},
   "keywords": [
     "nodejs",
     "watermark"
