@@ -1,34 +1,35 @@
-var path = require('path');
 var express = require('express');
+var path = require('path');
 var http = require('http');
-var ejs = require('ejs');
 var fs = require('fs');
-var markdown = require('markdown-js');
+var routes = require('./routes');
 
-var appRoot = './';
+var appRoot = __dirname || './';
+var host = '127.0.0.1';
+var port = 3005;
 var app = express();
 
-app.configure('development', function() {
-  app.use(express.logger({format: ':method :url :status'}));
-  app.use(express.bodyParser());
-  app.use(express.methodOverride());
-  app.use(express.static(path.join(appRoot, 'public')));
-  app.use(express.cookieParser());
-  app.use(express.session({secret: config.session_secret}));
+app.configure(function() {
+//  app.use(express.logger({format: ':method :url :status'}));
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true}));
+  app.use(express.bodyParser());
+//  app.use(express.methodOverride());
+  app.use(app.router);
+  app.set('views engine', 'ejs');
   app.set('views', path.join(appRoot, 'views'));
-  app.set('views engine', 'html');
-  app.set('view cache', false);
-  app.engine('html', ejs.renderFile);
-  app.engine('md', function(path, options, fn) {
-    fs.readFile(path, 'utf8', function(err, str) {
-      if (err) return fn(err);
-      str = markdown.parse(str).toString();
-      fn(null, str);
-    });
-  });
-  app.locals({config: config});
 });
 
-app.listen(config.port);
-console.log(config.host + ':' + config.port);
+app.get('/', routes.index);
+app.post('/upload', function(req, res) {
+  // 获得文件的临时路径
+  res.send(req.files);
+  var tmp_path = req.files.thumbnail.path;
+  // 指定 images 目录为文件上传后的目录
+  var target_path = __dirname + '/images/' + req.files.thumbnail.name;
+  // 移动文件
+  fs.rename(tmp_path, target_path);
+});
+
+app.listen(port);
+
+console.log(host + ':' + port);
