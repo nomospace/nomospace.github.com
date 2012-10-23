@@ -1,7 +1,7 @@
 /**
  * html5文件拖放demo
  * @version 0.3
- * @author  nomospace(jinlu_hz#163.com)
+ * @author  nomospace(jinlu_hz@163.com)
  * @depends nts-js
  */
 (function() {
@@ -52,7 +52,8 @@
         }
     }
 //            this._FileItems && _class._$recycle(this._FileItems);
-    /*this._FileItems = */_class._$allocate(_fileList, this.__listCon, {});
+    /*this._FileItems = */
+    _class._$allocate(_fileList, this.__listCon, {});
   };
   /**
    * 判断是否图片
