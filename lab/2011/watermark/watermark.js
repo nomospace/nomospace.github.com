@@ -30,7 +30,7 @@ var Image = Canvas.Image;
         configure = function(config) {
         watermarkPath || (watermarkPath = config['path']);
         watermarkPosition || (watermarkPosition = config['position'] || 'bottom-right');
-        opacity || (opacity = (255 / (100 / config['opacity'])) || (255 / (100 / 50)));	// 50%
+        opacity || (opacity = (255 / (100 / config['opacity'])) || (255 / (100 / 50))); // 50%
         targets || (targets = config['targets']);
 
         initCanvas();
@@ -62,18 +62,18 @@ var Image = Canvas.Image;
           h = watermark.height;
         setCanvasSize(w, h);
         gctx.drawImage(watermark, 0, 0);
-        //	设置透明度
-//			var image = gctx.getImageData(0, 0, w, h),
-//				imageData = image.data,
-//				length = imageData.length;
-//			for ( var i = 3; i < length; i += 4) {
-//				imageData[i] = (imageData[i] < opacity) ? imageData[i] : opacity;
-//			}
-//			image.data = imageData;
-//			gctx.putImageData(image, 0, 0);
+        //  设置透明度
+//          var image = gctx.getImageData(0, 0, w, h),
+//              imageData = image.data,
+//              length = imageData.length;
+//          for ( var i = 3; i < length; i += 4) {
+//              imageData[i] = (imageData[i] < opacity) ? imageData[i] : opacity;
+//          }
+//          image.data = imageData;
+//          gctx.putImageData(image, 0, 0);
 
-        //	TODO:NodeJS环境下，将toDataURL转换后的base64值作为src赋给watermark，并不会触发watermark的onload（猜测src加载失败）
-//			watermark.src = gcanvas.toDataURL();
+        //  TODO:NodeJS环境下，将toDataURL转换后的base64值作为src赋给watermark，并不会触发watermark的onload（猜测src加载失败）
+//          watermark.src = gcanvas.toDataURL();
         applyWatermarks();
       },
       /**
@@ -105,10 +105,10 @@ var Image = Canvas.Image;
           x = 10;
         else
           x = gcanvas.width - watermark.width - 10;
-//			watermark.src = gcanvas.toDataURL();
+//          watermark.src = gcanvas.toDataURL();
         gctx.drawImage(watermark, x, y);
 
-        //	保存新图片至当前目录
+        //  保存新图片至当前目录
         var out = fs.createWriteStream(imagePath + '.watermark.png'),
           stream = gcanvas.createSyncPNGStream();
         stream.on('data', function(chunk) {
