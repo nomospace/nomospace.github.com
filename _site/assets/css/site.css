@@ -1,6 +1,6 @@
 *{box-sizing:border-box; -moz-box-sizing:border-box; -webkit-box-sizing:border-box;}
 html,body,h1,h2,h3,h4,h5,h6,ul,ol,li,p,form,dl,dt,dd,figure{margin:0; padding:0; border:0;}
-body{line-height:1.6em; font-family:'Trebuchet MS',Helvetica, Arial, sans-serif; color:#555;overflow: scroll;}
+body{line-height:1.6em; font-family:'Trebuchet MS',Helvetica, Arial, sans-serif; color:#555;overflow-y: scroll;}
 a{margin:0 2px; color:#06c; text-decoration:none;}
 a[href^="http"]{display:inline-block; margin-right:4px; padding-right:14px; background:url(../images/external.png) no-repeat right;}
 a[href^="http://nomospace.github.com"]{padding-right:0; background:none;}
