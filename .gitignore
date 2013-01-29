@@ -15,7 +15,6 @@ Thumbs.db
 *.swp
 *.pyc
 *.pyo
-node_modules
 _site/Nomospace.github.com.iml
 
 blog.iml
