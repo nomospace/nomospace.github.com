@@ -1,9 +1,11 @@
-markdown: rdiscount
+markdown: kramdown
 pygments: true
+safe: false
 permalink: /posts/:title.html
 exclude:
   - README.md
 
+name: 挪墨的空间
 host: nomospace.github.com
 
 custom:

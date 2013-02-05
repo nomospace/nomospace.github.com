@@ -15,8 +15,4 @@ Thumbs.db
 *.swp
 *.pyc
 *.pyo
-_site/Nomospace.github.com.iml
-
-blog.iml
-
-nomospace.github.com.iml
+*.iml

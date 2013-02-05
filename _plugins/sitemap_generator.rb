@@ -39,7 +39,7 @@ require 'rexml/document'
 module Jekyll
 
   # Change MY_URL to reflect the site you are using
-  MY_URL = "http://elfjs.com"
+  MY_URL = "http://nomospace.github.com"
 
   # Change SITEMAP_FILE_NAME if you would like your sitemap file
   # to be called something else
