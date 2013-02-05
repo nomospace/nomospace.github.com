@@ -1,6 +1,5 @@
 markdown: kramdown
 pygments: true
-safe: false
 permalink: /posts/:title.html
 exclude:
   - README.md
