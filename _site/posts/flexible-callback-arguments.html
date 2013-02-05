@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="author" content="nomospace" />
+<meta name="keywords" content="" />
+<meta property="wb:webmaster" content="9d4b91032648dbe0" />
+<title>挪墨的空间 / 一种灵活的回调参数设计 [翻译]</title>
+<link href="http://nomospace.github.com/feed.xml" rel="alternate" title="挪墨的空间" type="application/atom+xml" />
+<link rel="stylesheet" type="text/css" href="/assets/css/site.css" />
+<link rel="stylesheet" type="text/css" href="/assets/css/code/github.css" />
+
+<!--[if IE]>
+<script src="/assets/js/html5.js"></script>
+<![endif]-->
+</head>
+
+<body class="page-type-post" data-name="">
+<div class="main">
+	<div class="trace">/ <a href="/">挪墨的空间</a> / 一种灵活的回调参数设计 [翻译]</div>
+
+<article>
+	<h1><a href="/posts/flexible-callback-arguments.html">一种灵活的回调参数设计 [翻译]</a></h1>
+	
+	<p class="meta">
+	<span class="datetime">2012-09-11</span> posted in [<a href="/category/javascript" class="category">javascript</a>]
+</p>
+	<p>本文地址：<a href="">http://nomospace.github.com/posts/flexible-callback-arguments.html</a><br/>
+原文地址：<a href="http://caolanmcmahon.com/posts/flexible_callback_arguments/">http://caolanmcmahon.com/posts/flexible_callback_arguments/</a><br/>
+原文作者：<a href="http://caolanmcmahon.com/">Caolan McMahon</a></p>
+
+<hr />
+
+<p>在设计 <a href="http://caolan.github.com/nimble/">Nimble</a> 时有个需求，需要合并 <a href="https://github.com/documentcloud/underscore">Underscore.js</a> 与 <a href="https://github.com/caolan/async">Async</a> 库的函数，使某些函数可以同步执行，同时也要支持异步执行。当然，为每个函数增加一个可选的回调函数很容易，困难的是修改函数迭代器 (iterator)。如下代码是一个同步函数：</p>
+
+<pre><code>_.map([1,2,3], function (value) { ... });
+_.map([1,2,3], function (value, index) { ... });
+_.map([1,2,3], function (value, index, arr) { ... });
+</code></pre>
+
+<p>在此你可以指定所有参数，也可以只指定你需要的几个。然而在一个异步的循环中，我们需要传递一个回调函数。在 node.js 中通常最后一个参数是回调函数。所以问题来了，我们无法忽略中间的参数，因为此时总是需要最后一个参数（即回调函数）：</p>
+
+<pre><code>_.map([1,2,3], function (value, index, arr, callback) { ... });
+</code></pre>
+
+<p>代码非常冗长，arr 和 index 参数大多数时候不会被用到。鉴于此，最初 Async 库的 map 函数是这么实现的：</p>
+
+<pre><code>async.map([1,2,3], function (value, callback) { ... });
+</code></pre>
+
+<p>虽省略了一些繁杂的编码，但令人郁闷的是其他参数也无法使用了，也就是说 async api 与其他 synchronous api 的差异会更大。对此我的解决方案是在迭代访问参数时进行检查 (inspect the iterator's arity)。这个术语不是很好理解，直接看代码吧：</p>
+
+<pre><code>var fn = f  unction (one, two, three) { ... };
+// fn.length == 3
+
+var fn = function (one) { ... };
+// fn.length == 1
+</code></pre>
+
+<p>这段代码能在各个浏览器下正常运行，并允许修改我们传入迭代器 (iterator) 的参数，首先定义一组参数，然后删除未被 async 迭代器 (iterator) 使用的元素，并在最后插入一个回调函数：</p>
+
+<pre><code>var test = function (iterator) {
+    // the full list of available arguments
+    var args = ['value', 'index', 'arr'];
+
+    // remove the unused arguments
+    args = args.slice(0, iterator.length - 1);
+
+    // add the callback to the end
+    args.push('callback');
+
+    // run the iterator with the new arguments
+    return iterator.apply(this, args);
+};
+
+console.log('Example one:');
+
+test(function (value, index, arr, callback) {
+    console.log(value);
+    console.log(index);
+    console.log(arr);
+    console.log(callback);
+});
+
+console.log('Example two:');
+
+test(function (value, callback) {
+    console.log(value);
+    console.log(callback);
+});
+</code></pre>
+
+<p>执行结果如下：</p>
+
+<pre><code>Example one:
+
+value
+index
+arr
+callback
+
+Example two:
+
+value
+callback
+</code></pre>
+
+<p>如上所示，执行结果已经和我们的预期保持一致了。如果不使用迭代而使用普通的 arguments 来访问：</p>
+
+<pre><code>test(function () {
+    console.log(arguments[0]);
+    console.log(arguments[1]);
+    console.log(arguments[2]);
+    console.log(arguments[3]);
+});
+</code></pre>
+
+<p>输出结果是这样的：</p>
+
+<pre><code>value
+index
+callback
+undefined
+</code></pre>
+
+<p>这并不是我们所预期的，那好，稍微重构一下 test 函数：</p>
+
+<pre><code>var test = function (iterator) {
+    // the full list of available arguments
+    var args = ['value', 'index', 'arr'];
+
+    if (iterator.length) {
+        // remove the unused arguments
+        args = args.slice(0, iterator.length - 1);
+    }
+
+    // add the callback to the end
+    args.push('callback');
+
+    // run the iterator with the new arguments
+    return iterator.apply(this, args);
+};
+</code></pre>
+
+<p>输出结果：</p>
+
+<pre><code>value
+index
+arr
+callback
+</code></pre>
+
+<p>至此，大功告成。如果你还想进一步实践，check out <a href="http://caolan.github.com/nimble/">Nimble</a> 就可以了。如果遇到任何潜在问题，请随时提 <a href="https://github.com/caolan/nimble/issues">issue</a>。</p>
+
+	
+	<!--<p class="permalink">永久链接：<a href="http://nomospace.github.com/posts/flexible-callback-arguments.html">http://nomospace.github.com/posts/flexible-callback-arguments.html</a></p>-->
+</article>
+<div id="disqus_thread" class="comments"></div>
+
+	<footer>
+		<p>&copy; Since 2012 <a href="http://github.com/nomospace" target="_blank">github.com/nomospace</a></p>
+	</footer>
+</div>
+
+<aside>
+	<h2><a href="/">挪墨的空间</a><a href="/feed.xml" class="feed-link" title="RSS订阅"><img src="http://blog.rexsong.com/wp-content/themes/rexsong/icon_feed.gif" alt="RSS feed" /></a></h2>
+	<div class="block block-about">
+	  <h3>分类</h3>
+		<ul>
+		<li class="javascript"><a href="/category/javascript/">javascript</a></li>
+		<li class="node"><a href="/category/node/">node</a></li>
+		<li class="css"><a href="/category/css/">css</a></li>
+		<li class="html5"><a href="/category/html5/">html5</a></li>
+		<li class="frontend"><a href="/category/frontend/">frontend</a></li>
+		
+		</ul>
+	</div>
+
+	<form action="/search/" class="block block-search">
+		<h3>搜索</h3>
+    <input type="search" name="q" placeholder="输入关键词按回车搜索" />
+	</form>
+
+	<div class="block block-about">
+		<h3><a href="/douban">我的豆瓣</a></h3>
+	</div>
+
+	<div class="block block-about">
+		<h3><a href="/projects">我的项目</a></h3>
+	</div>
+
+	<div class="block block-about" style="display:none;">
+    <h3>关于</h3>
+		<figure>
+			<img src="http://www.gravatar.com/avatar/d6e8639fcaea0c7c0fab106033f05de0?s=80" />
+			<figcaption><strong>nomospace</strong></figcaption>
+		</figure>
+	</div>
+
+	<a href="http://github.com/nomospace" class="forkme"><img src="/assets/images/forkmeongithub.png" alt="Fork me on GitHub"></a>
+
+    <div class="block block-license">
+        <h3>版权申明</h3>
+        <p><a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/cn/" target="_blank" class="hide-target-icon" title="Copyright declaration of site content"><img alt="知识共享许可协议" src="http://i.creativecommons.org/l/by-nc-nd/2.5/cn/88x31.png" /></a></p>
+    </div>
+
+	<div class="block block-thank">
+        <h3>Powered by</h3>
+        <p>
+            <a href="http://disqus.com/" target="_blank">Disqus</a>,
+            <a href="http://www.google.com/cse/" target="_blank">Google Custom Search</a>,
+            <a href="https://github.com/" target="_blank">GitHub</a>,
+            <a href="http://en.gravatar.com/" target="_blank">Gravatar</a>,
+            <a href="http://softwaremaniacs.org/soft/highlight/en/">HighlightJS</a>,
+            <a href="https://github.com/mojombo/jekyll" target="_blank">jekyll</a>,
+            <a href="https://github.com/mytharcher/SimpleGray" target="_blank">SimpleGray</a>
+        </p>
+    </div>
+</aside>
+
+<script src="/assets/js/highlight.js"></script>
+<script src="/assets/js/hljs/languages/css.js"></script>
+<script src="/assets/js/hljs/languages/xml.js"></script>
+<script src="/assets/js/hljs/languages/javascript.js"></script>
+<script src="/assets/js/hljs/languages/ruby.js"></script>
+<script src="/assets/js/jquery-1.8.0.min.js"></script>
+
+    <script src="http://nomospace.disqus.com/embed.js"></script>
+
+<script src="/assets/js/site.js"></script>
+<script>
+    var _errs=["4fcf6a84a57ce4043f00032a"];(function(a,b){a.onerror=function(){_errs.push(arguments)};
+    var d=function(){var a=b.createElement("script"),c=b.getElementsByTagName("script")[0];
+    a.src="//d15qhc0lu1ghnk.cloudfront.net/beacon.js";a.async=!0;
+    c.parentNode.insertBefore(a,c)};a.addEventListener?a.addEventListener("load",d,!1):
+    a.attachEvent("onload",d)})(window,document);
+</script>
+<script>
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-31926992-1']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<script type="text/javascript">
+    var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F98b0bb1f70082dc53d1cfaafd343ce0c' type='text/javascript'%3E%3C/script%3E"));
+</script>
+</body>
+</html>

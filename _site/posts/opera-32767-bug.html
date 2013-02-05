@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="author" content="nomospace" />
+<meta name="keywords" content="" />
+<meta property="wb:webmaster" content="9d4b91032648dbe0" />
+<title>挪墨的空间 / 高度自适应与 Opera's 32767 Bug</title>
+<link href="http://nomospace.github.com/feed.xml" rel="alternate" title="挪墨的空间" type="application/atom+xml" />
+<link rel="stylesheet" type="text/css" href="/assets/css/site.css" />
+<link rel="stylesheet" type="text/css" href="/assets/css/code/github.css" />
+
+<!--[if IE]>
+<script src="/assets/js/html5.js"></script>
+<![endif]-->
+</head>
+
+<body class="page-type-post" data-name="">
+<div class="main">
+	<div class="trace">/ <a href="/">挪墨的空间</a> / 高度自适应与 Opera's 32767 Bug</div>
+
+<article>
+	<h1><a href="/posts/opera-32767-bug.html">高度自适应与 Opera's 32767 Bug</a></h1>
+	
+	<p class="meta">
+	<span class="datetime">2011-03-29</span> posted in [<a href="/category/frontend" class="category">frontend</a>]
+</p>
+	<div class="bct fc05 fc11 nbw-blog ztag js-fs2"><a target="_blank" href="http://photo.163.com/?from=logo">相册首页</a>整个右栏模块是高度自适应的，实现手段无非就是采用超大负margin+超大正padding相结合，并将溢出部分隐藏：<br>
+
+    <div>父容器：<br><img alt="高度自适应与Operas 32767 Bug - nomospace（挪墨） - Nomospace" style="margin: 0pt 10px 0pt 0pt;"
+                      src="/assets/images/687080418152379149.png"><br>右栏：<br></div>
+    &nbsp;<img alt="高度自适应与Operas 32767 Bug - nomospace（挪墨） - Nomospace" style="margin: 0pt 10px 0pt 0pt;"
+               src="/assets/images/598697275464612157.png"><br>在所有浏览器上都能表现良好，唯独在opera下出现了超长的滚动条，如图：<br>
+
+    <div>
+        <div><img alt="高度自适应与Operas 32767 Bug - nomospace（挪墨） - Nomospace" style="margin: 0pt 10px 0pt 0pt;"
+                  src="/assets/images/2815312717061297291.png"><br><br>其实，产生滚动条的根本原因可能是opera下overflow:hidden的bug，解决方案如下：<br>@media
+            all and (min-width:0) {.j-r{padding-bottom:0;margin-bottom:0;}}<br><br>当然，本文重点也不在如何解决这个bug上。实际上，如果给元素赋予一个超大值（比如9999em），opera下的样式会被解析成：<br>
+        </div>
+    </div>
+    <div>
+        <div><img alt="高度自适应与Operas 32767 Bug - nomospace（挪墨） - Nomospace" style="margin: 0pt 10px 0pt 0pt;"
+                  src="/assets/images/622341173508333761.png"><br><br>32767是2的15次方减一，刚好是16位整型数字的最大值，看起来opera无法处理大于32767px的高度/宽度。<br><img
+                src="file:///C:/DOCUME%7E1/User/LOCALS%7E1/Temp/moz-screenshot-13.png" alt=""><a target="_blank"
+                                                                                                 rel="nofollow"
+                                                                                                 href="http://www.aplusdesign.com.au/blog/opera-css-integer-bug/"><img
+                src="http://www.aplusdesign.com.au/blog/wp-content/uploads/2010/07/opera-css-integer-bug.jpg"
+                alt="Opera CSS Integer bug" width="225"></a><br>其实老外早就发现过<a target="_blank" rel="nofollow"
+                                                                            href="http://dev.opera.com/forums/topic/242545?t=1269270866&amp;page=1">类似问题</a>了，解决方案如下：<br>
+            <ul>
+                <li>宽度/高度值不大于32767</li>
+                <li><code>使用</code><a target="_blank" rel="nofollow" href="http://heeroluo.net/ShowPost62.aspx">max-width:
+                    none;</a></li>
+            </ul>
+            <br></div>
+    </div>
+    参考资料：<br>
+    <ul>
+        <li><a target="_blank" rel="nofollow" href="http://www.aplusdesign.com.au/blog/opera-css-integer-bug/">Opera CSS
+            Integer bug</a></li>
+        <li><a target="_blank" rel="nofollow" href="http://css-tricks.com/32766/">32766</a></li>
+        <li><strong></strong><a target="_blank" rel="nofollow" href="http://www.blueidea.com/tech/web/2006/3210.asp">CSS布局自适应高度解决方法</a>
+        </li>
+    </ul>
+</div>
+
+
+	
+	<!--<p class="permalink">永久链接：<a href="http://nomospace.github.com/posts/opera-32767-bug.html">http://nomospace.github.com/posts/opera-32767-bug.html</a></p>-->
+</article>
+<div id="disqus_thread" class="comments"></div>
+
+	<footer>
+		<p>&copy; Since 2012 <a href="http://github.com/nomospace" target="_blank">github.com/nomospace</a></p>
+	</footer>
+</div>
+
+<aside>
+	<h2><a href="/">挪墨的空间</a><a href="/feed.xml" class="feed-link" title="RSS订阅"><img src="http://blog.rexsong.com/wp-content/themes/rexsong/icon_feed.gif" alt="RSS feed" /></a></h2>
+	<div class="block block-about">
+	  <h3>分类</h3>
+		<ul>
+		<li class="javascript"><a href="/category/javascript/">javascript</a></li>
+		<li class="node"><a href="/category/node/">node</a></li>
+		<li class="css"><a href="/category/css/">css</a></li>
+		<li class="html5"><a href="/category/html5/">html5</a></li>
+		<li class="frontend"><a href="/category/frontend/">frontend</a></li>
+		
+		</ul>
+	</div>
+
+	<form action="/search/" class="block block-search">
+		<h3>搜索</h3>
+    <input type="search" name="q" placeholder="输入关键词按回车搜索" />
+	</form>
+
+	<div class="block block-about">
+		<h3><a href="/douban">我的豆瓣</a></h3>
+	</div>
+
+	<div class="block block-about">
+		<h3><a href="/projects">我的项目</a></h3>
+	</div>
+
+	<div class="block block-about" style="display:none;">
+    <h3>关于</h3>
+		<figure>
+			<img src="http://www.gravatar.com/avatar/d6e8639fcaea0c7c0fab106033f05de0?s=80" />
+			<figcaption><strong>nomospace</strong></figcaption>
+		</figure>
+	</div>
+
+	<a href="http://github.com/nomospace" class="forkme"><img src="/assets/images/forkmeongithub.png" alt="Fork me on GitHub"></a>
+
+    <div class="block block-license">
+        <h3>版权申明</h3>
+        <p><a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/cn/" target="_blank" class="hide-target-icon" title="Copyright declaration of site content"><img alt="知识共享许可协议" src="http://i.creativecommons.org/l/by-nc-nd/2.5/cn/88x31.png" /></a></p>
+    </div>
+
+	<div class="block block-thank">
+        <h3>Powered by</h3>
+        <p>
+            <a href="http://disqus.com/" target="_blank">Disqus</a>,
+            <a href="http://www.google.com/cse/" target="_blank">Google Custom Search</a>,
+            <a href="https://github.com/" target="_blank">GitHub</a>,
+            <a href="http://en.gravatar.com/" target="_blank">Gravatar</a>,
+            <a href="http://softwaremaniacs.org/soft/highlight/en/">HighlightJS</a>,
+            <a href="https://github.com/mojombo/jekyll" target="_blank">jekyll</a>,
+            <a href="https://github.com/mytharcher/SimpleGray" target="_blank">SimpleGray</a>
+        </p>
+    </div>
+</aside>
+
+<script src="/assets/js/highlight.js"></script>
+<script src="/assets/js/hljs/languages/css.js"></script>
+<script src="/assets/js/hljs/languages/xml.js"></script>
+<script src="/assets/js/hljs/languages/javascript.js"></script>
+<script src="/assets/js/hljs/languages/ruby.js"></script>
+<script src="/assets/js/jquery-1.8.0.min.js"></script>
+
+    <script src="http://nomospace.disqus.com/embed.js"></script>
+
+<script src="/assets/js/site.js"></script>
+<script>
+    var _errs=["4fcf6a84a57ce4043f00032a"];(function(a,b){a.onerror=function(){_errs.push(arguments)};
+    var d=function(){var a=b.createElement("script"),c=b.getElementsByTagName("script")[0];
+    a.src="//d15qhc0lu1ghnk.cloudfront.net/beacon.js";a.async=!0;
+    c.parentNode.insertBefore(a,c)};a.addEventListener?a.addEventListener("load",d,!1):
+    a.attachEvent("onload",d)})(window,document);
+</script>
+<script>
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-31926992-1']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<script type="text/javascript">
+    var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F98b0bb1f70082dc53d1cfaafd343ce0c' type='text/javascript'%3E%3C/script%3E"));
+</script>
+</body>
+</html>

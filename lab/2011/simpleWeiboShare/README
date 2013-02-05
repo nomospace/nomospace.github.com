@@ -1,0 +1,6 @@
+/*
+ * 	结论（测试环境均为xp）：
+ * 		ie6/7/8中无法使用键盘取词
+ * 		opera11下无法用鼠标选取image
+ * 		ff4选取image，如果alt有值，window.getSelection().toString()返回的则是这个alt值
+ */ 

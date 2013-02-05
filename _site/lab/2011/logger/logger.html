@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>日志工具测试</title>
+</head>
+<body>
+<div id="test">
+  <input type="button" value="log string" onclick="Logger.show('ffffff')"/>
+  <input type="button" value="log number" onclick="Logger.show(1111)"/>
+  <input type="button" value="log object" onclick="Logger.show({t:1111,b:2222})"/>
+  <input type="button" value="log array" onclick="Logger.show([1111,2222])"/>
+  <input type="button" value="log function" onclick="Logger.show(function(){alert('this is funcion')})"/>
+</div>
+<script type="text/javascript" src="logger.js"></script>
+<script type="text/javascript">
+  Logger.show(navigator.appName);
+  Logger.show(navigator.userAgent);
+</script>
+</body>
+</html>

@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="author" content="nomospace" />
+<meta name="keywords" content="" />
+<meta property="wb:webmaster" content="9d4b91032648dbe0" />
+<title>挪墨的空间 / Watermark.js for NodeJS</title>
+<link href="http://nomospace.github.com/feed.xml" rel="alternate" title="挪墨的空间" type="application/atom+xml" />
+<link rel="stylesheet" type="text/css" href="/assets/css/site.css" />
+<link rel="stylesheet" type="text/css" href="/assets/css/code/github.css" />
+
+<!--[if IE]>
+<script src="/assets/js/html5.js"></script>
+<![endif]-->
+</head>
+
+<body class="page-type-post" data-name="">
+<div class="main">
+	<div class="trace">/ <a href="/">挪墨的空间</a> / Watermark.js for NodeJS</div>
+
+<article>
+	<h1><a href="/posts/watermark-for-node.html">Watermark.js for NodeJS</a></h1>
+	
+	<p class="meta">
+	<span class="datetime">2011-06-22</span> posted in [<a href="/category/node" class="category">node</a>]
+</p>
+	<div class="bct fc05 fc11 nbw-blog ztag js-fs2">感谢<a target="_blank" rel="nofollow"
+                                                     href="https://github.com/LearnBoost">LearnBoost</a>团队对<a
+        target="_blank" rel="nofollow" href="https://github.com/LearnBoost/node-canvas">node-canvas</a>的研究以及<a
+        target="_blank" rel="nofollow" href="http://www.patrick-wied.at/">Patrick Wied</a>的<a target="_blank"
+                                                                                              rel="nofollow"
+                                                                                              href="https://github.com/pa7/watermark.js">watermark.js</a>
+project，我在两者基础上进行整合并尝试将watermark.js移植到NodeJS下，借此实现给指定目录下的所有图片打上水印。简单说下技术要点和实现原理。<br><b><br>如何制作水印？</b><br><br>根据<a
+        target="_blank" rel="nofollow"
+        href="http://letmein.at/js/how-to-create-transparency-in-images-with-html5canvas/">Patrick Wied
+    watermark.js的指导</a>，可简单分为三个步骤。<br><br>第一步，把水印图片画到canvas上。由于在NodeJS中运行，于是对其稍作修改：<br><br><span
+        style="border-collapse: separate; color: rgb(0, 0, 0); font-family: 'Times New Roman'; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;"><span
+        style="font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; font-size: 12px; line-height: 18px; text-align: left;"><span
+        style="border-collapse: separate; color: rgb(0, 0, 0); font-family: 'Times New Roman'; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;"><span
+        style="font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; font-size: 12px; line-height: 18px; text-align: left;"><ol
+        start="1"
+        style="font-size: 1em; line-height: 1.4em; margin-top: 0px; margin-right: 0px; margin-bottom: 1px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(209, 215, 220); border-right-color: rgb(209, 215, 220); border-bottom-color: rgb(209, 215, 220); border-left-color: rgb(209, 215, 220); list-style-type: decimal; list-style-position: initial; list-style-image: initial; background-color: rgb(255, 255, 255); color: rgb(43, 145, 175);">
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                <span style="color: black;"><span
+                        style="color: rgb(0, 130, 0);">//&nbsp;获取img元素对象，并设置srcPath</span><span style="color: black;">&nbsp;&nbsp;</span></span>
+    </li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                <span style="color: black;"><span style="color: rgb(127, 0, 85); font-weight: bold;">var</span><span
+                        style="color: black;">&nbsp;img&nbsp;=&nbsp;</span><span
+                        style="color: rgb(127, 0, 85); font-weight: bold;">new</span><span style="color: black;">&nbsp;Image;&nbsp;&nbsp;</span></span>
+    </li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">img.src&nbsp;=&nbsp;srcPath;&nbsp; <br></span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style=" color: black;"><br></span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                <span style="color: black;"><span style="color: rgb(0, 130, 0);">//&nbsp;创建canvas元素对象</span><span
+                        style="color: black;">&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                <span style="color: black;">canvas&nbsp;=&nbsp;<span style="color: rgb(127, 0, 85); font-weight: bold;">new</span><span
+                        style="color: black;">&nbsp;Canvas;&nbsp; <br></span></span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style=" color: black;"><span style=" color: black;"><br></span></span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                <span style="color: black;"><span style="color: rgb(0, 130, 0);">//&nbsp;获取canvas上下文</span><span
+                        style="color: black;">&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                <span style="color: black;">ctx&nbsp;=&nbsp;canvas.getContext(<span
+                        style="color: blue;">"2d"</span><span style="color: black;">);&nbsp; <br></span></span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style=" color: black;"><span style=" color: black;"><br></span></span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                <span style="color: black;"><span
+                        style="color: rgb(0, 130, 0);">//&nbsp;设置canvas元素宽高，一般来说与img元素尺寸相同即可</span><span
+                        style="color: black;">&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">canvas.width&nbsp;=&nbsp;img.width;&nbsp;&nbsp;</span></li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">canvas.height&nbsp;=&nbsp;img.height;&nbsp; <br></span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style=" color: black;"><br></span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                <span style="color: black;"><span style="color: rgb(0, 130, 0);">//&nbsp;在canvas中描绘img元素</span><span
+                        style="color: black;">&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">ctx.drawImage(img,&nbsp;0,&nbsp;0);</span></li>
+</ol></span></span></span></span><br>srcPath可以是一段url、绝对路径或者相对路径，关于path详细参考<a target="_blank" rel="nofollow"
+                                                                             href="http://cnodejs.org/cman/path.html">Node.js
+    Manual</a>。<br><br>第二步，修改水印图片的透明度：<br><br><span
+        style="border-collapse: separate; color: rgb(0, 0, 0); font-family: 'Times New Roman'; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;"><span
+        style="font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; font-size: 12px; line-height: 18px; text-align: left;"><ol
+        start="1"
+        style="font-size: 1em; line-height: 1.4em; margin-top: 0px; margin-right: 0px; margin-bottom: 1px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(209, 215, 220); border-right-color: rgb(209, 215, 220); border-bottom-color: rgb(209, 215, 220); border-left-color: rgb(209, 215, 220); list-style-type: decimal; list-style-position: initial; list-style-image: initial; background-color: rgb(255, 255, 255); color: rgb(43, 145, 175);">
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                <span style="color: black;"><span style="color: rgb(0, 130, 0);">//&nbsp;获取imageData对象</span><span
+                        style="color: black;">&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                <span style="color: black;"><span style="color: rgb(127, 0, 85); font-weight: bold;">var</span><span
+                        style="color: black;">&nbsp;image&nbsp;=&nbsp;ctx.getImageData(0,&nbsp;0,&nbsp;500,&nbsp;200);&nbsp; <br></span></span>
+    </li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style=" color: black;"><span style=" color: black;"><br></span></span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                <span style="color: black;"><span style="color: rgb(0, 130, 0);">//&nbsp;获取imageData对象值</span><span
+                        style="color: black;">&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                <span style="color: black;"><span style="color: rgb(127, 0, 85); font-weight: bold;">var</span><span
+                        style="color: black;">&nbsp;imageData&nbsp;=&nbsp;image.data,&nbsp;length&nbsp;=&nbsp;imageData.length;&nbsp; <br></span></span>
+    </li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style=" color: black;"><span style=" color: black;"><br></span></span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                <span style="color: black;"><span style="color: rgb(0, 130, 0);">//&nbsp;imageData中一个像素包含四个值，分别是R/G/B和alpha(rgba)，故此处循环时每隔4改变一次imageData对应的alpha值（0&nbsp;&lt;=&nbsp;alpha&nbsp;&lt;=&nbsp;255）</span><span
+                        style="color: black;">&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                <span style="color: black;"><span style="color: rgb(127, 0, 85); font-weight: bold;">for</span><span
+                        style="color: black;">&nbsp;(</span><span
+                        style="color: rgb(127, 0, 85); font-weight: bold;">var</span><span style="color: black;">&nbsp;i&nbsp;=&nbsp;3;&nbsp;i&nbsp;&lt;&nbsp;length;&nbsp;i&nbsp;+=&nbsp;4)&nbsp;{&nbsp;&nbsp;</span></span>
+    </li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;imageData[i]&nbsp;=&nbsp;50;&nbsp;&nbsp;</span></li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">}&nbsp; <br></span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style=" color: black;"><br></span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                <span style="color: black;"><span style="color: rgb(0, 130, 0);">//&nbsp;重置数据</span><span
+                        style="color: black;">&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">image.data&nbsp;=&nbsp;imageData;&nbsp; <br></span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style=" color: black;"><br></span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                <span style="color: black;"><span style="color: rgb(0, 130, 0);">//&nbsp;将其重新置于canvas中</span><span
+                        style="color: black;">&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">ctx.putImageData(image,&nbsp;0,&nbsp;0); <br></span></li>
+</ol></span></span><br><span
+        style="border-collapse: separate; color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;"><span
+        style="font-family: Monaco,'DejaVu Sans Mono','Bitstream Vera Sans Mono',Consolas,'Courier New',monospace; font-size: 12px; line-height: 18px; text-align: left;"></span></span>第三步，给图片设置转化后的dataUrl：<span
+        style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;"><span
+        style="font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; font-size: 12px; line-height: 18px; text-align: left;"><span
+        style="background-color: rgb(192, 192, 192);">img</span></span></span><span
+        style="border-collapse: separate; color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;"><span
+        style="font-family: Monaco,'DejaVu Sans Mono','Bitstream Vera Sans Mono',Consolas,'Courier New',monospace; font-size: 12px; line-height: 18px; text-align: left;"><span
+        style="background-color: rgb(192, 192, 192);">.src&nbsp;=&nbsp;canvas.toDataURL();</span></span></span>，以此获得调整过的img对象。<br><br><span
+        style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;"><span
+        style="font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; font-size: 12px; line-height: 18px; text-align: left;"></span></span><span
+        style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;"><span
+        style="font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; font-size: 12px; line-height: 18px; text-align: left;"><ol
+        start="1"
+        style="font-size: 1em; line-height: 1.4em; margin-top: 0px; margin-right: 0px; margin-bottom: 1px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(209, 215, 220); border-right-color: rgb(209, 215, 220); border-bottom-color: rgb(209, 215, 220); border-left-color: rgb(209, 215, 220); list-style-type: decimal; list-style-position: initial; list-style-image: initial; background-color: rgb(255, 255, 255); color: rgb(43, 145, 175);">
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                <span style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;"><span
+                        style="font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; font-size: 12px; line-height: 18px; text-align: left;"><span
+                        style="color: black;"><span
+                        style="color: black;">img.src = canvas.toDataURL();</span></span></span></span><br><span
+            style="color: black;"><span style="color: black;"></span></span></li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;"><span style="color: black;">ctx.drawImage(</span></span><span
+            style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;"><span
+            style="font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; font-size: 12px; line-height: 18px; text-align: left;"><span
+            style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;"><span
+            style="font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; font-size: 12px; line-height: 18px; text-align: left;"><span
+            style="color: black;"><span style="color: black;">img</span></span></span></span></span></span><span
+            style="color: black;"><span style="color: black;">, 0, 0); <br></span></span></li>
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                <span style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;"><span
+                        style="font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; font-size: 12px; line-height: 18px; text-align: left;"><span
+                        style="color: black;"><span
+                        style="color: black;">ctx.drawImage(originImage,&nbsp;x,&nbsp;y); </span></span></span></span>
+    </li>
+</ol></span></span><br>把两张图片画在canvas不同的位置，最终实现了打水印。<br><br><font color="#808080">TODO：<span
+        style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;"><span
+        style="font-family: Monaco,'DejaVu Sans Mono','Bitstream Vera Sans Mono',Consolas,'Courier New',monospace; font-size: 12px; line-height: 18px; text-align: left;"><span
+        style="background-color: rgb(192, 192, 192);">watermarkImage.src&nbsp;= </span></span></span><span
+        style="border-collapse: separate; color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;"><span
+        style="font-family: Monaco,'DejaVu Sans Mono','Bitstream Vera Sans Mono',Consolas,'Courier New',monospace; font-size: 12px; line-height: 18px; text-align: left;"><span
+        style="background-color: rgb(192, 192, 192);">canvas</span></span></span><span
+        style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Tahoma; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;"><span
+        style="font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; font-size: 12px; line-height: 18px; text-align: left;"><span
+        style="background-color: rgb(192, 192, 192);">.toDataURL();</span>，</span></span>这段代码将toDataURL转换后的base64值作为src赋给watermarkImage，在NodeJS下并不会触发image元素的onload事件（即加载失败），但在浏览器环境下却能正常加载。最终导致在NodeJS环境下无法打出具有一定透明度的水印。</font><br><br><span
+        style="border-collapse: separate; color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;"><span
+        style="font-family: Monaco,'DejaVu Sans Mono','Bitstream Vera Sans Mono',Consolas,'Courier New',monospace; font-size: 12px; line-height: 18px; text-align: left;"></span></span><b>如何保存打过水印的新图片？<br><br></b>这个问题很简单，node-canvas提供了<span
+        style="border-collapse: separate; color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium; background-color: rgb(192, 192, 192);"><span
+        style="font-family: Monaco,'DejaVu Sans Mono','Bitstream Vera Sans Mono',Consolas,'Courier New',monospace; font-size: 12px; line-height: 18px; text-align: left;"><span
+        style="color: black;">createSyncPNGStream</span></span></span>接口，该接口扩展自<a target="_blank" rel="nofollow"
+                                                                                  href="http://cnodejs.org/cman/streams.html#streams_">Stream</a>，用来保存PNG流：<br><br><span
+        style="border-collapse: separate; color: rgb(0, 0, 0); font-family: 'Times New Roman'; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;"><span
+        style="font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; font-size: 12px; line-height: 18px; text-align: left;"><ol
+        start="1"
+        style="font-size: 1em; line-height: 1.4em; margin-top: 0px; margin-right: 0px; margin-bottom: 1px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(209, 215, 220); border-right-color: rgb(209, 215, 220); border-bottom-color: rgb(209, 215, 220); border-left-color: rgb(209, 215, 220); list-style-type: decimal; list-style-position: initial; list-style-image: initial; background-color: rgb(255, 255, 255); color: rgb(43, 145, 175);">
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                <span style="color: black;"><span style="color: rgb(127, 0, 85); font-weight: bold;">var</span><span
+                        style="color: black;">&nbsp;out&nbsp;=&nbsp;fs.createWriteStream(imagePath&nbsp;+&nbsp;</span><span
+                        style="color: blue;">'.watermark.png'</span><span
+                        style="color: black;">),&nbsp;&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;stream&nbsp;=&nbsp;canvas.createSyncPNGStream();&nbsp;&nbsp;</span>
+    </li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                <span style="color: black;">stream.on(<span style="color: blue;">'data'</span><span
+                        style="color: black;">,&nbsp;</span><span style="color: rgb(127, 0, 85); font-weight: bold;">function</span><span
+                        style="color: black;">(chunk){out.write(chunk);});&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                <span style="color: black;">stream.on(<span style="color: blue;">'end'</span><span
+                        style="color: black;">,&nbsp;</span><span style="color: rgb(127, 0, 85); font-weight: bold;">function</span><span
+                        style="color: black;">(){out.end();});&nbsp; <br></span></span></li>
+</ol></span></span><br>实际效果如图所示：<br>
+
+<div>
+    <div><img alt="Watermark.js for NodeJS - 挪墨 - Nomospace" style="margin:0 10px 0 0;"
+              src="/assets/images/2707789275973289468.png"><br><br></div>
+</div>
+注意此处都是png格式的图片，调试过程中得知node-canvas目前只支持png格式文件的读取、写入，在源代码中也有这么一段：<br><br><span
+        style="border-collapse: separate; color: rgb(0, 0, 0); font-family: 'Times New Roman'; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;"><span
+        style="font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; font-size: 12px; line-height: 18px; text-align: left;"><ol
+        start="1"
+        style="font-size: 1em; line-height: 1.4em; margin-top: 0px; margin-right: 0px; margin-bottom: 1px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(209, 215, 220); border-right-color: rgb(209, 215, 220); border-bottom-color: rgb(209, 215, 220); border-left-color: rgb(209, 215, 220); list-style-type: decimal; list-style-position: initial; list-style-image: initial; background-color: rgb(255, 255, 255); color: rgb(43, 145, 175);">
+    <li style="font-size: 1em; margin: 0px 0px 0px 38px; padding: 0px 0px 0px 10px; border-left: 1px solid rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        // Canvas.prototype.toDataURL
+    </li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                <span style="color: black;"><span
+                        style="color: rgb(0, 130, 0);">//&nbsp;Throw&nbsp;on&nbsp;non-png</span><span
+                        style="color: black;">&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                <span style="color: black;"><span style="color: rgb(127, 0, 85); font-weight: bold;">if</span><span
+                        style="color: black;">&nbsp;(</span><span style="color: blue;">'image/png'</span><span
+                        style="color: black;">&nbsp;!=&nbsp;type)&nbsp;</span><span
+                        style="color: rgb(127, 0, 85); font-weight: bold;">throw</span><span style="color: black;">&nbsp;</span><span
+                        style="color: rgb(127, 0, 85); font-weight: bold;">new</span><span style="color: black;">&nbsp;Error(</span><span
+                        style="color: blue;">'currently&nbsp;only&nbsp;image/png&nbsp;is&nbsp;supported'</span><span
+                        style="color: black;">);</span></span></li>
+</ol></span></span><br>有兴趣的读者可以参考<a target="_blank" rel="nofollow"
+                                    href="https://github.com/nomospace/nomospace.github.com/tree/master/lab/2011/watermark">watermark
+    for NodeJS@github</a>，细节部分不再赘述。<br><br><br>参考资料<br><a target="_blank" rel="nofollow"
+                                                          href="http://blog.learnboost.com/blog/introducing-node-canvas-server-side-html5-canvas-api/">Introducing
+    node-canvas. Server side HTML5 canvas API</a><br><a target="_blank" rel="nofollow"
+                                                        href="http://diveintohtml5.org/canvas.html#divingin">Canvas
+    - Dive Into HTML5</a><br><a target="_blank" rel="nofollow"
+                                href="https://developer.mozilla.org/en/canvas_tutorial">Canvas tutorial</a>
+</div>
+
+
+
+
+	
+	<!--<p class="permalink">永久链接：<a href="http://nomospace.github.com/posts/watermark-for-node.html">http://nomospace.github.com/posts/watermark-for-node.html</a></p>-->
+</article>
+<div id="disqus_thread" class="comments"></div>
+
+	<footer>
+		<p>&copy; Since 2012 <a href="http://github.com/nomospace" target="_blank">github.com/nomospace</a></p>
+	</footer>
+</div>
+
+<aside>
+	<h2><a href="/">挪墨的空间</a><a href="/feed.xml" class="feed-link" title="RSS订阅"><img src="http://blog.rexsong.com/wp-content/themes/rexsong/icon_feed.gif" alt="RSS feed" /></a></h2>
+	<div class="block block-about">
+	  <h3>分类</h3>
+		<ul>
+		<li class="javascript"><a href="/category/javascript/">javascript</a></li>
+		<li class="node"><a href="/category/node/">node</a></li>
+		<li class="css"><a href="/category/css/">css</a></li>
+		<li class="html5"><a href="/category/html5/">html5</a></li>
+		<li class="frontend"><a href="/category/frontend/">frontend</a></li>
+		
+		</ul>
+	</div>
+
+	<form action="/search/" class="block block-search">
+		<h3>搜索</h3>
+    <input type="search" name="q" placeholder="输入关键词按回车搜索" />
+	</form>
+
+	<div class="block block-about">
+		<h3><a href="/douban">我的豆瓣</a></h3>
+	</div>
+
+	<div class="block block-about">
+		<h3><a href="/projects">我的项目</a></h3>
+	</div>
+
+	<div class="block block-about" style="display:none;">
+    <h3>关于</h3>
+		<figure>
+			<img src="http://www.gravatar.com/avatar/d6e8639fcaea0c7c0fab106033f05de0?s=80" />
+			<figcaption><strong>nomospace</strong></figcaption>
+		</figure>
+	</div>
+
+	<a href="http://github.com/nomospace" class="forkme"><img src="/assets/images/forkmeongithub.png" alt="Fork me on GitHub"></a>
+
+    <div class="block block-license">
+        <h3>版权申明</h3>
+        <p><a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/cn/" target="_blank" class="hide-target-icon" title="Copyright declaration of site content"><img alt="知识共享许可协议" src="http://i.creativecommons.org/l/by-nc-nd/2.5/cn/88x31.png" /></a></p>
+    </div>
+
+	<div class="block block-thank">
+        <h3>Powered by</h3>
+        <p>
+            <a href="http://disqus.com/" target="_blank">Disqus</a>,
+            <a href="http://www.google.com/cse/" target="_blank">Google Custom Search</a>,
+            <a href="https://github.com/" target="_blank">GitHub</a>,
+            <a href="http://en.gravatar.com/" target="_blank">Gravatar</a>,
+            <a href="http://softwaremaniacs.org/soft/highlight/en/">HighlightJS</a>,
+            <a href="https://github.com/mojombo/jekyll" target="_blank">jekyll</a>,
+            <a href="https://github.com/mytharcher/SimpleGray" target="_blank">SimpleGray</a>
+        </p>
+    </div>
+</aside>
+
+<script src="/assets/js/highlight.js"></script>
+<script src="/assets/js/hljs/languages/css.js"></script>
+<script src="/assets/js/hljs/languages/xml.js"></script>
+<script src="/assets/js/hljs/languages/javascript.js"></script>
+<script src="/assets/js/hljs/languages/ruby.js"></script>
+<script src="/assets/js/jquery-1.8.0.min.js"></script>
+
+    <script src="http://nomospace.disqus.com/embed.js"></script>
+
+<script src="/assets/js/site.js"></script>
+<script>
+    var _errs=["4fcf6a84a57ce4043f00032a"];(function(a,b){a.onerror=function(){_errs.push(arguments)};
+    var d=function(){var a=b.createElement("script"),c=b.getElementsByTagName("script")[0];
+    a.src="//d15qhc0lu1ghnk.cloudfront.net/beacon.js";a.async=!0;
+    c.parentNode.insertBefore(a,c)};a.addEventListener?a.addEventListener("load",d,!1):
+    a.attachEvent("onload",d)})(window,document);
+</script>
+<script>
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-31926992-1']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<script type="text/javascript">
+    var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F98b0bb1f70082dc53d1cfaafd343ce0c' type='text/javascript'%3E%3C/script%3E"));
+</script>
+</body>
+</html>

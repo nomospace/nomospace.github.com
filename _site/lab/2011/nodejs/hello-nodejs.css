@@ -1,0 +1,10 @@
+.con{width:500px;margin:20px auto;}
+h1{font-size:20px;padding-bottom:10px;}
+.avt{float:left;}
+.main{margin-left:60px;padding-top:10px;}
+li:after{clear:both;content:'.';display:block;height:0;visibility:hidden;}
+li{zoom:1;border-bottom:1px solid #eee;margin-bottom:4px;padding-bottom:4px;}
+h2,.entry,.name,.dname{font-size:14px;}
+.entry{padding-bottom:4px;}
+.name{font-weight:bold;padding-right:4px;}
+.meta{color:#999;}

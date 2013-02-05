@@ -1,0 +1,560 @@
+---
+layout: post
+title: 浅析 kangax 提出的 Javascript quiz
+category: javascript
+---
+<div class="bct fc05 fc11 nbw-blog ztag js-fs2">
+    <div style="background-color: transparent; width: 851px; overflow-x: auto; overflow-y: auto; margin-left: 9px; padding-top: 1px; padding-right: 1px; padding-bottom: 1px; padding-left: 1px; word-break: break-all; word-wrap: break-word;">
+        <div>
+            <div style="padding-top: 3px; padding-right: 3px; padding-bottom: 3px; padding-left: 3px; text-align: left; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px;">
+                <p><a target="_blank" rel="nofollow"
+                      href="http://perfectionkills.com/javascript-quiz/?utm_source=feedburner&amp;utm_medium=feed&amp;utm_campaign=Feed%3A+PerfectionKills+%28Perfection+kills%29&amp;utm_content=Google+Reader">Javascript
+                    quiz</a>一文是JS大师<a target="_blank" rel="nofollow" href="http://perfectionkills.com/">kangax</a>一年前发表的，网上仔细找找应该有不少关于此文的分析。在此我想炒个冷饭，根据对JS的理解与现有经验尝试作出自己的分析。如有分析不到位的地方，恳请指正。
+                </p>
+
+                <p><br></p>
+
+                <p><span
+                        style="font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; font-size: 12px; font-weight: bold; line-height: 18px;">代码片段一</span>
+                </p></div>
+        </div>
+        <div style="font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; font-size: 12px; line-height: 18px; padding-top: 3px; padding-right: 3px; padding-bottom: 3px; padding-left: 3px; text-align: left; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; color: black; font-weight: bold;">
+            <span style="font-weight: normal;"><ol start="1"
+                                                   style="font-size: 1em; line-height: 1.4em; margin-top: 0px; margin-right: 0px; margin-bottom: 1px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(209, 215, 220); border-right-color: rgb(209, 215, 220); border-bottom-color: rgb(209, 215, 220); border-left-color: rgb(209, 215, 220); list-style-type: decimal; list-style-position: initial; list-style-image: initial; background-color: rgb(255, 255, 255); color: rgb(43, 145, 175);">
+                <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                    <span style="color: black;"><span style="color: black;">(</span><span
+                            style="color: rgb(127, 0, 85); font-weight: bold;">function</span><span
+                            style="color: black;">(){&nbsp;&nbsp;</span></span></li>
+                <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                    <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;<span
+                            style="color: rgb(127, 0, 85); font-weight: bold;">return</span><span style="color: black;">&nbsp;</span><span
+                            style="color: rgb(127, 0, 85); font-weight: bold;">typeof</span><span style="color: black;">&nbsp;arguments;&nbsp;&nbsp;</span></span>
+                </li>
+                <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                    <span style="color: black;">})(); &nbsp;</span></li>
+            </ol></span></div>
+    </div>
+    <div style="line-height: 18px; font-size: 12px; font-family: Arial, sans-serif, Helvetica, Tahoma;"><span
+            style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 22px; background-color: rgb(255, 255, 255);"><font
+            color="#c0c0c0">//&nbsp;"object"</font></span></div>
+    <div>本题考察arguments对象。arguments是Array-like对象，并不是Array，它的__proto__指向Object，参考<a target="_blank" rel="nofollow"
+                                                                                  href="http://www.mollypages.org/misc/jsobj_full.jpg">Javascript
+        Object Layout</a>。
+    </div>
+    <div><br></div>
+    <div>
+        <div>
+            <div style="line-height: 18px; font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; font-size: 12px; background-color: transparent; width: 851px; overflow-x: auto; overflow-y: auto; margin-left: 9px; padding-top: 1px; padding-right: 1px; padding-bottom: 1px; padding-left: 1px; word-break: break-all; word-wrap: break-word;">
+                <div>
+                    <div style="padding-top: 3px; padding-right: 3px; padding-bottom: 3px; padding-left: 3px; text-align: left; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; color: black; font-weight: bold;">
+                        <span style="line-height: 18px;">代码</span><span style="line-height: 18px;">片段</span><span
+                            style="line-height: 18px;">二</span></div>
+                </div>
+                <ol start="1"
+                    style="font-size: 1em; line-height: 1.4em; margin-top: 0px; margin-right: 0px; margin-bottom: 1px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(209, 215, 220); border-right-color: rgb(209, 215, 220); border-bottom-color: rgb(209, 215, 220); border-left-color: rgb(209, 215, 220); list-style-type: decimal; list-style-position: initial; list-style-image: initial; background-color: rgb(255, 255, 255); color: rgb(43, 145, 175);">
+                    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                        <span style="color: black;"><span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">var</span><span
+                                style="color: black;">&nbsp;f&nbsp;=&nbsp;</span><span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">function</span><span
+                                style="color: black;">&nbsp;g(){&nbsp;&nbsp;</span></span></li>
+                    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;<span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">return</span><span
+                                style="color: black;">&nbsp;23;&nbsp;&nbsp;</span></span></li>
+                    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                        <span style="color: black;">};&nbsp;&nbsp;</span></li>
+                    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                        <span style="color: black;"><span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">typeof</span><span
+                                style="color: black;">&nbsp;g(); &nbsp;</span></span></li>
+                </ol>
+            </div>
+            <font color="#c0c0c0">// “number”或者浏览器报语法错误</font></div>
+        <div>本题考察<a style="line-height: 22px;" target="_blank" rel="nofollow"
+                    href="http://www.cn-cuckoo.com/main/wp-content/uploads/2009/12/named-function-expressions-demystified.html#expr-vs-decl">函数表达式与函数声明</a>，两者关系十分微妙。类似于lifesinger以前出过的<a
+                target="_blank" rel="nofollow" href="http://www.f2eskills.com/2010/10/the-answer-of-a-hard-quiz/">一道“大”题目</a>（lifesinger&nbsp;blog原文数据已丢失），由于篇幅问题在此不作细述，强烈建议读者仔细研读本题中的参考资料。
+        </div>
+        <div><br></div>
+        <div><span
+                style="font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; font-size: 12px; font-weight: bold; line-height: 18px;">&nbsp; 代码片段三</span>
+        </div>
+        <div>
+            <div style="line-height: 18px; font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; font-size: 12px; background-color: transparent; width: 851px; overflow-x: auto; overflow-y: auto; margin-left: 9px; padding-top: 1px; padding-right: 1px; padding-bottom: 1px; padding-left: 1px; word-break: break-all; word-wrap: break-word;">
+                <div>
+                    <div style="padding-top: 3px; padding-right: 3px; padding-bottom: 3px; padding-left: 3px; text-align: left; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; color: black; font-weight: bold;"></div>
+                </div>
+                <ol start="1"
+                    style="font-size: 1em; line-height: 1.4em; margin-top: 0px; margin-right: 0px; margin-bottom: 1px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(209, 215, 220); border-right-color: rgb(209, 215, 220); border-bottom-color: rgb(209, 215, 220); border-left-color: rgb(209, 215, 220); list-style-type: decimal; list-style-position: initial; list-style-image: initial; background-color: rgb(255, 255, 255); color: rgb(43, 145, 175);">
+                    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                        <span style="color: black;"><span style="color: black;">(</span><span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">function</span><span
+                                style="color: black;">(x){&nbsp;&nbsp;</span></span></li>
+                    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;<span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">delete</span><span
+                                style="color: black;">&nbsp;x;&nbsp;&nbsp;</span></span></li>
+                    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;<span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">return</span><span
+                                style="color: black;">&nbsp;x;&nbsp;&nbsp;</span></span></li>
+                    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                        <span style="color: black;">})(1);&nbsp;&nbsp;</span></li>
+                </ol>
+            </div>
+            <font color="#c0c0c0">// 1<br></font>本题考察delete运算符。根据<a target="_blank" rel="nofollow"
+                                                                    href="https://developer.mozilla.org/en/JavaScript/Reference/Operators/Special/delete">MDC</a>，<span
+                style="color: rgb(51, 51, 51); font-family: 'Lucida Grande', 'Lucida Sans Unicode', Lucida, Arial, Helvetica, sans-serif;">If&nbsp;</span><span
+                style="color: rgb(51, 51, 51); font-family: 'Lucida Grande', 'Lucida Sans Unicode', Lucida, Arial, Helvetica, sans-serif;"><em>expression</em></span><span
+                style="color: rgb(51, 51, 51); font-family: 'Lucida Grande', 'Lucida Sans Unicode', Lucida, Arial, Helvetica, sans-serif;">&nbsp;does not evaluate to a property,&nbsp;</span><span
+                style="color: rgb(51, 51, 51); font-family: 'Lucida Grande', 'Lucida Sans Unicode', Lucida, Arial, Helvetica, sans-serif;"><code
+                style="font-style: inherit; font-weight: inherit; font: normal normal normal 100%/normal 'Courier New', 'Andale Mono', monospace;">delete</code></span><span
+                style="color: rgb(51, 51, 51); font-family: 'Lucida Grande', 'Lucida Sans Unicode', Lucida, Arial, Helvetica, sans-serif;">&nbsp;does nothing.</span><span
+                style="color: rgb(51, 51, 51); font-family: 'Lucida Grande', 'Lucida Sans Unicode', Lucida, Arial, Helvetica, sans-serif;">Some object properties cannot be deleted. In the ECMA 262 specification these are marked as&nbsp;<em><b>DontDelete</b></em>.</span><span
+                style="color: rgb(51, 51, 51); font-family: 'Lucida Grande', 'Lucida Sans Unicode', Lucida, Arial, Helvetica, sans-serif;">The&nbsp;<code
+                style="font-style: inherit; font-weight: inherit; font: normal normal normal 100%/normal 'Courier New', 'Andale Mono', monospace;">delete</code>&nbsp;operator returns false only if the property exists and cannot be deleted. It returns true in all other cases.&nbsp;</span>此处的x实际上是arguments，<span
+                style="color: rgb(51, 51, 51); font-family: 'Lucida Grande', 'Lucida Sans Unicode', Lucida, Arial, Helvetica, sans-serif;">属性为</span><span
+                style="color: rgb(51, 51, 51); font-family: 'Lucida Grande', 'Lucida Sans Unicode', Lucida, Arial, Helvetica, sans-serif;"><em
+                style="line-height: 22px; font-style: italic;"><b>DontDelete</b>。</em><span style="line-height: 22px;">想深入了解</span><span
+                style="line-height: 22px;">delete细节，参考</span></span><a target="_blank" rel="nofollow"
+                                                                       href="http://perfectionkills.com/2010/01/#built_ins_and_dontdelete">Understanding
+            delete</a>。
+        </div>
+        <div><br></div>
+        <div>
+            <div style="font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; font-size: 12px; background-color: transparent; width: 851px; overflow-x: auto; overflow-y: auto; margin-left: 9px; padding-top: 1px; padding-right: 1px; padding-bottom: 1px; padding-left: 1px; word-break: break-all; word-wrap: break-word;">
+                <div>
+                    <div style="line-height: 18px; padding-top: 3px; padding-right: 3px; padding-bottom: 3px; padding-left: 3px; text-align: left; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; color: black; font-weight: bold;">
+                        <span style="line-height: 18px;">代码</span><span style="line-height: 18px;">片段</span>四
+                    </div>
+                </div>
+                <ol start="1"
+                    style="font-size: 1em; line-height: 1.4em; margin-top: 0px; margin-right: 0px; margin-bottom: 1px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(209, 215, 220); border-right-color: rgb(209, 215, 220); border-bottom-color: rgb(209, 215, 220); border-left-color: rgb(209, 215, 220); list-style-type: decimal; list-style-position: initial; list-style-image: initial; background-color: rgb(255, 255, 255); color: rgb(43, 145, 175);">
+                    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                        <span style="color: black;"><span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">var</span><span
+                                style="color: black;">&nbsp;y&nbsp;=&nbsp;1,&nbsp;x&nbsp;=&nbsp;y&nbsp;=&nbsp;</span><span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">typeof</span><span
+                                style="color: black;">&nbsp;x;&nbsp;&nbsp;</span></span></li>
+                    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                        <span style="color: black;">x;&nbsp;&nbsp;</span></li>
+                </ol>
+            </div>
+            <span style="background-color: rgb(255, 255, 255);"><font color="#c0c0c0">// "undefined"<br></font></span>本题考察变量声明以及运算顺序。根据<a
+                target="_blank" href="http://blog.163.com/jinlu_hz/blog/static/113830152201131132035178/">JavaScript中的作用域与变量声明提升</a>，上面这段代码实际上等同于
+        </div>
+        <div><span
+                style="font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; font-size: 12px; line-height: 18px;"><ol
+                start="1"
+                style="font-size: 1em; line-height: 1.4em; margin-top: 0px; margin-right: 0px; margin-bottom: 1px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(209, 215, 220); border-right-color: rgb(209, 215, 220); border-bottom-color: rgb(209, 215, 220); border-left-color: rgb(209, 215, 220); list-style-type: decimal; list-style-position: initial; list-style-image: initial; background-color: rgb(255, 255, 255); color: rgb(43, 145, 175);">
+            <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                <span style="color: black;"><span style="color: rgb(127, 0, 85); font-weight: bold;">var</span><span
+                        style="color: black;">&nbsp;y,&nbsp;x; &nbsp; &nbsp; &nbsp;&nbsp;</span><span
+                        style="color: rgb(0, 130, 0);">//&nbsp;&nbsp;y=undefined,x=undefined</span><span
+                        style="color: black;">&nbsp;&nbsp;</span></span></li>
+            <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                <span style="color: black;">y&nbsp;=&nbsp;1;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                        style="color: rgb(0, 130, 0);">//&nbsp;&nbsp;y=1</span><span
+                        style="color: black;">&nbsp;&nbsp;</span></span></li>
+            <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                <span style="color: black;">y&nbsp;=&nbsp;<span style="color: rgb(127, 0, 85); font-weight: bold;">typeof</span><span
+                        style="color: black;">&nbsp;x;&nbsp;&nbsp;</span><span style="color: rgb(0, 130, 0);">//&nbsp;&nbsp;y="undefined"</span><span
+                        style="color: black;">&nbsp;&nbsp;</span></span></li>
+            <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                <span style="color: black;">x&nbsp;=&nbsp;y; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span
+                        style="color: rgb(0, 130, 0);">//&nbsp;&nbsp;x="undefined"</span><span style="color: black;">&nbsp;&nbsp;</span></span>
+            </li>
+        </ol></span></div>
+        <div><br></div>
+        <div>
+            <div style="font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; font-size: 12px; background-color: transparent; width: 851px; overflow-x: auto; overflow-y: auto; margin-left: 9px; padding-top: 1px; padding-right: 1px; padding-bottom: 1px; padding-left: 1px; word-break: break-all; word-wrap: break-word;">
+                <div>
+                    <div style="line-height: 18px; padding-top: 3px; padding-right: 3px; padding-bottom: 3px; padding-left: 3px; text-align: left; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; color: black; font-weight: bold;">
+                        <span style="line-height: 18px;">代码</span><span style="line-height: 18px;">片段</span>五
+                    </div>
+                </div>
+                <ol start="1"
+                    style="font-size: 1em; line-height: 1.4em; margin-top: 0px; margin-right: 0px; margin-bottom: 1px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(209, 215, 220); border-right-color: rgb(209, 215, 220); border-bottom-color: rgb(209, 215, 220); border-left-color: rgb(209, 215, 220); list-style-type: decimal; list-style-position: initial; list-style-image: initial; background-color: rgb(255, 255, 255); color: rgb(43, 145, 175);">
+                    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                        <span style="color: black;"><span style="color: black;">(</span><span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">function</span><span
+                                style="color: black;">&nbsp;f(f){&nbsp;&nbsp;</span></span></li>
+                    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;<span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">return</span><span
+                                style="color: black;">&nbsp;</span><span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">typeof</span><span
+                                style="color: black;">&nbsp;f();&nbsp;&nbsp;</span></span></li>
+                    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                        <span style="color: black;">})(<span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">function</span><span
+                                style="color: black;">(){</span><span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">return</span><span
+                                style="color: black;">&nbsp;1;});&nbsp;&nbsp;</span></span></li>
+                </ol>
+            </div>
+            <div><font color="#c0c0c0">// “number”</font></div>
+            本题考察函数执行环境问题。当首次载入JS代码时创建一个全局执行环境，每调用一个新的JS函数就会进入相应的执行环境，并且函数调用期间都处于各自的环境中，构成了一个执行环境栈。具体参考<a target="_blank"
+                                                                                                         rel="nofollow"
+                                                                                                         href="http://www.cnblogs.com/fool/archive/2010/10/16/1853326.html">理解Javascript_12_执行模型浅析</a>。
+        </div>
+        <div><br></div>
+        <div>
+            <div style="font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; font-size: 12px; background-color: transparent; width: 851px; overflow-x: auto; overflow-y: auto; margin-left: 9px; padding-top: 1px; padding-right: 1px; padding-bottom: 1px; padding-left: 1px; word-break: break-all; word-wrap: break-word;">
+                <div>
+                    <div style="line-height: 18px; padding-top: 3px; padding-right: 3px; padding-bottom: 3px; padding-left: 3px; text-align: left; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; color: black; font-weight: bold;">
+                        <span style="line-height: 18px;">代码</span><span style="line-height: 18px;">片段</span>六
+                    </div>
+                </div>
+                <ol start="1"
+                    style="font-size: 1em; line-height: 1.4em; margin-top: 0px; margin-right: 0px; margin-bottom: 1px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(209, 215, 220); border-right-color: rgb(209, 215, 220); border-bottom-color: rgb(209, 215, 220); border-left-color: rgb(209, 215, 220); list-style-type: decimal; list-style-position: initial; list-style-image: initial; background-color: rgb(255, 255, 255); color: rgb(43, 145, 175);">
+                    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                        <span style="color: black;"><span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">var</span><span
+                                style="color: black;">&nbsp;foo&nbsp;=&nbsp;{&nbsp;&nbsp;</span></span></li>
+                    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;bar:&nbsp;<span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">function</span><span
+                                style="color: black;">(){</span><span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">return</span><span
+                                style="color: black;">&nbsp;</span><span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span
+                                style="color: black;">.baz;},&nbsp;&nbsp;</span></span></li>
+                    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;baz:&nbsp;1&nbsp;&nbsp;</span></li>
+                    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                        <span style="color: black;">};&nbsp;&nbsp;</span></li>
+                    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                        <span style="color: black;">(<span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">function</span><span
+                                style="color: black;">(){&nbsp;&nbsp;</span></span></li>
+                    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;<span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">return</span><span
+                                style="color: black;">&nbsp;</span><span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">typeof</span><span
+                                style="color: black;">&nbsp;arguments[0]();&nbsp;&nbsp;</span></span></li>
+                    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                        <span style="color: black;">})(foo.bar);&nbsp;&nbsp;</span></li>
+                </ol>
+            </div>
+            <font color="#c0c0c0">// “undefined”</font></div>
+        <div>本题考察对象作用域。foo.bar中的this实际上指向window对象，并不是foo对象本身。<br><br></div>
+        <div>
+            <div style="background-color: transparent; width: 851px; overflow-x: auto; overflow-y: auto; margin-left: 9px; padding-top: 1px; padding-right: 1px; padding-bottom: 1px; padding-left: 1px; word-break: break-all; word-wrap: break-word; line-height: 18px; font-size: 12px; font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace;">
+                <div>
+                    <div style="padding-top: 3px; padding-right: 3px; padding-bottom: 3px; padding-left: 3px; text-align: left; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; color: black; font-weight: bold;">
+                        <span style="line-height: 18px;">代码片段七</span></div>
+                </div>
+                <ol start="1"
+                    style="font-size: 1em; line-height: 1.4em; margin-top: 0px; margin-right: 0px; margin-bottom: 1px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(209, 215, 220); border-right-color: rgb(209, 215, 220); border-bottom-color: rgb(209, 215, 220); border-left-color: rgb(209, 215, 220); list-style-type: decimal; list-style-position: initial; list-style-image: initial; background-color: rgb(255, 255, 255); color: rgb(43, 145, 175);">
+                    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                        <span style="color: black;"><span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">var</span><span
+                                style="color: black;">&nbsp;foo&nbsp;=&nbsp;{&nbsp;&nbsp;</span></span></li>
+                    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;bar:&nbsp;<span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">function</span><span
+                                style="color: black;">(){</span><span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">return</span><span
+                                style="color: black;">&nbsp;</span><span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">this</span><span
+                                style="color: black;">.baz;},&nbsp;&nbsp;</span></span></li>
+                    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;baz:&nbsp;1&nbsp;&nbsp;</span></li>
+                    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                        <span style="color: black;">}&nbsp;&nbsp;</span></li>
+                    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                        <span style="color: black;"><span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">typeof</span><span
+                                style="color: black;">&nbsp;(f&nbsp;=&nbsp;foo.bar)();&nbsp;&nbsp;</span></span></li>
+                </ol>
+            </div>
+            <div style="line-height: 22px;"><font color="#c0c0c0">// “undefined”</font></div>
+            <div style="line-height: 22px;">本题考察对象作用域，与上题类似。其中，<span
+                    style="font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; font-size: 12px; line-height: 19px;"></span><span
+                    style="font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; font-size: 12px; line-height: 19px;"><span
+                    style="line-height: 19px; color: black;">&nbsp;(f&nbsp;=&nbsp;foo.bar)();</span></span>实际上<span
+                    style="font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; font-size: 12px; line-height: 19px;"><span
+                    style="line-height: 19px; color: rgb(127, 0, 85); font-weight: bold;"><span
+                    style="font-family: Arial, Helvetica, sans-serif; color: rgb(0, 0, 0); font-size: 14px; font-weight: normal; line-height: 22px;">等同于</span>typeof</span><span
+                    style="line-height: 19px; color: black;">&nbsp;(foo.bar)();</span></span></div>
+        </div>
+        <div>
+            <div style="line-height: 22px;"><br style="line-height: 22px;"></div>
+        </div>
+        <div>
+            <div style="line-height: 18px; font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; font-size: 12px; background-color: transparent; width: 851px; overflow-x: auto; overflow-y: auto; margin-left: 9px; padding-top: 1px; padding-right: 1px; padding-bottom: 1px; padding-left: 1px; word-break: break-all; word-wrap: break-word;">
+                <div>
+                    <div style="padding-top: 3px; padding-right: 3px; padding-bottom: 3px; padding-left: 3px; text-align: left; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; color: black; font-weight: bold;">
+                        <span style="line-height: 18px;">代码片段八</span></div>
+                </div>
+                <ol start="1"
+                    style="font-size: 1em; line-height: 1.4em; margin-top: 0px; margin-right: 0px; margin-bottom: 1px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(209, 215, 220); border-right-color: rgb(209, 215, 220); border-bottom-color: rgb(209, 215, 220); border-left-color: rgb(209, 215, 220); list-style-type: decimal; list-style-position: initial; list-style-image: initial; background-color: rgb(255, 255, 255); color: rgb(43, 145, 175);">
+                    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                        <span style="color: black;"><span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">var</span><span
+                                style="color: black;">&nbsp;f&nbsp;=&nbsp;(</span><span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">function</span><span
+                                style="color: black;">&nbsp;f(){</span><span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">return</span><span
+                                style="color: black;">&nbsp;</span><span style="color: blue;">"1"</span><span
+                                style="color: black;">;},&nbsp;</span><span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">function</span><span
+                                style="color: black;">&nbsp;g(){</span><span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">return</span><span
+                                style="color: black;">&nbsp;2;})();&nbsp;&nbsp;</span></span></li>
+                    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                        <span style="color: black;"><span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">typeof</span><span
+                                style="color: black;">&nbsp;f;&nbsp;&nbsp;</span></span></li>
+                </ol>
+            </div>
+            <font color="#c0c0c0">// "number"</font></div>
+        <div>本题考察函数运算符，<span style="background-color: rgb(255, 255, 0);"><span
+                style="font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; font-size: 12px; line-height: 19px;">(&nbsp;</span><span
+                style="font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; font-size: 12px; line-height: 19px;">)</span></span>中声明了两个函数。其中<span
+                style="font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; font-size: 12px; line-height: 19px; background-color: rgb(255, 255, 0);">,&nbsp;</span>充当连续运算符的角色。<span
+                style="font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; font-size: 12px; line-height: 19px;"><span
+                style="line-height: 19px; color: black;">(</span><span
+                style="line-height: 19px; color: rgb(127, 0, 85); font-weight: bold;">function</span><span
+                style="line-height: 19px; color: black;">&nbsp;f(){</span><span
+                style="line-height: 19px; color: rgb(127, 0, 85); font-weight: bold;">return</span><span
+                style="line-height: 19px; color: black;">&nbsp;</span><span
+                style="line-height: 19px; color: blue;">"1"</span><span style="line-height: 19px; color: black;">;},&nbsp;</span><span
+                style="line-height: 19px; color: rgb(127, 0, 85); font-weight: bold;">function</span><span
+                style="line-height: 19px; color: black;">&nbsp;g(){</span><span
+                style="line-height: 19px; color: rgb(127, 0, 85); font-weight: bold;">return</span><span
+                style="line-height: 19px; color: black;">&nbsp;2;})</span></span>返回值是<span
+                style="font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; font-size: 12px; line-height: 19px; background-color: rgb(255, 255, 0);">,&nbsp;</span>后的函数值。
+        </div>
+        <div><span
+                style="font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; font-size: 12px; line-height: 19px;"></span>
+        </div>
+        <div>
+            <div style="line-height: 22px;"><br></div>
+            <div style="line-height: 18px; font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; font-size: 12px; background-color: transparent; width: 851px; overflow-x: auto; overflow-y: auto; margin-left: 9px; padding-top: 1px; padding-right: 1px; padding-bottom: 1px; padding-left: 1px; word-break: break-all; word-wrap: break-word;">
+                <div>
+                    <div style="padding-top: 3px; padding-right: 3px; padding-bottom: 3px; padding-left: 3px; text-align: left; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; color: black; font-weight: bold;">
+                        <span style="line-height: 18px;">代码片段九</span></div>
+                </div>
+                <ol start="1"
+                    style="font-size: 1em; line-height: 1.4em; margin-top: 0px; margin-right: 0px; margin-bottom: 1px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(209, 215, 220); border-right-color: rgb(209, 215, 220); border-bottom-color: rgb(209, 215, 220); border-left-color: rgb(209, 215, 220); list-style-type: decimal; list-style-position: initial; list-style-image: initial; background-color: rgb(255, 255, 255); color: rgb(43, 145, 175);">
+                    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                        <span style="color: black;"><span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">var</span><span
+                                style="color: black;">&nbsp;x&nbsp;=&nbsp;1;&nbsp;&nbsp;</span></span></li>
+                    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                        <span style="color: black;"><span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">if</span><span style="color: black;">&nbsp;(</span><span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">function</span><span
+                                style="color: black;">&nbsp;f(){})&nbsp;{&nbsp;&nbsp;</span></span></li>
+                    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;x&nbsp;+=&nbsp;<span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">typeof</span><span
+                                style="color: black;">&nbsp;f;&nbsp;&nbsp;</span></span></li>
+                    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                        <span style="color: black;">}&nbsp;&nbsp;</span></li>
+                    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                        <span style="color: black;">x;&nbsp;&nbsp;</span></li>
+                </ol>
+            </div>
+            <font color="#c0c0c0">// "1function"或者“1undefined”</font></div>
+        <div>本题考察条件表达式与函数表达式。与代码片段二的基本原理类似，由于函数表达式造成不同浏览器下的结果值不同。</div>
+        <div><br></div>
+        <div>
+            <div style="line-height: 18px; font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; font-size: 12px; background-color: transparent; width: 851px; overflow-x: auto; overflow-y: auto; margin-left: 9px; padding-top: 1px; padding-right: 1px; padding-bottom: 1px; padding-left: 1px; word-break: break-all; word-wrap: break-word;">
+                <div>
+                    <div style="padding-top: 3px; padding-right: 3px; padding-bottom: 3px; padding-left: 3px; text-align: left; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; color: black; font-weight: bold;">
+                        <span style="line-height: 18px;">代码片段十</span></div>
+                </div>
+                <ol start="1"
+                    style="font-size: 1em; line-height: 1.4em; margin-top: 0px; margin-right: 0px; margin-bottom: 1px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(209, 215, 220); border-right-color: rgb(209, 215, 220); border-bottom-color: rgb(209, 215, 220); border-left-color: rgb(209, 215, 220); list-style-type: decimal; list-style-position: initial; list-style-image: initial; background-color: rgb(255, 255, 255); color: rgb(43, 145, 175);">
+                    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                        <span style="color: black;"><span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">var</span><span
+                                style="color: black;">&nbsp;x&nbsp;=&nbsp;[</span><span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">typeof</span><span
+                                style="color: black;">&nbsp;x,&nbsp;</span><span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">typeof</span><span
+                                style="color: black;">&nbsp;y][1];&nbsp;&nbsp;</span></span></li>
+                    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                        <span style="color: black;"><span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">typeof</span><span
+                                style="color: black;">&nbsp;</span><span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">typeof</span><span
+                                style="color: black;">&nbsp;x;&nbsp;&nbsp;</span></span></li>
+                </ol>
+            </div>
+            <div><font color="#c0c0c0">//&nbsp;"string"</font></div>
+            本题考察typeof。第一行代码实际上等同于<span
+                style="font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; font-size: 12px; line-height: 19px;"><span
+                style="line-height: 19px; color: rgb(127, 0, 85); font-weight: bold;">var</span><span
+                style="line-height: 19px; color: black;">&nbsp;x&nbsp;=&nbsp;</span><span
+                style="line-height: 19px; color: rgb(127, 0, 85); font-weight: bold;">typeof</span><span
+                style="line-height: 19px; color: black;">&nbsp;y;&nbsp;</span></span>此时x为"undefined"。<span
+                style="font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; font-size: 12px; line-height: 19px;"><span
+                style="line-height: 19px; color: rgb(127, 0, 85); font-weight: bold;">typeof</span><span
+                style="line-height: 19px; color: black;">&nbsp;<span
+                style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 22px;">"undefined"的值为"string"，</span></span></span><span
+                style="font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; font-size: 12px; line-height: 19px;"><span
+                style="line-height: 19px; color: rgb(127, 0, 85); font-weight: bold;">typeof</span><span
+                style="line-height: 19px; color: black;">&nbsp;"</span></span>string<span
+                style="font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; font-size: 12px; line-height: 19px;">"</span>的值仍旧为"string"。
+        </div>
+        <div><span
+                style="font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; font-size: 12px; line-height: 19px;"></span>
+        </div>
+        <div><br></div>
+        <div>
+            <div style="line-height: 18px; font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; font-size: 12px; background-color: transparent; width: 851px; overflow-x: auto; overflow-y: auto; margin-left: 9px; padding-top: 1px; padding-right: 1px; padding-bottom: 1px; padding-left: 1px; word-break: break-all; word-wrap: break-word;">
+                <div>
+                    <div style="padding-top: 3px; padding-right: 3px; padding-bottom: 3px; padding-left: 3px; text-align: left; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; color: black; font-weight: bold;">
+                        <span style="line-height: 18px;">代码片段十一</span></div>
+                </div>
+                <ol start="1"
+                    style="font-size: 1em; line-height: 1.4em; margin-top: 0px; margin-right: 0px; margin-bottom: 1px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(209, 215, 220); border-right-color: rgb(209, 215, 220); border-bottom-color: rgb(209, 215, 220); border-left-color: rgb(209, 215, 220); list-style-type: decimal; list-style-position: initial; list-style-image: initial; background-color: rgb(255, 255, 255); color: rgb(43, 145, 175);">
+                    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                        <span style="color: black;"><span style="color: black;">(</span><span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">function</span><span
+                                style="color: black;">(foo){&nbsp;&nbsp;</span></span></li>
+                    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;<span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">return</span><span
+                                style="color: black;">&nbsp;</span><span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">typeof</span><span
+                                style="color: black;">&nbsp;foo.bar;&nbsp;&nbsp;</span></span></li>
+                    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                        <span style="color: black;">})({foo:&nbsp;{bar:&nbsp;1}});&nbsp;&nbsp;</span></li>
+                </ol>
+            </div>
+            <font color="#c0c0c0">// "undefined"<br></font>本题考察对象。参数foo为<span
+                style="font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; font-size: 12px; line-height: 19px;">{foo:&nbsp;{bar:&nbsp;1}}，</span>于是foo.foo的值为<span
+                style="font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; font-size: 12px; line-height: 19px;">{bar:&nbsp;1},</span>而<span
+                style="font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; font-size: 12px; line-height: 19px;">foo.bar;</span>的值为undefined。
+        </div>
+        <div><br></div>
+        <div>
+            <div style="line-height: 18px; font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; font-size: 12px; background-color: transparent; width: 851px; overflow-x: auto; overflow-y: auto; margin-left: 9px; padding-top: 1px; padding-right: 1px; padding-bottom: 1px; padding-left: 1px; word-break: break-all; word-wrap: break-word;">
+                <div>
+                    <div style="padding-top: 3px; padding-right: 3px; padding-bottom: 3px; padding-left: 3px; text-align: left; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; color: black; font-weight: bold;">
+                        <span style="line-height: 18px;">代码片段十二</span></div>
+                </div>
+                <ol start="1"
+                    style="font-size: 1em; line-height: 1.4em; margin-top: 0px; margin-right: 0px; margin-bottom: 1px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(209, 215, 220); border-right-color: rgb(209, 215, 220); border-bottom-color: rgb(209, 215, 220); border-left-color: rgb(209, 215, 220); list-style-type: decimal; list-style-position: initial; list-style-image: initial; background-color: rgb(255, 255, 255); color: rgb(43, 145, 175);">
+                    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                        <span style="color: black;"><span style="color: black;">(</span><span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">function</span><span
+                                style="color: black;">&nbsp;f(){&nbsp;&nbsp;</span></span></li>
+                    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;<span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">function</span><span
+                                style="color: black;">&nbsp;f(){</span><span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">return</span><span
+                                style="color: black;">&nbsp;1;}&nbsp;&nbsp;</span></span></li>
+                    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;<span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">return</span><span
+                                style="color: black;">&nbsp;f();&nbsp;&nbsp;</span></span></li>
+                    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;<span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">function</span><span
+                                style="color: black;">&nbsp;f(){</span><span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">return</span><span
+                                style="color: black;">&nbsp;2;}&nbsp;&nbsp;</span></span></li>
+                    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                        <span style="color: black;">})();&nbsp;&nbsp;</span></li>
+                </ol>
+            </div>
+            <font color="#c0c0c0">// 2</font></div>
+        <div>本题考察函数声明，实际上还是<a target="_blank" href="http://blog.163.com/jinlu_hz/blog/static/113830152201131132035178/">Javascript
+            Hoisting</a>的问题，后定义的函数覆盖先前的函数。<br></div>
+        <div><br></div>
+        <div>
+            <div style="line-height: 18px; font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; font-size: 12px; background-color: transparent; width: 851px; overflow-x: auto; overflow-y: auto; margin-left: 9px; padding-top: 1px; padding-right: 1px; padding-bottom: 1px; padding-left: 1px; word-break: break-all; word-wrap: break-word;">
+                <div>
+                    <div style="padding-top: 3px; padding-right: 3px; padding-bottom: 3px; padding-left: 3px; text-align: left; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; color: black; font-weight: bold;">
+                        <span style="line-height: 18px;">代码片段十三</span></div>
+                </div>
+                <ol start="1"
+                    style="font-size: 1em; line-height: 1.4em; margin-top: 0px; margin-right: 0px; margin-bottom: 1px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(209, 215, 220); border-right-color: rgb(209, 215, 220); border-bottom-color: rgb(209, 215, 220); border-left-color: rgb(209, 215, 220); list-style-type: decimal; list-style-position: initial; list-style-image: initial; background-color: rgb(255, 255, 255); color: rgb(43, 145, 175);">
+                    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                        <span style="color: black;"><span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">function</span><span
+                                style="color: black;">&nbsp;f(){&nbsp;&nbsp;</span></span></li>
+                    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;<span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">return</span><span
+                                style="color: black;">&nbsp;f;&nbsp;&nbsp;</span></span></li>
+                    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                        <span style="color: black;">}&nbsp;&nbsp;</span></li>
+                    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                        <span style="color: black;"><span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">new</span><span
+                                style="color: black;">&nbsp;f()&nbsp;</span><span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">instanceof</span><span
+                                style="color: black;">&nbsp;f;&nbsp;&nbsp;</span></span></li>
+                </ol>
+            </div>
+            <font color="#c0c0c0">// false</font></div>
+        <div>本题考察prototype与constructor。再看一下<a style="line-height: 22px;" target="_blank" rel="nofollow"
+                                              href="http://www.mollypages.org/misc/jsobj_full.jpg">Javascript Object
+            Layout</a>，a instanceof b实际上是顺着a对象的__proto__一直往上找所有构造函数的原型对象。本题第二行将返回值并不是原先期望的默认的constructor对象，对先前<a
+                style="line-height: 22px;" target="_blank" rel="nofollow"
+                href="http://www.mollypages.org/misc/jsobj_full.jpg">Javascript Object Layout</a>关系图造成混乱。
+        </div>
+        <div><br></div>
+        <div>
+            <div style="background-color: transparent; width: 851px; overflow-x: auto; overflow-y: auto; margin-left: 9px; padding-top: 1px; padding-right: 1px; padding-bottom: 1px; padding-left: 1px; word-break: break-all; word-wrap: break-word;">
+                <div style="font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; font-size: 12px; line-height: 18px;">
+                    <div style="padding-top: 3px; padding-right: 3px; padding-bottom: 3px; padding-left: 3px; text-align: left; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; color: black; font-weight: bold;">
+                        <span style="line-height: 18px;">代码片段十四</span></div>
+                </div>
+                <ol start="1"
+                    style="font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; font-size: 1em; line-height: 1.4em; margin-top: 0px; margin-right: 0px; margin-bottom: 1px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(209, 215, 220); border-right-color: rgb(209, 215, 220); border-bottom-color: rgb(209, 215, 220); border-left-color: rgb(209, 215, 220); list-style-type: decimal; list-style-position: initial; list-style-image: initial; background-color: rgb(255, 255, 255); color: rgb(43, 145, 175);">
+                    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+                        <span style="color: black;"><span style="color: rgb(127, 0, 85); font-weight: bold;">with</span><span
+                                style="color: black;">&nbsp;(</span><span
+                                style="color: rgb(127, 0, 85); font-weight: bold;">function</span><span
+                                style="color: black;">(x,&nbsp;undefined){})&nbsp;length; &nbsp;</span></span></li>
+                </ol>
+                <div>
+                    <div style="line-height: 22px; font-family: Arial, Helvetica, sans-serif; font-size: 14px;"><font
+                            color="#c0c0c0">// 2</font></div>
+                    <div style="line-height: 22px; font-family: Arial, Helvetica, sans-serif; font-size: 14px;">
+                        本题考察with作用域，length的值为函数的形参个数。
+                    </div>
+                    <div style="line-height: 22px; font-family: Arial, Helvetica, sans-serif; font-size: 14px;"><br>
+                    </div>
+                    <div style="line-height: 22px; font-family: Arial, Helvetica, sans-serif; font-size: 14px;"><br>
+                    </div>
+                    <div style="line-height: 22px; font-family: Arial, Helvetica, sans-serif; font-size: 14px;"><br>
+                    </div>
+                    <div style="line-height: 22px; font-family: Arial, Helvetica, sans-serif; font-size: 14px;">参考资料
+                    </div>
+                    <div style="line-height: 22px; font-family: Arial, Helvetica, sans-serif; font-size: 14px;">
+                        <ul>
+                            <li><a style="line-height: 22px;" target="_blank" rel="nofollow"
+                                   href="http://adamlu.googlecode.com/svn/trunk/js_quiz.html">Javascript QUIZ</a></li>
+                            <li><a target="_blank" rel="nofollow" href="http://www.w3cgroup.com/article.asp?id=318">Javascript
+                                Quiz From Perfectionkills</a></li>
+                            <li><a target="_blank" rel="nofollow"
+                                   href="http://www.planabc.net/2010/05/06/interesting_code_associated_with_function_and_object/">与
+                                Function 和 Object 相关的有趣代码&nbsp;</a></li>
+                            <li><a target="_blank" rel="nofollow"
+                                   href="http://www.cnblogs.com/fool/archive/2010/10/16/1853326.html">理解Javascript_12_执行模型浅析</a>
+                            </li>
+                            <li><a target="_blank" rel="nofollow" href="http://limu.iteye.com/blog/756076">关于JavaScript的Object和Function的两张图</a>
+                            </li>
+                            <li><a target="_blank" rel="nofollow"
+                                   href="http://www.f2eskills.com/2010/10/the-answer-of-a-hard-quiz/">一个大题目的答案</a></li>
+                            <li><a target="_blank" rel="nofollow"
+                                   href="http://www.cn-cuckoo.com/main/wp-content/uploads/2009/12/named-function-expressions-demystified.html#expr-vs-decl">命名函数表达式探秘</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

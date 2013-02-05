@@ -1,0 +1,38 @@
+markdown: kramdown
+pygments: true
+safe: false
+permalink: /posts/:title.html
+exclude:
+  - README.md
+
+name: 挪墨的空间
+host: nomospace.github.com
+
+custom:
+    category:
+        node: node
+        javascript: javascript
+        css: css
+        html5: html5
+        frontend: frontend
+    categories:
+      - name: javascript
+        title: javascript
+      - name: node
+        title: node
+      - name: css
+        title: css
+      - name: html5
+        title: html5
+      - name: frontend
+        title: frontend
+
+meta:
+    authors:
+      - name: nomospace
+        email: jinlu_hz@163.com
+        gravatar: d6e8639fcaea0c7c0fab106033f05de0
+
+    gravatar:
+        base: http://www.gravatar.com/avatar/
+        param: ?s=80

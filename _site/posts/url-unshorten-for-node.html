@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="author" content="nomospace" />
+<meta name="keywords" content="" />
+<meta property="wb:webmaster" content="9d4b91032648dbe0" />
+<title>挪墨的空间 / node.js 下的短网址还原</title>
+<link href="http://nomospace.github.com/feed.xml" rel="alternate" title="挪墨的空间" type="application/atom+xml" />
+<link rel="stylesheet" type="text/css" href="/assets/css/site.css" />
+<link rel="stylesheet" type="text/css" href="/assets/css/code/github.css" />
+
+<!--[if IE]>
+<script src="/assets/js/html5.js"></script>
+<![endif]-->
+</head>
+
+<body class="page-type-post" data-name="">
+<div class="main">
+	<div class="trace">/ <a href="/">挪墨的空间</a> / node.js 下的短网址还原</div>
+
+<article>
+	<h1><a href="/posts/url-unshorten-for-node.html">node.js 下的短网址还原</a></h1>
+	
+	<p class="meta">
+	<span class="datetime">2011-06-10</span> posted in [<a href="/category/node" class="category">node</a>]
+</p>
+	<div class="bct fc05 fc11 nbw-blog ztag js-fs2"><a target="_blank" rel="nofollow" href="http://twitter.com/#%21/ruanyf">阮一峰</a>在他的个人博客中提供了<a
+        target="_blank" rel="nofollow"
+        href="http://www.ruanyifeng.com/blog/2011/05/bookmarklet_of_unshortening_url.html">短网址还原的Bookmarklet</a>，文中提及的<a
+        target="_blank" rel="nofollow" href="http://unshort.me/">unshort.me</a>提供了短网址还原的<a target="_blank"
+                                                                                           rel="nofollow"
+                                                                                           href="http://unshort.me/api.html">API</a>，目前支持三种返回格式：XML/JSON/JSONP。在此我选择JSON，具体实现如下：<br><br><span
+        style="border-collapse: separate; color: rgb(0, 0, 0); font-family: 'Times New Roman'; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-align: -webkit-auto; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; -webkit-text-decorations-in-effect: none; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; font-size: medium;"><span
+        style="font-family: Monaco, 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Consolas, 'Courier New', monospace; font-size: 12px; line-height: 18px; text-align: left;"><ol
+        start="1"
+        style="font-size: 1em; line-height: 1.4em; margin-top: 0px; margin-right: 0px; margin-bottom: 1px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(209, 215, 220); border-right-color: rgb(209, 215, 220); border-bottom-color: rgb(209, 215, 220); border-left-color: rgb(209, 215, 220); list-style-type: decimal; list-style-position: initial; list-style-image: initial; background-color: rgb(255, 255, 255); color: rgb(43, 145, 175);">
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;"><span style="color: rgb(127, 0, 85); font-weight: bold;">var</span><span
+                style="color: black;">&nbsp;sys&nbsp;=&nbsp;require(</span><span style="color: blue;">"sys"</span><span
+                style="color: black;">),&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;http&nbsp;=&nbsp;require(<span
+                style="color: blue;">"http"</span><span style="color: black;">),&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;url&nbsp;=&nbsp;require(<span
+                style="color: blue;">"url"</span><span style="color: black;">),&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;events&nbsp;=&nbsp;require(<span style="color: blue;">"events"</span><span
+                style="color: black;">),&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;emitter&nbsp;=&nbsp;<span
+                style="color: rgb(127, 0, 85); font-weight: bold;">new</span><span style="color: black;">&nbsp;events.EventEmitter();&nbsp;&nbsp;</span></span>
+    </li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;"><span style="color: rgb(0, 130, 0);">//&nbsp;unshorten&nbsp;url</span><span
+                style="color: black;">&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;"><span style="color: rgb(127, 0, 85); font-weight: bold;">function</span><span
+                style="color: black;">&nbsp;_unshorten(){&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;<span
+                style="color: rgb(127, 0, 85); font-weight: bold;">var</span><span style="color: black;">&nbsp;_body&nbsp;=&nbsp;</span><span
+                style="color: blue;">''</span><span style="color: black;">,&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_host&nbsp;=&nbsp;<span
+                style="color: blue;">"api.unshort.me"</span><span style="color: black;">,&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_client&nbsp;=&nbsp;http.createClient(80,&nbsp;_host),&nbsp;&nbsp;</span>
+    </li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_request&nbsp;=&nbsp;_client.request(<span
+                style="color: blue;">"GET"</span><span style="color: black;">,&nbsp;api,&nbsp;{</span><span
+                style="color: blue;">"host"</span><span style="color: black;">:&nbsp;_host});&nbsp;&nbsp;</span></span>
+    </li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;_request.on(<span
+                style="color: blue;">"response"</span><span style="color: black;">,&nbsp;</span><span
+                style="color: rgb(127, 0, 85); font-weight: bold;">function</span><span style="color: black;">(_response){&nbsp;&nbsp;</span></span>
+    </li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_response.on(<span
+                style="color: blue;">"data"</span><span style="color: black;">,&nbsp;</span><span
+                style="color: rgb(127, 0, 85); font-weight: bold;">function</span><span style="color: black;">(_data){&nbsp;&nbsp;</span></span>
+    </li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_body&nbsp;+=&nbsp;_data;&nbsp;&nbsp;</span>
+    </li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});&nbsp;&nbsp;</span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_response.on(<span
+                style="color: blue;">"end"</span><span style="color: black;">,&nbsp;</span><span
+                style="color: rgb(127, 0, 85); font-weight: bold;">function</span><span style="color: black;">(){&nbsp;&nbsp;</span></span>
+    </li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.log(_body);&nbsp;&nbsp;</span>
+    </li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                style="color: rgb(127, 0, 85); font-weight: bold;">var</span><span style="color: black;">&nbsp;_data&nbsp;=&nbsp;JSON.parse(_body);&nbsp;&nbsp;</span></span>
+    </li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;emitter.emit(<span
+                style="color: blue;">"urldata"</span><span
+                style="color: black;">,&nbsp;_data);&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});&nbsp;&nbsp;</span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;});&nbsp;&nbsp;</span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;_request.end();&nbsp;&nbsp;</span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">};&nbsp;&nbsp;</span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;"><span style="color: rgb(0, 130, 0);">//&nbsp;创建http服务器实例</span><span
+                style="color: black;">&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">http.createServer(<span
+                style="color: rgb(127, 0, 85); font-weight: bold;">function</span><span style="color: black;">(_request,&nbsp;_response){&nbsp;&nbsp;</span></span>
+    </li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;<span
+                style="color: rgb(127, 0, 85); font-weight: bold;">var</span><span style="color: black;">&nbsp;_url&nbsp;=&nbsp;url.parse(_request.url),&nbsp;&nbsp;&nbsp;</span></span>
+    </li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_uri&nbsp;=&nbsp;_url.pathname;&nbsp;&nbsp;</span>
+    </li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;<span
+                style="color: rgb(127, 0, 85); font-weight: bold;">if</span><span style="color: black;">&nbsp;(_uri&nbsp;===&nbsp;</span><span
+                style="color: blue;">"/"</span><span style="color: black;">)&nbsp;{&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                style="color: rgb(127, 0, 85); font-weight: bold;">var</span><span style="color: black;">&nbsp;_search&nbsp;=&nbsp;_url.search&nbsp;||&nbsp;</span><span
+                style="color: blue;">'?r='</span><span style="color: black;">;&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;api&nbsp;=&nbsp;_search&nbsp;+&nbsp;<span
+                style="color: blue;">'&amp;t=json'</span><span style="color: black;">;&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;emitter.once(<span
+                style="color: blue;">"urldata"</span><span style="color: black;">,&nbsp;</span><span
+                style="color: rgb(127, 0, 85); font-weight: bold;">function</span><span style="color: black;">(_data){&nbsp;&nbsp;</span></span>
+    </li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_response.writeHead(200,&nbsp;{<span
+                style="color: blue;">"Content-Type"</span><span style="color: black;">:</span><span
+                style="color: blue;">"text/html"</span><span style="color: black;">});&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_response.write(<span
+                style="color: blue;">''</span><span style="color: black;">+&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                style="color: blue;">'&lt;h2&gt;'</span><span
+                style="color: black;">&nbsp;+&nbsp;&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(_data[<span
+                style="color: blue;">'success'</span><span style="color: black;">]&nbsp;==&nbsp;</span><span
+                style="color: blue;">'true'</span><span style="color: black;">&nbsp;?&nbsp;&nbsp;&nbsp;</span></span>
+    </li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span
+                style="color: blue;">'解析后的URL&nbsp;—&nbsp;'</span><span style="color: black;">&nbsp;+&nbsp;_data[</span><span
+                style="color: blue;">'resolvedURL'</span><span style="color: black;">])&nbsp;:&nbsp;&nbsp;&nbsp;</span></span>
+    </li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span
+                style="color: blue;">'URL无法解析&nbsp;-&nbsp;'</span><span
+                style="color: black;">&nbsp;+&nbsp;(_data[</span><span style="color: blue;">'requestedURL'</span><span
+                style="color: black;">]||</span><span style="color: blue;">'（空）'</span><span style="color: black;">)))&nbsp;+&nbsp;&nbsp;&nbsp;</span></span>
+    </li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                style="color: blue;">'&lt;/h2&gt;'</span><span style="color: black;">);&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_response.end();&nbsp;&nbsp;</span>
+    </li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});&nbsp;&nbsp;</span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_unshorten();&nbsp;&nbsp;</span>
+    </li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;</span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">}).listen(8080);&nbsp;&nbsp;</span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;</span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">process.on(<span style="color: blue;">'uncaughtException'</span><span
+                style="color: black;">,&nbsp;</span><span
+                style="color: rgb(127, 0, 85); font-weight: bold;">function</span><span style="color: black;">(_error){&nbsp;&nbsp;</span></span>
+    </li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;&nbsp;&nbsp;console.log(<span style="color: blue;">'Caught&nbsp;exception:&nbsp;'</span><span
+                style="color: black;">&nbsp;+&nbsp;_error);&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">});&nbsp;&nbsp;</span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">&nbsp;&nbsp;</span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;"><span style="color: rgb(0, 130, 0);">//&nbsp;打印启动信息</span><span
+                style="color: black;">&nbsp;&nbsp;</span></span></li>
+    <li style="font-size: 1em; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 38px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(209, 215, 220); background-color: rgb(250, 250, 250); line-height: 18px;">
+        <span style="color: black;">sys.puts(<span style="color: blue;">"Server&nbsp;running&nbsp;at&nbsp;http://localhost:8080/"</span><span
+                style="color: black;">);&nbsp; <br></span></span></li>
+</ol></span></span><a target="_blank" rel="nofollow"
+                      href="https://github.com/nomospace/nomospace.github.com/tree/master/lab/2011/url-unshorten">源代码@github</a><br><br>解析成功：<br>
+
+    <div>
+        <div>
+            <blockquote><img alt="node.js下的短网址还原 - nomospace（挪墨） - Nomospace" style="margin:0 10px 0 0;"
+                             src="/assets/images/3674655820958590231.png"><br>
+            </blockquote>
+            <br></div>
+        &nbsp;解析失败：
+        <blockquote>
+            <div><img alt="node.js下的短网址还原 - nomospace（挪墨） - Nomospace" style="margin:0 10px 0 0;"
+                      src="/assets/images/3678877945609246727.png"></div>
+        </blockquote>
+        &nbsp;<br></div>
+    <div></div>
+    推荐<a target="_blank" rel="nofollow" href="http://t.sina.com.cn/imk2">fengmk2</a>的<a target="_blank" rel="nofollow"
+                                                                                        href="http://www.cnblogs.com/fengmk2/archive/2010/12/27/nodejs-urlexpand.html">缩址还原</a>一文，实现原理是通过httpclient递归请求短网址。<br><br>参考资料：<br><a
+            target="_blank" rel="nofollow" href="http://www.imoldman.com/2011/05/30/build-your-simple-url-unshorter/">构建简易unshorter</a><br><a
+            target="_blank" rel="nofollow"
+            href="http://www.ruanyifeng.com/blog/2011/01/api_for_google_s_url_shortener.html">Google短网址的API</a><br><a
+            target="_blank" rel="nofollow" href="http://www.searchenginejournal.com/how-to-unshorten-any-url/16662/9/">How
+        to UNshorten Any URL</a><br><a target="_blank" rel="nofollow" href="http://grails.org/plugin/unshorten">Unshorten
+        - URL Expander</a></div>
+
+
+	
+	<!--<p class="permalink">永久链接：<a href="http://nomospace.github.com/posts/url-unshorten-for-node.html">http://nomospace.github.com/posts/url-unshorten-for-node.html</a></p>-->
+</article>
+<div id="disqus_thread" class="comments"></div>
+
+	<footer>
+		<p>&copy; Since 2012 <a href="http://github.com/nomospace" target="_blank">github.com/nomospace</a></p>
+	</footer>
+</div>
+
+<aside>
+	<h2><a href="/">挪墨的空间</a><a href="/feed.xml" class="feed-link" title="RSS订阅"><img src="http://blog.rexsong.com/wp-content/themes/rexsong/icon_feed.gif" alt="RSS feed" /></a></h2>
+	<div class="block block-about">
+	  <h3>分类</h3>
+		<ul>
+		<li class="javascript"><a href="/category/javascript/">javascript</a></li>
+		<li class="node"><a href="/category/node/">node</a></li>
+		<li class="css"><a href="/category/css/">css</a></li>
+		<li class="html5"><a href="/category/html5/">html5</a></li>
+		<li class="frontend"><a href="/category/frontend/">frontend</a></li>
+		
+		</ul>
+	</div>
+
+	<form action="/search/" class="block block-search">
+		<h3>搜索</h3>
+    <input type="search" name="q" placeholder="输入关键词按回车搜索" />
+	</form>
+
+	<div class="block block-about">
+		<h3><a href="/douban">我的豆瓣</a></h3>
+	</div>
+
+	<div class="block block-about">
+		<h3><a href="/projects">我的项目</a></h3>
+	</div>
+
+	<div class="block block-about" style="display:none;">
+    <h3>关于</h3>
+		<figure>
+			<img src="http://www.gravatar.com/avatar/d6e8639fcaea0c7c0fab106033f05de0?s=80" />
+			<figcaption><strong>nomospace</strong></figcaption>
+		</figure>
+	</div>
+
+	<a href="http://github.com/nomospace" class="forkme"><img src="/assets/images/forkmeongithub.png" alt="Fork me on GitHub"></a>
+
+    <div class="block block-license">
+        <h3>版权申明</h3>
+        <p><a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/2.5/cn/" target="_blank" class="hide-target-icon" title="Copyright declaration of site content"><img alt="知识共享许可协议" src="http://i.creativecommons.org/l/by-nc-nd/2.5/cn/88x31.png" /></a></p>
+    </div>
+
+	<div class="block block-thank">
+        <h3>Powered by</h3>
+        <p>
+            <a href="http://disqus.com/" target="_blank">Disqus</a>,
+            <a href="http://www.google.com/cse/" target="_blank">Google Custom Search</a>,
+            <a href="https://github.com/" target="_blank">GitHub</a>,
+            <a href="http://en.gravatar.com/" target="_blank">Gravatar</a>,
+            <a href="http://softwaremaniacs.org/soft/highlight/en/">HighlightJS</a>,
+            <a href="https://github.com/mojombo/jekyll" target="_blank">jekyll</a>,
+            <a href="https://github.com/mytharcher/SimpleGray" target="_blank">SimpleGray</a>
+        </p>
+    </div>
+</aside>
+
+<script src="/assets/js/highlight.js"></script>
+<script src="/assets/js/hljs/languages/css.js"></script>
+<script src="/assets/js/hljs/languages/xml.js"></script>
+<script src="/assets/js/hljs/languages/javascript.js"></script>
+<script src="/assets/js/hljs/languages/ruby.js"></script>
+<script src="/assets/js/jquery-1.8.0.min.js"></script>
+
+    <script src="http://nomospace.disqus.com/embed.js"></script>
+
+<script src="/assets/js/site.js"></script>
+<script>
+    var _errs=["4fcf6a84a57ce4043f00032a"];(function(a,b){a.onerror=function(){_errs.push(arguments)};
+    var d=function(){var a=b.createElement("script"),c=b.getElementsByTagName("script")[0];
+    a.src="//d15qhc0lu1ghnk.cloudfront.net/beacon.js";a.async=!0;
+    c.parentNode.insertBefore(a,c)};a.addEventListener?a.addEventListener("load",d,!1):
+    a.attachEvent("onload",d)})(window,document);
+</script>
+<script>
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-31926992-1']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<script type="text/javascript">
+    var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F98b0bb1f70082dc53d1cfaafd343ce0c' type='text/javascript'%3E%3C/script%3E"));
+</script>
+</body>
+</html>
