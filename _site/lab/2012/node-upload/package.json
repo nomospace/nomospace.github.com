@@ -1,0 +1,25 @@
+{
+  "name": "node-upload",
+  "version": "0.1.0",
+  "description": "node-upload",
+  "author": "nomospace",
+  "dependencies": {
+    "ejs": "~0.8.3",
+    "express": "~3.0.0rc5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node test/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nomospace/nomospace.github.com.git"
+  },
+  "keywords": [
+    "node",
+    "upload",
+    "express"
+  ],
+  "bugs": "https://github.com/nomospace/nomospace.github.com/issues",
+  "license": "BSD"
+}
