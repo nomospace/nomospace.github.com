@@ -19,38 +19,36 @@ functions assume you follow the node.js convention of providing a single
 callback as the last argument of your async function.
 
 
-## Quick Examples
+## 简单示例
 
-```javascript
-async.map(['file1','file2','file3'], fs.stat, function(err, results){
-    // results is now an array of stats for each file
-});
+    ```javascript
+    async.map(['file1','file2','file3'], fs.stat, function(err, results){
+        // results is now an array of stats for each file
+    });
 
-async.filter(['file1','file2','file3'], path.exists, function(results){
-    // results now equals an array of the existing files
-});
+    async.filter(['file1','file2','file3'], path.exists, function(results){
+        // results now equals an array of the existing files
+    });
 
-async.parallel([
-    function(){ ... },
-    function(){ ... }
-], callback);
+    async.parallel([
+        function(){ ... },
+        function(){ ... }
+    ], callback);
 
-async.series([
-    function(){ ... },
-    function(){ ... }
-]);
-```
+    async.series([
+        function(){ ... },
+        function(){ ... }
+    ]);
+    ```
 
 There are many more functions available so take a look at the docs below for a
 full list. This module aims to be comprehensive, so if you feel anything is
 missing please create a GitHub issue for it.
 
 
-## Download
+## 下载
 
-Releases are available for download from
-[GitHub](http://github.com/caolan/async/downloads).
-Alternatively, you can install using Node Package Manager (npm):
+从 [GitHub](http://github.com/caolan/async/downloads) 下载最新 release 版本，同时也支持通过 npm 下载安装：
 
     npm install async
 
@@ -60,24 +58,24 @@ __Development:__ [async.js](https://github.com/caolan/async/raw/master/lib/async
 __Production:__ [async.min.js](https://github.com/caolan/async/raw/master/dist/async.min.js) - 1.7kb Packed and Gzipped
 
 
-## In the Browser
+## 浏览器
 
-So far its been tested in IE6, IE7, IE8, FF3.6 and Chrome 5. Usage:
+目前已经在 IE6 IE7 IE8 FF3.6 以及 Chrome 5 中测试过。用法如下：
 
-```html
-<script type="text/javascript" src="async.js"></script>
-<script type="text/javascript">
+    ```html
+    <script type="text/javascript" src="async.js"></script>
+    <script type="text/javascript">
 
-    async.map(data, asyncProcess, function(err, results){
-        alert(results);
-    });
+        async.map(data, asyncProcess, function(err, results){
+            alert(results);
+        });
 
-</script>
-```
+    </script>
+    ```
 
-## Documentation
+## 文档
 
-### Collections
+### 集合 (Collections)
 
 * [each](#each)
 * [map](#map)
@@ -90,7 +88,7 @@ So far its been tested in IE6, IE7, IE8, FF3.6 and Chrome 5. Usage:
 * [every](#every)
 * [concat](#concat)
 
-### Control Flow
+### 控制流 (Control Flow)
 
 * [series](#series)
 * [parallel](#parallel)
@@ -109,7 +107,7 @@ So far its been tested in IE6, IE7, IE8, FF3.6 and Chrome 5. Usage:
 * [times](#times)
 * [timesSeries](#timesSeries)
 
-### Utils
+### 工具函数 (Utils)
 
 * [memoize](#memoize)
 * [unmemoize](#unmemoize)
@@ -118,10 +116,10 @@ So far its been tested in IE6, IE7, IE8, FF3.6 and Chrome 5. Usage:
 * [noConflict](#noConflict)
 
 
-## Collections
+## 集合 (Collections)
 
-<a name="forEach" />
-<a name="each" />
+<!--<a name="forEach" />
+<a name="each" />-->
 ### each(arr, iterator, callback)
 
 Applies an iterator function to each item in an array, in parallel.
@@ -144,19 +142,19 @@ __Arguments__
 
 __Example__
 
-```js
-// assuming openFiles is an array of file names and saveFile is a function
-// to save the modified contents of that file:
+    ```js
+    // assuming openFiles is an array of file names and saveFile is a function
+    // to save the modified contents of that file:
 
-async.each(openFiles, saveFile, function(err){
-    // if any of the saves produced an error, err would equal that error
-});
-```
+    async.each(openFiles, saveFile, function(err){
+        // if any of the saves produced an error, err would equal that error
+    });
+    ```
 
 ---------------------------------------
 
-<a name="forEachSeries" />
-<a name="eachSeries" />
+<!--a name="forEachSeries" />
+<a name="eachSeries" /-->
 ### eachSeries(arr, iterator, callback)
 
 The same as each only the iterator is applied to each item in the array in
@@ -166,8 +164,8 @@ processing. This means the iterator functions will complete in order.
 
 ---------------------------------------
 
-<a name="forEachLimit" />
-<a name="eachLimit" />
+<!--<a name="forEachLimit" />
+<a name="eachLimit" />-->
 ### eachLimit(arr, limit, iterator, callback)
 
 The same as each only no more than "limit" iterators will be simultaneously 
@@ -201,7 +199,7 @@ async.eachLimit(documents, 20, requestApi, function(err){
 
 ---------------------------------------
 
-<a name="map" />
+<!--<a name="map" />-->
 ### map(arr, iterator, callback)
 
 Produces a new array of values by mapping each value in the given array through
@@ -235,7 +233,7 @@ async.map(['file1','file2','file3'], fs.stat, function(err, results){
 
 ---------------------------------------
 
-<a name="mapSeries" />
+<!--<a name="mapSeries" />-->
 ### mapSeries(arr, iterator, callback)
 
 The same as map only the iterator is applied to each item in the array in
@@ -245,7 +243,7 @@ processing. The results array will be in the same order as the original.
 
 ---------------------------------------
 
-<a name="mapLimit" />
+<!--<a name="mapLimit" />-->
 ### mapLimit(arr, limit, iterator, callback)
 
 The same as map only no more than "limit" iterators will be simultaneously 
@@ -276,7 +274,7 @@ async.map(['file1','file2','file3'], 1, fs.stat, function(err, results){
 
 ---------------------------------------
 
-<a name="filter" />
+<!--<a name="filter" />-->
 ### filter(arr, iterator, callback)
 
 __Alias:__ select
@@ -307,7 +305,7 @@ async.filter(['file1','file2','file3'], path.exists, function(results){
 
 ---------------------------------------
 
-<a name="filterSeries" />
+<!--<a name="filterSeries" />-->
 ### filterSeries(arr, iterator, callback)
 
 __alias:__ selectSeries
@@ -318,14 +316,14 @@ processing. The results array will be in the same order as the original.
 
 ---------------------------------------
 
-<a name="reject" />
+<!--<a name="reject" />-->
 ### reject(arr, iterator, callback)
 
 The opposite of filter. Removes values that pass an async truth test.
 
 ---------------------------------------
 
-<a name="rejectSeries" />
+<!--<a name="rejectSeries" />-->
 ### rejectSeries(arr, iterator, callback)
 
 The same as reject, only the iterator is applied to each item in the array
@@ -334,7 +332,7 @@ in series.
 
 ---------------------------------------
 
-<a name="reduce" />
+<!--<a name="reduce" />-->
 ### reduce(arr, memo, iterator, callback)
 
 __aliases:__ inject, foldl
@@ -375,7 +373,7 @@ async.reduce([1,2,3], 0, function(memo, item, callback){
 
 ---------------------------------------
 
-<a name="reduceRight" />
+<!--<a name="reduceRight" />-->
 ### reduceRight(arr, memo, iterator, callback)
 
 __Alias:__ foldr
@@ -385,7 +383,7 @@ Same as reduce, only operates on the items in the array in reverse order.
 
 ---------------------------------------
 
-<a name="detect" />
+<!--<a name="detect" />-->
 ### detect(arr, iterator, callback)
 
 Returns the first value in a list that passes an async truth test. The
@@ -416,7 +414,7 @@ async.detect(['file1','file2','file3'], path.exists, function(result){
 
 ---------------------------------------
 
-<a name="detectSeries" />
+<!--<a name="detectSeries" />-->
 ### detectSeries(arr, iterator, callback)
 
 The same as detect, only the iterator is applied to each item in the array
@@ -426,7 +424,7 @@ terms of array order) that passes the truth test.
 
 ---------------------------------------
 
-<a name="sortBy" />
+<!--<a name="sortBy" />-->
 ### sortBy(arr, iterator, callback)
 
 Sorts a list by the results of running each value through an async iterator.
@@ -457,7 +455,7 @@ async.sortBy(['file1','file2','file3'], function(file, callback){
 
 ---------------------------------------
 
-<a name="some" />
+<!--<a name="some" />-->
 ### some(arr, iterator, callback)
 
 __Alias:__ any
@@ -488,7 +486,7 @@ async.some(['file1','file2','file3'], path.exists, function(result){
 
 ---------------------------------------
 
-<a name="every" />
+<!--<a name="every" />-->
 ### every(arr, iterator, callback)
 
 __Alias:__ all
@@ -518,7 +516,7 @@ async.every(['file1','file2','file3'], path.exists, function(result){
 
 ---------------------------------------
 
-<a name="concat" />
+<!--<a name="concat" />-->
 ### concat(arr, iterator, callback)
 
 Applies an iterator to each item in a list, concatenating the results. Returns the
@@ -546,7 +544,7 @@ async.concat(['dir1','dir2','dir3'], fs.readdir, function(err, files){
 
 ---------------------------------------
 
-<a name="concatSeries" />
+<!--<a name="concatSeries" />-->
 ### concatSeries(arr, iterator, callback)
 
 Same as async.concat, but executes in series instead of parallel.
@@ -554,7 +552,7 @@ Same as async.concat, but executes in series instead of parallel.
 
 ## Control Flow
 
-<a name="series" />
+<!--<a name="series" />-->
 ### series(tasks, [callback])
 
 Run an array of functions in series, each one running once the previous
@@ -617,7 +615,7 @@ function(err, results) {
 
 ---------------------------------------
 
-<a name="parallel" />
+<!--<a name="parallel" />-->
 ### parallel(tasks, [callback])
 
 Run an array of functions in parallel, without waiting until the previous
@@ -683,7 +681,7 @@ function(err, results) {
 
 ---------------------------------------
 
-<a name="parallel" />
+<!--<a name="parallel" />-->
 ### parallelLimit(tasks, limit, [callback])
 
 The same as parallel only the tasks are executed in parallel with a maximum of "limit" 
@@ -704,7 +702,7 @@ __Arguments__
 
 ---------------------------------------
 
-<a name="whilst" />
+<!--<a name="whilst" />-->
 ### whilst(test, fn, callback)
 
 Repeatedly call fn, while test returns true. Calls the callback when stopped,
@@ -738,14 +736,14 @@ async.whilst(
 
 ---------------------------------------
 
-<a name="doWhilst" />
+<!--<a name="doWhilst" />-->
 ### doWhilst(fn, test, callback)
 
 The post check version of whilst. To reflect the difference in the order of operations `test` and `fn` arguments are switched. `doWhilst` is to `whilst` as `do while` is to `while` in plain JavaScript.
 
 ---------------------------------------
 
-<a name="until" />
+<!--<a name="until" />-->
 ### until(test, fn, callback)
 
 Repeatedly call fn, until test returns true. Calls the callback when stopped,
@@ -755,7 +753,7 @@ The inverse of async.whilst.
 
 ---------------------------------------
 
-<a name="doUntil" />
+<!--<a name="doUntil" />-->
 ### doUntil(fn, test, callback)
 
 Like doWhilst except the test is inverted. Note the argument ordering differs from `until`.
@@ -763,7 +761,7 @@ Like doWhilst except the test is inverted. Note the argument ordering differs fr
 
 ---------------------------------------
 
-<a name="waterfall" />
+<!--<a name="waterfall" />-->
 ### waterfall(tasks, [callback])
 
 Runs an array of functions in series, each passing their results to the next in
@@ -802,7 +800,7 @@ async.waterfall([
 ```
 
 ---------------------------------------
-<a name="compose" />
+<!--<a name="compose" />-->
 ### compose(fn1, fn2...)
 
 Creates a function which is a composition of the passed asynchronous
@@ -841,7 +839,7 @@ add1mul3(4, function (err, result) {
 
 ---------------------------------------
 
-<a name="queue" />
+<!--<a name="queue" />-->
 ### queue(worker, concurrency)
 
 Creates a queue object with the specified concurrency. Tasks added to the
@@ -914,7 +912,7 @@ q.unshift({name: 'bar'}, function (err) {
 
 ---------------------------------------
 
-<a name="cargo" />
+<!--<a name="cargo" />-->
 ### cargo(worker, [payload])
 
 Creates a cargo object with the specified payload. Tasks added to the
@@ -972,7 +970,7 @@ cargo.push({name: 'baz'}, function (err) {
 
 ---------------------------------------
 
-<a name="auto" />
+<!--<a name="auto" />-->
 ### auto(tasks, [callback])
 
 Determines the best order for running functions based on their requirements.
@@ -1051,7 +1049,7 @@ new tasks much easier and makes the code more readable.
 
 ---------------------------------------
 
-<a name="iterator" />
+<!--<a name="iterator" />-->
 ### iterator(tasks)
 
 Creates an iterator function which calls the next function in the array,
@@ -1087,7 +1085,7 @@ node> nextfn();
 
 ---------------------------------------
 
-<a name="apply" />
+<!--<a name="apply" />-->
 ### apply(function, arguments..)
 
 Creates a continuation function with some arguments already applied, a useful
@@ -1137,7 +1135,7 @@ three
 
 ---------------------------------------
 
-<a name="nextTick" />
+<!--<a name="nextTick" />-->
 ### nextTick(callback)
 
 Calls the callback on a later loop around the event loop. In node.js this just
@@ -1162,7 +1160,7 @@ async.nextTick(function(){
 call_order.push('one')
 ```
 
-<a name="times" />
+<!--<a name="times" />-->
 ### times(n, callback)
 
 Calls the callback n times and accumulates results in the same manner
@@ -1192,7 +1190,7 @@ async.times(5, function(n, next){
 });
 ```
 
-<a name="timesSeries" />
+<!--<a name="timesSeries" />-->
 ### timesSeries(n, callback)
 
 The same as times only the iterator is applied to each item in the array in
@@ -1202,7 +1200,7 @@ processing. The results array will be in the same order as the original.
 
 ## Utils
 
-<a name="memoize" />
+<!--<a name="memoize" />-->
 ### memoize(fn, [hasher])
 
 Caches the results of an async function. When creating a hash to store function
@@ -1234,7 +1232,7 @@ fn('some name', function () {
 });
 ```
 
-<a name="unmemoize" />
+<!--<a name="unmemoize" />-->
 ### unmemoize(fn)
 
 Undoes a memoized function, reverting it to the original, unmemoized
@@ -1244,7 +1242,7 @@ __Arguments__
 
 * fn - the memoized function
 
-<a name="log" />
+<!--<a name="log" />-->
 ### log(function, arguments)
 
 Logs the result of an async function to the console. Only works in node.js or
@@ -1273,7 +1271,7 @@ node> async.log(hello, 'world');
 
 ---------------------------------------
 
-<a name="dir" />
+<!--<a name="dir" />-->
 ### dir(function, arguments)
 
 Logs the result of an async function to the console using console.dir to
@@ -1303,7 +1301,7 @@ node> async.dir(hello, 'world');
 
 ---------------------------------------
 
-<a name="noConflict" />
+<!--<a name="noConflict" />-->
 ### noConflict()
 
 Changes the value of async back to its original value, returning a reference to the

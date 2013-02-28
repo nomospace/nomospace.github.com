@@ -38,49 +38,36 @@ for asynchronous control flow (parallel, series, waterfall…). All these
 functions assume you follow the node.js convention of providing a single
 callback as the last argument of your async function.</p>
 
-<h2>Quick Examples</h2>
+<h2>简单示例</h2>
 
-<p>```javascript
-async.map(['file1','file2','file3'], fs.stat, function(err, results){</p>
+<pre><code>```javascript
+async.map(['file1','file2','file3'], fs.stat, function(err, results){
+    // results is now an array of stats for each file
+});
 
-<pre><code>// results is now an array of stats for each file
+async.filter(['file1','file2','file3'], path.exists, function(results){
+    // results now equals an array of the existing files
+});
+
+async.parallel([
+    function(){ ... },
+    function(){ ... }
+], callback);
+
+async.series([
+    function(){ ... },
+    function(){ ... }
+]);
+```
 </code></pre>
-
-<p>});</p>
-
-<p>async.filter(['file1','file2','file3'], path.exists, function(results){</p>
-
-<pre><code>// results now equals an array of the existing files
-</code></pre>
-
-<p>});</p>
-
-<p>async.parallel([</p>
-
-<pre><code>function(){ ... },
-function(){ ... }
-</code></pre>
-
-<p>], callback);</p>
-
-<p>async.series([</p>
-
-<pre><code>function(){ ... },
-function(){ ... }
-</code></pre>
-
-<p>]);
-```</p>
 
 <p>There are many more functions available so take a look at the docs below for a
 full list. This module aims to be comprehensive, so if you feel anything is
 missing please create a GitHub issue for it.</p>
 
-<h2>Download</h2>
+<h2>下载</h2>
 
-<p>Releases are available for download from
-<a href="http://github.com/caolan/async/downloads">GitHub</a>.
-Alternatively, you can install using Node Package Manager (npm):</p>
+<p>从 <a href="http://github.com/caolan/async/downloads">GitHub</a> 下载最新 release 版本，同时也支持通过 npm 下载安装：</p>
 
 <pre><code>npm install async
 </code></pre>
@@ -89,29 +76,25 @@ Alternatively, you can install using Node Package Manager (npm):</p>
 
 <p><strong>Production:</strong> <a href="https://github.com/caolan/async/raw/master/dist/async.min.js">async.min.js</a> - 1.7kb Packed and Gzipped</p>
 
-<h2>In the Browser</h2>
+<h2>浏览器</h2>
 
-<p>So far its been tested in IE6, IE7, IE8, FF3.6 and Chrome 5. Usage:</p>
+<p>目前已经在 IE6 IE7 IE8 FF3.6 以及 Chrome 5 中测试过。用法如下：</p>
 
-<p>```html</p>
-
-<script type="text/javascript" src="async.js"></script>
-
-
-<script type="text/javascript">
+<pre><code>```html
+&lt;script type="text/javascript" src="async.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
 
     async.map(data, asyncProcess, function(err, results){
         alert(results);
     });
 
-</script>
+&lt;/script&gt;
+```
+</code></pre>
 
+<h2>文档</h2>
 
-<p>```</p>
-
-<h2>Documentation</h2>
-
-<h3>Collections</h3>
+<h3>集合 (Collections)</h3>
 
 <ul>
 <li><a href="#each">each</a></li>
@@ -127,7 +110,7 @@ Alternatively, you can install using Node Package Manager (npm):</p>
 </ul>
 
 
-<h3>Control Flow</h3>
+<h3>控制流 (Control Flow)</h3>
 
 <ul>
 <li><a href="#series">series</a></li>
@@ -149,7 +132,7 @@ Alternatively, you can install using Node Package Manager (npm):</p>
 </ul>
 
 
-<h3>Utils</h3>
+<h3>工具函数 (Utils)</h3>
 
 <ul>
 <li><a href="#memoize">memoize</a></li>
@@ -160,10 +143,11 @@ Alternatively, you can install using Node Package Manager (npm):</p>
 </ul>
 
 
-<h2>Collections</h2>
+<h2>集合 (Collections)</h2>
 
-<p><a name="forEach" />
-<a name="each" /></p>
+<!--<a name="forEach" />
+<a name="each" />-->
+
 
 <h3>each(arr, iterator, callback)</h3>
 
@@ -190,22 +174,21 @@ have finished, or an error has occurred.</li>
 
 <p><strong>Example</strong></p>
 
-<p>```js
+<pre><code>```js
 // assuming openFiles is an array of file names and saveFile is a function
-// to save the modified contents of that file:</p>
+// to save the modified contents of that file:
 
-<p>async.each(openFiles, saveFile, function(err){</p>
-
-<pre><code>// if any of the saves produced an error, err would equal that error
+async.each(openFiles, saveFile, function(err){
+    // if any of the saves produced an error, err would equal that error
+});
+```
 </code></pre>
-
-<p>});
-```</p>
 
 <hr />
 
-<p><a name="forEachSeries" />
-<a name="eachSeries" /></p>
+<!--a name="forEachSeries" />
+<a name="eachSeries" /-->
+
 
 <h3>eachSeries(arr, iterator, callback)</h3>
 
@@ -215,8 +198,9 @@ processing. This means the iterator functions will complete in order.</p>
 
 <hr />
 
-<p><a name="forEachLimit" />
-<a name="eachLimit" /></p>
+<!--<a name="forEachLimit" />
+<a name="eachLimit" />-->
+
 
 <h3>eachLimit(arr, limit, iterator, callback)</h3>
 
@@ -257,7 +241,8 @@ have finished, or an error has occurred.</li>
 
 <hr />
 
-<p><a name="map" /></p>
+<!--<a name="map" />-->
+
 
 <h3>map(arr, iterator, callback)</h3>
 
@@ -298,7 +283,8 @@ async.map(['file1','file2','file3'], fs.stat, function(err, results){</p>
 
 <hr />
 
-<p><a name="mapSeries" /></p>
+<!--<a name="mapSeries" />-->
+
 
 <h3>mapSeries(arr, iterator, callback)</h3>
 
@@ -308,7 +294,8 @@ processing. The results array will be in the same order as the original.</p>
 
 <hr />
 
-<p><a name="mapLimit" /></p>
+<!--<a name="mapLimit" />-->
+
 
 <h3>mapLimit(arr, limit, iterator, callback)</h3>
 
@@ -346,7 +333,8 @@ async.map(['file1','file2','file3'], 1, fs.stat, function(err, results){</p>
 
 <hr />
 
-<p><a name="filter" /></p>
+<!--<a name="filter" />-->
+
 
 <h3>filter(arr, iterator, callback)</h3>
 
@@ -384,7 +372,8 @@ async.filter(['file1','file2','file3'], path.exists, function(results){</p>
 
 <hr />
 
-<p><a name="filterSeries" /></p>
+<!--<a name="filterSeries" />-->
+
 
 <h3>filterSeries(arr, iterator, callback)</h3>
 
@@ -396,7 +385,8 @@ processing. The results array will be in the same order as the original.</p>
 
 <hr />
 
-<p><a name="reject" /></p>
+<!--<a name="reject" />-->
+
 
 <h3>reject(arr, iterator, callback)</h3>
 
@@ -404,7 +394,8 @@ processing. The results array will be in the same order as the original.</p>
 
 <hr />
 
-<p><a name="rejectSeries" /></p>
+<!--<a name="rejectSeries" />-->
+
 
 <h3>rejectSeries(arr, iterator, callback)</h3>
 
@@ -413,7 +404,8 @@ in series.</p>
 
 <hr />
 
-<p><a name="reduce" /></p>
+<!--<a name="reduce" />-->
+
 
 <h3>reduce(arr, memo, iterator, callback)</h3>
 
@@ -464,7 +456,8 @@ process.nextTick(function(){
 
 <hr />
 
-<p><a name="reduceRight" /></p>
+<!--<a name="reduceRight" />-->
+
 
 <h3>reduceRight(arr, memo, iterator, callback)</h3>
 
@@ -474,7 +467,8 @@ process.nextTick(function(){
 
 <hr />
 
-<p><a name="detect" /></p>
+<!--<a name="detect" />-->
+
 
 <h3>detect(arr, iterator, callback)</h3>
 
@@ -512,7 +506,8 @@ async.detect(['file1','file2','file3'], path.exists, function(result){</p>
 
 <hr />
 
-<p><a name="detectSeries" /></p>
+<!--<a name="detectSeries" />-->
+
 
 <h3>detectSeries(arr, iterator, callback)</h3>
 
@@ -522,7 +517,8 @@ terms of array order) that passes the truth test.</p>
 
 <hr />
 
-<p><a name="sortBy" /></p>
+<!--<a name="sortBy" />-->
+
 
 <h3>sortBy(arr, iterator, callback)</h3>
 
@@ -563,7 +559,8 @@ async.sortBy(['file1','file2','file3'], function(file, callback){</p>
 
 <hr />
 
-<p><a name="some" /></p>
+<!--<a name="some" />-->
+
 
 <h3>some(arr, iterator, callback)</h3>
 
@@ -601,7 +598,8 @@ async.some(['file1','file2','file3'], path.exists, function(result){</p>
 
 <hr />
 
-<p><a name="every" /></p>
+<!--<a name="every" />-->
+
 
 <h3>every(arr, iterator, callback)</h3>
 
@@ -638,7 +636,8 @@ async.every(['file1','file2','file3'], path.exists, function(result){</p>
 
 <hr />
 
-<p><a name="concat" /></p>
+<!--<a name="concat" />-->
+
 
 <h3>concat(arr, iterator, callback)</h3>
 
@@ -673,7 +672,8 @@ async.concat(['dir1','dir2','dir3'], fs.readdir, function(err, files){</p>
 
 <hr />
 
-<p><a name="concatSeries" /></p>
+<!--<a name="concatSeries" />-->
+
 
 <h3>concatSeries(arr, iterator, callback)</h3>
 
@@ -681,7 +681,8 @@ async.concat(['dir1','dir2','dir3'], fs.readdir, function(err, files){</p>
 
 <h2>Control Flow</h2>
 
-<p><a name="series" /></p>
+<!--<a name="series" />-->
+
 
 <h3>series(tasks, [callback])</h3>
 
@@ -758,7 +759,8 @@ function(err, results) {</p>
 
 <hr />
 
-<p><a name="parallel" /></p>
+<!--<a name="parallel" />-->
+
 
 <h3>parallel(tasks, [callback])</h3>
 
@@ -838,7 +840,8 @@ function(err, results) {</p>
 
 <hr />
 
-<p><a name="parallel" /></p>
+<!--<a name="parallel" />-->
+
 
 <h3>parallelLimit(tasks, limit, [callback])</h3>
 
@@ -863,7 +866,8 @@ the result arguments passed to the task callbacks.</li>
 
 <hr />
 
-<p><a name="whilst" /></p>
+<!--<a name="whilst" />-->
+
 
 <h3>whilst(test, fn, callback)</h3>
 
@@ -904,7 +908,8 @@ function (err) {
 
 <hr />
 
-<p><a name="doWhilst" /></p>
+<!--<a name="doWhilst" />-->
+
 
 <h3>doWhilst(fn, test, callback)</h3>
 
@@ -912,7 +917,8 @@ function (err) {
 
 <hr />
 
-<p><a name="until" /></p>
+<!--<a name="until" />-->
+
 
 <h3>until(test, fn, callback)</h3>
 
@@ -923,7 +929,8 @@ or an error occurs.</p>
 
 <hr />
 
-<p><a name="doUntil" /></p>
+<!--<a name="doUntil" />-->
+
 
 <h3>doUntil(fn, test, callback)</h3>
 
@@ -931,7 +938,8 @@ or an error occurs.</p>
 
 <hr />
 
-<p><a name="waterfall" /></p>
+<!--<a name="waterfall" />-->
+
 
 <h3>waterfall(tasks, [callback])</h3>
 
@@ -976,7 +984,8 @@ function(arg1, callback){
 
 <hr />
 
-<p><a name="compose" /></p>
+<!--<a name="compose" />-->
+
 
 <h3>compose(fn1, fn2...)</h3>
 
@@ -1024,7 +1033,8 @@ function add1(n, callback) {</p>
 
 <hr />
 
-<p><a name="queue" /></p>
+<!--<a name="queue" />-->
+
 
 <h3>queue(worker, concurrency)</h3>
 
@@ -1121,7 +1131,8 @@ q.push({name: 'bar'}, function (err) {</p>
 
 <hr />
 
-<p><a name="cargo" /></p>
+<!--<a name="cargo" />-->
+
 
 <h3>cargo(worker, [payload])</h3>
 
@@ -1197,7 +1208,8 @@ cargo.push({name: 'baz'}, function (err) {</p>
 
 <hr />
 
-<p><a name="auto" /></p>
+<!--<a name="auto" />-->
+
 
 <h3>auto(tasks, [callback])</h3>
 
@@ -1288,7 +1300,8 @@ new tasks much easier and makes the code more readable.</p>
 
 <hr />
 
-<p><a name="iterator" /></p>
+<!--<a name="iterator" />-->
+
 
 <h3>iterator(tasks)</h3>
 
@@ -1331,7 +1344,8 @@ node> nextfn();
 
 <hr />
 
-<p><a name="apply" /></p>
+<!--<a name="apply" />-->
+
 
 <h3>apply(function, arguments..)</h3>
 
@@ -1390,7 +1404,8 @@ three
 
 <hr />
 
-<p><a name="nextTick" /></p>
+<!--<a name="nextTick" />-->
+
 
 <h3>nextTick(callback)</h3>
 
@@ -1422,7 +1437,8 @@ async.nextTick(function(){</p>
 call_order.push('one')
 ```</p>
 
-<p><a name="times" /></p>
+<!--<a name="times" />-->
+
 
 <h3>times(n, callback)</h3>
 
@@ -1462,7 +1478,8 @@ async.times(5, function(n, next){</p>
 });
 ```</p>
 
-<p><a name="timesSeries" /></p>
+<!--<a name="timesSeries" />-->
+
 
 <h3>timesSeries(n, callback)</h3>
 
@@ -1472,7 +1489,8 @@ processing. The results array will be in the same order as the original.</p>
 
 <h2>Utils</h2>
 
-<p><a name="memoize" /></p>
+<!--<a name="memoize" />-->
+
 
 <h3>memoize(fn, [hasher])</h3>
 
@@ -1514,7 +1532,8 @@ fn('some name', function () {</p>
 <p>});
 ```</p>
 
-<p><a name="unmemoize" /></p>
+<!--<a name="unmemoize" />-->
+
 
 <h3>unmemoize(fn)</h3>
 
@@ -1528,7 +1547,8 @@ form. Comes handy in tests.</p>
 </ul>
 
 
-<p><a name="log" /></p>
+<!--<a name="log" />-->
+
 
 <h3>log(function, arguments)</h3>
 
@@ -1564,7 +1584,8 @@ node> async.log(hello, 'world');
 
 <hr />
 
-<p><a name="dir" /></p>
+<!--<a name="dir" />-->
+
 
 <h3>dir(function, arguments)</h3>
 
@@ -1601,7 +1622,8 @@ node> async.dir(hello, 'world');
 
 <hr />
 
-<p><a name="noConflict" /></p>
+<!--<a name="noConflict" />-->
+
 
 <h3>noConflict()</h3>
 
