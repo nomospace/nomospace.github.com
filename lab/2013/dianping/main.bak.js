@@ -6,13 +6,13 @@ var async = require('async');
 var _ = require('underscore');
 var serverUrl = 'http://api.dianping.com/';
 var apiPath = 'v1/business/find_businesses';
-var appkey = '756750406';
-var secret = 'e00d8099e58245c0b996c0c367a6dbb0';
+var appkey = '42148474';
+var secret = 'ddfbaf53588f414b985cc935cad57bc5';
 var regName = process.argv[2] || '';
 var catJson = require('./json/category.json');
 var regJson = require('./json/region.json')['上海'];
 
-var catArray = ['湘菜'];
+var catArray = ['本帮菜'];
 //catJson.forEach(function(c) {
 //  catArray.push(c);
 //});
@@ -32,7 +32,7 @@ for (var i in regJson) {
 var count = 0, allUrls = [], tasks = [];
 //catArray.forEach(function(c) {
 regArray.forEach(function(r) {
-//  console.log(r);
+  console.log(r);
   count++;
   var url = generateUrl({'category': catArray[0], 'region': r});
   tasks.push(function(callback) {
@@ -156,7 +156,7 @@ var resultArray = [];
 
 function fetch(options) {
   var url = options.url, callback = options.callback;
-  req = http.get(url,function(res) {
+  req = http.get(encodeURI(url),function(res) {
     console.log(url);
 //    clearTimeout(request_timer);
     // 等待响应 60 秒超时
@@ -179,8 +179,6 @@ function fetch(options) {
         chunks[i].copy(data, pos);
         pos += chunks[i].length;
       }
-//      console.log('Body:\r\n');
-      console.log(data.toString());
       resultArray.push(JSON.parse(data.toString()).businesses);
 //      callback(JSON.parse(data.toString()));
       callback();

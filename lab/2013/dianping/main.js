@@ -154,7 +154,7 @@ var resultArray = [];
 
 function fetch(options) {
   var url = options.url, callback = options.callback;
-  req = http.get(url,function(res) {
+  req = http.get(encodeURI(url),function(res) {
     console.log(url);
 //    clearTimeout(request_timer);
     // 等待响应 60 秒超时
