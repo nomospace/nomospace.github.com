@@ -3,7 +3,7 @@
 	<title>挪墨的空间</title>
 	<link href="http://nomospace.github.com/atom.xml" rel="self" />
 	<link href="http://nomospace.github.com/" />
-	<updated>2013-03-02T22:28:51+08:00</updated>
+	<updated>2013-03-03T22:42:15+08:00</updated>
 	<id>http://nomospace.github.com/</id>
 	<author>
 		<name>nomospace</name>
@@ -22,11 +22,8 @@ for working with asynchronous JavaScript. Although originally designed for
 use with <a href="http://nodejs.org">node.js</a>, it can also be used directly in the
 browser.</p>
 
-<p>Async provides around 20 functions that include the usual 'functional'
-suspects (map, reduce, filter, each…) as well as some common patterns
-for asynchronous control flow (parallel, series, waterfall…). All these
-functions assume you follow the node.js convention of providing a single
-callback as the last argument of your async function.</p>
+<p>Async 提供了近 20 个函数方法，包括常见的函数式
+suspects，比如 map，reduce，filter，each 等，以及一些异步控制流模式，比如 parallel， series，waterfall 等。所有这些函数让使用者遵循 node.js 约定，将异步函数的最后一个参数指定一个简单的回调函数。</p>
 
 <h2>简单示例</h2>
 
