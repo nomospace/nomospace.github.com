@@ -139,14 +139,12 @@ __Arguments__
 
 __Example__
 
-    ```js
     // assuming openFiles is an array of file names and saveFile is a function
     // to save the modified contents of that file:
 
     async.each(openFiles, saveFile, function(err){
         // if any of the saves produced an error, err would equal that error
     });
-    ```
 
 ---------------------------------------
 
@@ -185,14 +183,12 @@ __Arguments__
 
 __Example__
 
-```js
-// Assume documents is an array of JSON objects and requestApi is a
-// function that interacts with a rate-limited REST api.
+    // Assume documents is an array of JSON objects and requestApi is a
+    // function that interacts with a rate-limited REST api.
 
-async.eachLimit(documents, 20, requestApi, function(err){
-    // if any of the saves produced an error, err would equal that error
-});
-```
+    async.eachLimit(documents, 20, requestApi, function(err){
+        // if any of the saves produced an error, err would equal that error
+    });
 
 ---------------------------------------
 
@@ -222,11 +218,9 @@ __Arguments__
 
 __Example__
 
-```js
-async.map(['file1','file2','file3'], fs.stat, function(err, results){
-    // results is now an array of stats for each file
-});
-```
+    async.map(['file1','file2','file3'], fs.stat, function(err, results){
+        // results is now an array of stats for each file
+    });
 
 ---------------------------------------
 
@@ -263,11 +257,9 @@ __Arguments__
 
 __Example__
 
-```js
-async.map(['file1','file2','file3'], 1, fs.stat, function(err, results){
-    // results is now an array of stats for each file
-});
-```
+    async.map(['file1','file2','file3'], 1, fs.stat, function(err, results){
+        // results is now an array of stats for each file
+    });
 
 ---------------------------------------
 
@@ -294,11 +286,9 @@ __Arguments__
 
 __Example__
 
-```js
-async.filter(['file1','file2','file3'], path.exists, function(results){
-    // results now equals an array of the existing files
-});
-```
+    async.filter(['file1','file2','file3'], path.exists, function(results){
+        // results now equals an array of the existing files
+    });
 
 ---------------------------------------
 
@@ -357,16 +347,14 @@ __Arguments__
 
 __Example__
 
-```js
-async.reduce([1,2,3], 0, function(memo, item, callback){
-    // pointless async:
-    process.nextTick(function(){
-        callback(null, memo + item)
+    async.reduce([1,2,3], 0, function(memo, item, callback){
+        // pointless async:
+        process.nextTick(function(){
+            callback(null, memo + item)
+        });
+    }, function(err, result){
+        // result is now equal to the last value of memo, which is 6
     });
-}, function(err, result){
-    // result is now equal to the last value of memo, which is 6
-});
-```
 
 ---------------------------------------
 
@@ -403,11 +391,9 @@ __Arguments__
 
 __Example__
 
-```js
-async.detect(['file1','file2','file3'], path.exists, function(result){
-    // result now equals the first file in the list that exists
-});
-```
+    async.detect(['file1','file2','file3'], path.exists, function(result){
+        // result now equals the first file in the list that exists
+    });
 
 ---------------------------------------
 
@@ -439,16 +425,14 @@ __Arguments__
 
 __Example__
 
-```js
-async.sortBy(['file1','file2','file3'], function(file, callback){
-    fs.stat(file, function(err, stats){
-        callback(err, stats.mtime);
+    async.sortBy(['file1','file2','file3'], function(file, callback){
+        fs.stat(file, function(err, stats){
+            callback(err, stats.mtime);
+        });
+    }, function(err, results){
+        // results is now the original array of files sorted by
+        // modified date
     });
-}, function(err, results){
-    // results is now the original array of files sorted by
-    // modified date
-});
-```
 
 ---------------------------------------
 
@@ -475,11 +459,9 @@ __Arguments__
 
 __Example__
 
-```js
-async.some(['file1','file2','file3'], path.exists, function(result){
-    // if result is true then at least one of the files exists
-});
-```
+    async.some(['file1','file2','file3'], path.exists, function(result){
+        // if result is true then at least one of the files exists
+    });
 
 ---------------------------------------
 
@@ -505,11 +487,9 @@ __Arguments__
 
 __Example__
 
-```js
-async.every(['file1','file2','file3'], path.exists, function(result){
-    // if result is true then every file exists
-});
-```
+    async.every(['file1','file2','file3'], path.exists, function(result){
+        // if result is true then every file exists
+    });
 
 ---------------------------------------
 
@@ -533,11 +513,9 @@ __Arguments__
 
 __Example__
 
-```js
-async.concat(['dir1','dir2','dir3'], fs.readdir, function(err, files){
-    // files is now a list of filenames that exist in the 3 directories
-});
-```
+    async.concat(['dir1','dir2','dir3'], fs.readdir, function(err, files){
+        // files is now a list of filenames that exist in the 3 directories
+    });
 
 ---------------------------------------
 
@@ -575,40 +553,38 @@ __Arguments__
 
 __Example__
 
-```js
-async.series([
-    function(callback){
-        // do some stuff ...
-        callback(null, 'one');
-    },
-    function(callback){
-        // do some more stuff ...
-        callback(null, 'two');
-    }
-],
-// optional callback
-function(err, results){
-    // results is now equal to ['one', 'two']
-});
+    async.series([
+        function(callback){
+            // do some stuff ...
+            callback(null, 'one');
+        },
+        function(callback){
+            // do some more stuff ...
+            callback(null, 'two');
+        }
+    ],
+    // optional callback
+    function(err, results){
+        // results is now equal to ['one', 'two']
+    });
 
 
-// an example using an object instead of an array
-async.series({
-    one: function(callback){
-        setTimeout(function(){
-            callback(null, 1);
-        }, 200);
+    // an example using an object instead of an array
+    async.series({
+        one: function(callback){
+            setTimeout(function(){
+                callback(null, 1);
+            }, 200);
+        },
+        two: function(callback){
+            setTimeout(function(){
+                callback(null, 2);
+            }, 100);
+        }
     },
-    two: function(callback){
-        setTimeout(function(){
-            callback(null, 2);
-        }, 100);
-    }
-},
-function(err, results) {
-    // results is now equal to: {one: 1, two: 2}
-});
-```
+    function(err, results) {
+        // results is now equal to: {one: 1, two: 2}
+    });
 
 ---------------------------------------
 
@@ -638,43 +614,41 @@ __Arguments__
 
 __Example__
 
-```js
-async.parallel([
-    function(callback){
-        setTimeout(function(){
-            callback(null, 'one');
-        }, 200);
-    },
-    function(callback){
-        setTimeout(function(){
-            callback(null, 'two');
-        }, 100);
-    }
-],
-// optional callback
-function(err, results){
-    // the results array will equal ['one','two'] even though
-    // the second function had a shorter timeout.
-});
+    async.parallel([
+        function(callback){
+            setTimeout(function(){
+                callback(null, 'one');
+            }, 200);
+        },
+        function(callback){
+            setTimeout(function(){
+                callback(null, 'two');
+            }, 100);
+        }
+    ],
+    // optional callback
+    function(err, results){
+        // the results array will equal ['one','two'] even though
+        // the second function had a shorter timeout.
+    });
 
 
-// an example using an object instead of an array
-async.parallel({
-    one: function(callback){
-        setTimeout(function(){
-            callback(null, 1);
-        }, 200);
+    // an example using an object instead of an array
+    async.parallel({
+        one: function(callback){
+            setTimeout(function(){
+                callback(null, 1);
+            }, 200);
+        },
+        two: function(callback){
+            setTimeout(function(){
+                callback(null, 2);
+            }, 100);
+        }
     },
-    two: function(callback){
-        setTimeout(function(){
-            callback(null, 2);
-        }, 100);
-    }
-},
-function(err, results) {
-    // results is now equals to: {one: 1, two: 2}
-});
-```
+    function(err, results) {
+        // results is now equals to: {one: 1, two: 2}
+    });
 
 ---------------------------------------
 
@@ -716,20 +690,18 @@ __Arguments__
 
 __Example__
 
-```js
-var count = 0;
+    var count = 0;
 
-async.whilst(
-    function () { return count < 5; },
-    function (callback) {
-        count++;
-        setTimeout(callback, 1000);
-    },
-    function (err) {
-        // 5 seconds have passed
-    }
-);
-```
+    async.whilst(
+        function () { return count < 5; },
+        function (callback) {
+            count++;
+            setTimeout(callback, 1000);
+        },
+        function (err) {
+            // 5 seconds have passed
+        }
+    );
 
 ---------------------------------------
 
@@ -779,22 +751,20 @@ __Arguments__
 
 __Example__
 
-```js
-async.waterfall([
-    function(callback){
-        callback(null, 'one', 'two');
-    },
-    function(arg1, arg2, callback){
-        callback(null, 'three');
-    },
-    function(arg1, callback){
-        // arg1 now equals 'three'
-        callback(null, 'done');
-    }
-], function (err, result) {
-   // result now equals 'done'    
-});
-```
+    async.waterfall([
+        function(callback){
+            callback(null, 'one', 'two');
+        },
+        function(arg1, arg2, callback){
+            callback(null, 'three');
+        },
+        function(arg1, callback){
+            // arg1 now equals 'three'
+            callback(null, 'done');
+        }
+    ], function (err, result) {
+       // result now equals 'done'
+    });
 
 ---------------------------------------
 <!--<a name="compose" />-->
@@ -814,25 +784,23 @@ __Arguments__
 
 __Example__
 
-```js
-function add1(n, callback) {
-    setTimeout(function () [
-        callback(null, n + 1);
-    }, 10);
-}
+    function add1(n, callback) {
+        setTimeout(function () [
+            callback(null, n + 1);
+        }, 10);
+    }
 
-function mul3(n, callback) {
-    setTimeout(function () [
-        callback(null, n * 3);
-    }, 10);
-}
+    function mul3(n, callback) {
+        setTimeout(function () [
+            callback(null, n * 3);
+        }, 10);
+    }
 
-var add1mul3 = async.compose(mul3, add1);
+    var add1mul3 = async.compose(mul3, add1);
 
-add1mul3(4, function (err, result) {
-   // result now equals 15
-});
-```
+    add1mul3(4, function (err, result) {
+       // result now equals 15
+    });
 
 ---------------------------------------
 
@@ -871,41 +839,39 @@ methods:
 
 __Example__
 
-```js
-// create a queue object with concurrency 2
+    // create a queue object with concurrency 2
 
-var q = async.queue(function (task, callback) {
-    console.log('hello ' + task.name);
-    callback();
-}, 2);
+    var q = async.queue(function (task, callback) {
+        console.log('hello ' + task.name);
+        callback();
+    }, 2);
 
 
-// assign a callback
-q.drain = function() {
-    console.log('all items have been processed');
-}
+    // assign a callback
+    q.drain = function() {
+        console.log('all items have been processed');
+    }
 
-// add some items to the queue
+    // add some items to the queue
 
-q.push({name: 'foo'}, function (err) {
-    console.log('finished processing foo');
-});
-q.push({name: 'bar'}, function (err) {
-    console.log('finished processing bar');
-});
+    q.push({name: 'foo'}, function (err) {
+        console.log('finished processing foo');
+    });
+    q.push({name: 'bar'}, function (err) {
+        console.log('finished processing bar');
+    });
 
-// add some items to the queue (batch-wise)
+    // add some items to the queue (batch-wise)
 
-q.push([{name: 'baz'},{name: 'bay'},{name: 'bax'}], function (err) {
-    console.log('finished processing bar');
-});
+    q.push([{name: 'baz'},{name: 'bay'},{name: 'bax'}], function (err) {
+        console.log('finished processing bar');
+    });
 
-// add some items to the front of the queue
+    // add some items to the front of the queue
 
-q.unshift({name: 'bar'}, function (err) {
-    console.log('finished processing bar');
-});
-```
+    q.unshift({name: 'bar'}, function (err) {
+        console.log('finished processing bar');
+    });
 
 ---------------------------------------
 
@@ -943,27 +909,25 @@ methods:
 
 __Example__
 
-```js
-// create a cargo object with payload 2
+    // create a cargo object with payload 2
 
-var cargo = async.cargo(function (task, callback) {
-    console.log('hello ' + task.name);
-    callback();
-}, 2);
+    var cargo = async.cargo(function (task, callback) {
+        console.log('hello ' + task.name);
+        callback();
+    }, 2);
 
 
-// add some items
+    // add some items
 
-cargo.push({name: 'foo'}, function (err) {
-    console.log('finished processing foo');
-});
-cargo.push({name: 'bar'}, function (err) {
-    console.log('finished processing bar');
-});
-cargo.push({name: 'baz'}, function (err) {
-    console.log('finished processing baz');
-});
-```
+    cargo.push({name: 'foo'}, function (err) {
+        console.log('finished processing foo');
+    });
+    cargo.push({name: 'bar'}, function (err) {
+        console.log('finished processing bar');
+    });
+    cargo.push({name: 'baz'}, function (err) {
+        console.log('finished processing baz');
+    });
 
 ---------------------------------------
 
@@ -993,52 +957,48 @@ __Arguments__
 
 __Example__
 
-```js
-async.auto({
-    get_data: function(callback){
-        // async code to get some data
-    },
-    make_folder: function(callback){
-        // async code to create a directory to store a file in
-        // this is run at the same time as getting the data
-    },
-    write_file: ['get_data', 'make_folder', function(callback){
-        // once there is some data and the directory exists,
-        // write the data to a file in the directory
-        callback(null, filename);
-    }],
-    email_link: ['write_file', function(callback, results){
-        // once the file is written let's email a link to it...
-        // results.write_file contains the filename returned by write_file.
-    }]
-});
-```
+    async.auto({
+        get_data: function(callback){
+            // async code to get some data
+        },
+        make_folder: function(callback){
+            // async code to create a directory to store a file in
+            // this is run at the same time as getting the data
+        },
+        write_file: ['get_data', 'make_folder', function(callback){
+            // once there is some data and the directory exists,
+            // write the data to a file in the directory
+            callback(null, filename);
+        }],
+        email_link: ['write_file', function(callback, results){
+            // once the file is written let's email a link to it...
+            // results.write_file contains the filename returned by write_file.
+        }]
+    });
 
 This is a fairly trivial example, but to do this using the basic parallel and
 series functions would look like this:
 
-```js
-async.parallel([
-    function(callback){
-        // async code to get some data
-    },
-    function(callback){
-        // async code to create a directory to store a file in
-        // this is run at the same time as getting the data
-    }
-],
-function(err, results){
-    async.series([
+    async.parallel([
         function(callback){
-            // once there is some data and the directory exists,
-            // write the data to a file in the directory
+            // async code to get some data
         },
         function(callback){
-            // once the file is written let's email a link to it...
+            // async code to create a directory to store a file in
+            // this is run at the same time as getting the data
         }
-    ]);
-});
-```
+    ],
+    function(err, results){
+        async.series([
+            function(callback){
+                // once there is some data and the directory exists,
+                // write the data to a file in the directory
+            },
+            function(callback){
+                // once the file is written let's email a link to it...
+            }
+        ]);
+    });
 
 For a complicated series of async tasks using the auto function makes adding
 new tasks much easier and makes the code more readable.
@@ -1062,23 +1022,21 @@ __Arguments__
 
 __Example__
 
-```js
-var iterator = async.iterator([
-    function(){ sys.p('one'); },
-    function(){ sys.p('two'); },
-    function(){ sys.p('three'); }
-]);
+    var iterator = async.iterator([
+        function(){ sys.p('one'); },
+        function(){ sys.p('two'); },
+        function(){ sys.p('three'); }
+    ]);
 
-node> var iterator2 = iterator();
-'one'
-node> var iterator3 = iterator2();
-'two'
-node> iterator3();
-'three'
-node> var nextfn = iterator2.next();
-node> nextfn();
-'three'
-```
+    node> var iterator2 = iterator();
+    'one'
+    node> var iterator3 = iterator2();
+    'two'
+    node> iterator3();
+    'three'
+    node> var nextfn = iterator2.next();
+    node> nextfn();
+    'three'
 
 ---------------------------------------
 
@@ -1098,37 +1056,33 @@ __Arguments__
 
 __Example__
 
-```js
-// using apply
+    // using apply
 
-async.parallel([
-    async.apply(fs.writeFile, 'testfile1', 'test1'),
-    async.apply(fs.writeFile, 'testfile2', 'test2'),
-]);
+    async.parallel([
+        async.apply(fs.writeFile, 'testfile1', 'test1'),
+        async.apply(fs.writeFile, 'testfile2', 'test2'),
+    ]);
 
 
-// the same process without using apply
+    // the same process without using apply
 
-async.parallel([
-    function(callback){
-        fs.writeFile('testfile1', 'test1', callback);
-    },
-    function(callback){
-        fs.writeFile('testfile2', 'test2', callback);
-    }
-]);
-```
+    async.parallel([
+        function(callback){
+            fs.writeFile('testfile1', 'test1', callback);
+        },
+        function(callback){
+            fs.writeFile('testfile2', 'test2', callback);
+        }
+    ]);
 
 It's possible to pass any number of additional arguments when calling the
 continuation:
 
-```js
-node> var fn = async.apply(sys.puts, 'one');
-node> fn('two', 'three');
-one
-two
-three
-```
+    node> var fn = async.apply(sys.puts, 'one');
+    node> fn('two', 'three');
+    one
+    two
+    three
 
 ---------------------------------------
 
@@ -1148,14 +1102,12 @@ __Arguments__
 
 __Example__
 
-```js
-var call_order = [];
-async.nextTick(function(){
-    call_order.push('two');
-    // call_order now equals ['one','two']
-});
-call_order.push('one')
-```
+    var call_order = [];
+    async.nextTick(function(){
+        call_order.push('two');
+        // call_order now equals ['one','two']
+    });
+    call_order.push('one')
 
 <!--<a name="times" />-->
 ### times(n, callback)
@@ -1170,22 +1122,20 @@ __Arguments__
 
 __Example__
 
-```js
-// Pretend this is some complicated async factory
-var createUser = function(id, callback) {
-  callback(null, {
-    id: 'user' + id
-  })
-}
-// generate 5 users
-async.times(5, function(n, next){
-    createUser(n, function(err, user) {
-      next(err, user)
-    })
-}, function(err, users) {
-  // we should now have 5 users
-});
-```
+    // Pretend this is some complicated async factory
+    var createUser = function(id, callback) {
+      callback(null, {
+        id: 'user' + id
+      })
+    }
+    // generate 5 users
+    async.times(5, function(n, next){
+        createUser(n, function(err, user) {
+          next(err, user)
+        })
+    }, function(err, users) {
+      // we should now have 5 users
+    });
 
 <!--<a name="timesSeries" />-->
 ### timesSeries(n, callback)
@@ -1216,18 +1166,16 @@ __Arguments__
 
 __Example__
 
-```js
-var slow_fn = function (name, callback) {
-    // do something
-    callback(null, result);
-};
-var fn = async.memoize(slow_fn);
+    var slow_fn = function (name, callback) {
+        // do something
+        callback(null, result);
+    };
+    var fn = async.memoize(slow_fn);
 
-// fn can now be used as if it were slow_fn
-fn('some name', function () {
-    // callback
-});
-```
+    // fn can now be used as if it were slow_fn
+    fn('some name', function () {
+        // callback
+    });
 
 <!--<a name="unmemoize" />-->
 ### unmemoize(fn)
@@ -1254,17 +1202,14 @@ __Arguments__
 
 __Example__
 
-```js
-var hello = function(name, callback){
-    setTimeout(function(){
-        callback(null, 'hello ' + name);
-    }, 1000);
-};
-```
-```js
-node> async.log(hello, 'world');
-'hello world'
-```
+    var hello = function(name, callback){
+        setTimeout(function(){
+            callback(null, 'hello ' + name);
+        }, 1000);
+    };
+
+    node> async.log(hello, 'world');
+    'hello world'
 
 ---------------------------------------
 
@@ -1284,17 +1229,14 @@ __Arguments__
 
 __Example__
 
-```js
-var hello = function(name, callback){
-    setTimeout(function(){
-        callback(null, {hello: name});
-    }, 1000);
-};
-```
-```js
-node> async.dir(hello, 'world');
-{hello: 'world'}
-```
+    var hello = function(name, callback){
+        setTimeout(function(){
+            callback(null, {hello: name});
+        }, 1000);
+    };
+
+    node> async.dir(hello, 'world');
+    {hello: 'world'}
 
 ---------------------------------------
 
