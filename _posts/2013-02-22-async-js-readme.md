@@ -1,4 +1,5 @@
 ---
+published: false
 layout: post
 title: Async.js 文档
 category: javascript
