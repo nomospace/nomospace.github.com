@@ -16,7 +16,7 @@ header h1 .minor{color:#999; font-weight:normal;}
 header .additional{font-size:14px; color:#ccc;}
 
 .main{position:relative; zoom:1; width:62%; min-height:100px; padding:2em 3em;}
-aside{position:fixed; left:70%;top:0; right:0; height:100%; overflow:hidden; padding:1em 2em; background:#eee; box-shadow:5px 0 5px rgba(0,0,0,.1) inset; font-size:75%;}
+aside{position:fixed; left:70%;top:0; right:0;background: url("../images/bg-light.jpg") repeat;  height:100%; overflow:hidden; padding:1em 2em; box-shadow:5px 0 5px rgba(0,0,0,.1) inset; font-size:75%;}
 
 @media screen and (max-width:900px) {
     aside {

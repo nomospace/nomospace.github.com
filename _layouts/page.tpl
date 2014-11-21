@@ -25,7 +25,7 @@
 </div>
 
 <aside>
-	<h2><a href="/">挪墨的空间</a><a href="/feed.xml" class="feed-link" title="RSS订阅"><img src="http://blog.rexsong.com/wp-content/themes/rexsong/icon_feed.gif" alt="RSS feed" /></a></h2>
+	<h2><a href="/">挪墨的空间</a><a href="/feed.xml" class="feed-link" title="RSS订阅"><img width="15" src="/assets/images/feedicon.png" alt="RSS feed" /></a></h2>
 	<div class="block block-about">
 	  <h3>分类</h3>
 		<ul>
@@ -55,7 +55,7 @@
 		</figure>
 	</div>
 
-	<a href="https://github.com/nomospace/nomospace.github.com" class="forkme"><img src="/assets/images/forkmeongithub.png" alt="Fork me on GitHub"></a>
+	<a style="display:none;" href="https://github.com/nomospace/nomospace.github.com" class="forkme"><img src="/assets/images/forkmeongithub.png" alt="Fork me on GitHub"></a>
 
     <div class="block block-license">
         <h3>版权申明</h3>

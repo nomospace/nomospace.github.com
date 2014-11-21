@@ -1,11 +1,11 @@
 markdown: rdiscount
-pygments: true
+highlighter: rouge
 permalink: /posts/:title.html
 exclude:
   - README.md
 
-name: 挪墨的空间
-host: nomospace.github.com
+name: 昌里大金猪的空间
+host: nomospace.github.io
 
 custom:
     category:
