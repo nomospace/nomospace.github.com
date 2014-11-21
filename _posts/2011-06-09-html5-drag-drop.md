@@ -5,7 +5,7 @@ category: html5
 ---
 <div class="bct fc05 fc11 nbw-blog ztag js-fs2"><br>人人网最近推出了一个快捷上传相片功能：<br>
 
-    <div><img alt="html5浏览器文件拖放的一个简单实例 - nomospace（挪墨） - Nomospace" style="margin:0 10px 0 0;"
+    <div><img alt="html5浏览器文件拖放的一个简单实例 - nomospace（昌里大金猪） - Nomospace" style="margin:0 10px 0 0;"
               src="/assets/images/2309783658888408170.png"></div>
     <br>这种直接拖放相片至浏览器的作法让传统的表单或者flash上传黯然失色，用户体验比较好。根据<a target="_blank" rel="nofollow" href="http://twitter.com/sofish">sofish</a>的博文<a
             target="_blank" rel="nofollow" href="http://sofish.de/1545">提升用户体验：HTML5 拖放文件上传</a>以及<a target="_blank"
@@ -17,7 +17,7 @@ category: html5
 
     <div>
         <div>
-            <div><img alt="html5文件拖放的一个简单实例 - nomospace（挪墨） - Nomospace" style="margin:0 10px 0 0;"
+            <div><img alt="html5文件拖放的一个简单实例 - nomospace（昌里大金猪） - Nomospace" style="margin:0 10px 0 0;"
                       src="/assets/images/3671841071191473892.png"></div>
             &nbsp;<br>编码过程中遇到了一个问题：chrome11下的FileReader没有很好地实现EventTarget，于是当使用addEventListener时会抛出Object #&lt;FileReader&gt;
             has no method 'addEventListener'，见<a target="_blank" rel="nofollow"

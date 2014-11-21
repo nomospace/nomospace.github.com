@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-	<title>挪墨的空间</title>
+	<title>昌里大金猪的空间</title>
 	<link href="http://nomospace.github.io/atom.xml" rel="self" />
 	<link href="http://nomospace.github.io/" />
 	<updated>{{ site.time | date_to_xmlschema }}</updated>

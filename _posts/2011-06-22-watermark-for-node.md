@@ -188,7 +188,7 @@ project，我在两者基础上进行整合并尝试将watermark.js移植到Node
 </ol></span></span><br>实际效果如图所示：<br>
 
 <div>
-    <div><img alt="Watermark.js for NodeJS - 挪墨 - Nomospace" style="margin:0 10px 0 0;"
+    <div><img alt="Watermark.js for NodeJS - 昌里大金猪 - Nomospace" style="margin:0 10px 0 0;"
               src="/assets/images/2707789275973289468.png"><br><br></div>
 </div>
 注意此处都是png格式的图片，调试过程中得知node-canvas目前只支持png格式文件的读取、写入，在源代码中也有这么一段：<br><br><span
