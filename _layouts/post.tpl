@@ -8,7 +8,7 @@ scripts:
 
 ---
 
-<div class="trace">/ <a href="/">挪墨的空间</a> / {{ page.title }}</div>
+<div class="trace">/ <a href="/">昌里大金猪的空间</a> / {{ page.title }}</div>
 
 <article>
 	<h1><a href="{{ page.url }}">{{ page.title }}</a></h1>
