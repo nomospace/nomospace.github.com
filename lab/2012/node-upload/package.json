@@ -4,7 +4,7 @@
   "description": "node-upload",
   "author": "nomospace",
   "dependencies": {
-    "ejs": "~0.8.3",
+    "ejs": "~2.7.1",
     "express": "~3.0.0rc5"
   },
   "devDependencies": {},
